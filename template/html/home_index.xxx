@@ -1,0 +1,20 @@
+<?php
+include_once 'slide_show.xxx';
+?>
+<div class="Body">
+    <div class="Title">
+        <span class=""><l>PROFILE</l> | 简介</span>
+        <span class=""><l>TRIP</l> | 行程</span>
+    </div>
+    <div class="Button">
+        <a href="./home-awards.htm">了解更多</a>
+        <a href="./home-notice.htm">查看</a>
+    </div>
+    <div class="Image">
+        <a href="./home-album_music-id-37.htm" class="click"><img src="./img/home_index_left.jpg" /></a>
+        <a href="./home-single-keyword-<?php echo \mod\common::str_rewrite(["title" => "最新行程", "data" => "london"]); ?>.htm" target="_blank" class="click">
+            <img src="./img/home_index_right.jpg" />
+        </a>
+    </div>
+</div>
+<?php //print_r($data);die;

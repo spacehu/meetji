@@ -1,0 +1,15 @@
+<FilesMatch "\.(bak|inc|lib|sh|tpl|lbi|dwt|xxx)$">
+    order deny,allow
+    deny from all
+</FilesMatch>
+
+RewriteEngine On
+
+RewriteRule ^index\.htm$                                                index\.php?a=admin&m=index [L]
+RewriteRule ^$                                                          index\.php?a=admin&m=index [L]
+
+RewriteRule ^(.*)-(.*)-(.*)-(.*)-(.*)-(.*)-(.*)-(.*)\.htm$              index.php?a=$1&m=$2&$3=$4&$5=$6&$7=$8
+RewriteRule ^(.*)-(.*)-(.*)-(.*)-(.*)-(.*)\.htm$                        index.php?a=$1&m=$2&$3=$4&$5=$6
+RewriteRule ^(.*)-(.*)-(.*)-(.*)\.htm$                                  index.php?a=$1&m=$2&$3=$4
+RewriteRule ^(.*)-(.*)\.htm$                                            index.php?a=$1&m=$2
+RewriteRule ^home-index\.htm$                                           index.php?a=home&m=index [L]

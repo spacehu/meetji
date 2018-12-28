@@ -1,0 +1,74 @@
+<?php
+$dateList = isset(\action\home::$data['dateList']) ? \action\home::$data['dateList'] : "";
+$data = isset(\action\home::$data['notice']) ? \action\home::$data['notice'] : "";
+$Total = \action\home::$data['total'];
+$currentPage = \action\home::$data['currentPage'];
+$pagesize = \action\home::$data['pagesize'];
+$year = \action\home::$data['year'];
+$month = \action\home::$data['month'];
+$newId = \action\home::$data['newId'];
+
+include_once 'image_show.xxx';
+?>
+<div class="Body">
+    <div class="Title Trible">
+        <span class="simple trible"><l>TRIP</l> | 行程</span>
+    </div>
+    <div class="subMenu  Line">
+        <div class="year">
+            <?php if (!empty($dateList)) { ?>
+                <?php foreach ($dateList['year'] as $k => $v) { ?>
+                    <a href="<?php echo mod\common::url_rewrite('index.php?a=home&m=notice&year=' . $v['year']); ?>"><?php echo $v['year']; ?></a>
+                <?php } ?>
+            <?php } ?>
+        </div>
+        <div class="month">
+            <?php if (!empty($dateList)) { ?>
+                <!--
+                <a href="">1月</a>
+                <a href="">2月</a>
+                <a href="">3月</a>
+                <a href="">4月</a>
+                <a href="">5月</a>
+                <a href="">6月</a>
+                <a href="">7月</a>
+                <a href="">8月</a> -->
+                <?php foreach ($dateList['month'] as $k => $v) { ?>
+                    <a class="<?php echo $v['month'] == $month ? 'hover' : ''; ?>" href="<?php echo mod\common::url_rewrite('index.php?a=home&m=notice&year=' . $year . '&month=' . $v['month']); ?>"><?php echo $v['month']; ?>月</a>
+                <?php } ?>
+                <!--               
+
+                <a href="">11月</a>
+                <a href="">12月</a> -->
+            <?php } ?>
+            <div class="givemeachance">
+                <a href="/html_holiday/givemeachance.htm" target="_blank" title="领取名额">
+                    <img src="./img/givemeachance.png" />
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="List ">
+        <?php if (!empty($data)) { ?>
+            <?php foreach ($data as $k => $v) { ?>
+                <div class="notice" <?php echo!empty($v['overview']) ? 'onclick="javascript:$(this).children(\'.overview\').toggle();" style="cursor:pointer"' : ''; ?> >
+                    <p><?php echo $v['day']; ?></p>
+                    <p class="name "><?php echo $v['name']; ?><?php echo $v['id'] == $newId ? ' <img src="./img/new_notice.png" />' : ''; ?></p>
+                    <p class="date">日期: <?php echo $v['year'] . '.' . $v['month'] . '.' . $v['day']; ?></p>
+                    <p class="address"><?php echo $v['address']; ?></p>
+                    <p class="overview hide"><?php echo $v['overview']; ?></p>
+                </div>
+            <?php } ?>
+            <div class="y80"></div>
+            <?php
+            $_year = '&year=' . $year;
+            $_month = '&month=' . $month;
+            $url = 'index.php?a=home&m=notice' . $_year . $_month;
+            $Totalpage = ceil($Total / 9);
+            include_once 'page.xxx';
+            ?>
+        <?php } ?>
+    </div>
+</div>
+<?php
+//print_r($data);die;

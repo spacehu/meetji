@@ -1,0 +1,91 @@
+/* 规范
+#88124c Petite
+#c11b1c Cabernet
+#8b718a Zinfandel
+#f7953e Fusion
+#6a8a22 Chardonnay
+#4b6a8f Riesling
+#8c8c8c How2buy
+#000000 About
+#ffffff 大局文字
+#f9bc0b 按钮文字
+*/
+
+@charset "utf-8";
+/* CSS Document */
+
+@font-face { 
+  font-family: 'Helvetica Roman';
+  src: url('./font/helvetica/HelveticaNeueLTPro-Roman.ttf') format('truetype');
+}
+@font-face { 
+  font-family: 'Helvetica Thin';
+  src: url('./font/helvetica/HelveticaNeueLTPro-Th.ttf') format('truetype');
+}
+@font-face { 
+  font-family: 'Helvetica Bold';
+  src: url('./font/helvetica/HelveticaNeueLTPro-Bd.ttf') format('truetype');
+}
+@font-face { 
+  font-family: 'Helvetica Light';
+  src: url('./font/helvetica/HelveticaNeueLTPro-Lt.ttf') format('truetype');
+}
+@font-face{  
+    font-family : "PT Sans";
+    src: url("./font/PT_Sans/PT_Sans-Web-Regular.ttf");
+}
+@font-face{  
+    font-family : "Source Sans Pro";
+    src: url("./font/SourceSansPro-ExtraLight.ttf");
+}
+body{-webkit-text-size-adjust:none;background:#fff;color:#000;font-family:'Helvetica Thin',SimHei, sans-serif;font-size: 62.5%; line-height: 18px; margin: 0; padding: 0;}
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dt,dd{border:0 none;margin:0;padding:0;font-weight: normal;}
+ul, li, menu, ol, dd, dl, dt { list-style: none outside none; margin: 0; padding: 0; }
+img, a { border: medium none; color: #333; text-decoration: none; }
+em,i { font-style: normal; }
+table td {border-collapse: collapse;padding:0;margin:0}
+a:hover { color: #800000; }
+input[type=submit], input[type=button], button {cursor:pointer}
+.clearn, .clear { clear: both; height: 0; }
+.clearfix:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+.hide,.isHide{ display: none; }
+.text { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.sbSeo{position: absolute;top: -5000px;}
+
+header{padding:20px 0;}
+#Logo{display: block;text-align: center;}
+#Logo img{width: 90%;max-width:500px;height: auto;}
+
+.orderTxt{font-size: 2.8em;color: #6C6E70;line-height: 2em;padding: 0 15px}
+.blockInner{overflow: hidden;padding:10px 15px;color: #fff;}
+table.wTab{width: 100%;}
+.blockTitle{}
+	.title,.wineYear,.price{font-size: 2.4em;line-height: 1em}
+	.title{padding-bottom: 5px;}
+.priceBox{float: right;}
+.seltBox{position: relative;overflow: hidden;}
+	/*.price{text-align: center;width: 80px;}*/
+	.original{text-decoration: line-through;margin-right: 15px}
+	.seltNumb{position: absolute;opacity: 0;top: 0;right: 0;width: 80px;height: 20px}
+	.seltVal{display: block;width: 80px;height:20px;line-height: 20px;text-align: center;border-radius: 3px;background:url("../images/arrow_1.png") no-repeat 95% 50% #D1D2D4; background-size:auto 30%;color: #000;font-size: 1.3em;font-family: 'Helvetica Roman';float: right;}
+
+#TotalBox{background: #929497;padding:15px}
+.total{overflow: hidden;}
+.total span{float: left;color:#000;font-size: 2.8em;line-height: 1em}
+.total span#TotalVal{float: right;}
+.wineIs{position: absolute;right: 99999px;opacity: .1;background: none;border: none}
+
+#MailBox{background: #D0D1D3;padding:15px 15px 5px;}
+.mailRow{padding:0 0 10px;}
+.mailRow .txt{width: 100%;font-size: 2.4em;color: #333;padding: 5px 0;line-height: 1em;border:1px solid transparent;background: none}
+.mailRow .txt.error{border-color: #f40}
+
+#Submit{display: block;text-align: center;padding: 20px 0;width: 100%;background: #58595B;color: #fff;font-size: 2.8em;line-height: 1em;text-transform:uppercase;}
+#OrderForm{position: relative;}
+#Tips{position: absolute;bottom: 80px;left: 5%;background:rgba(245,245,245,0.8);color: #f40;line-height: 5em;width: 90%;font-size: 1.8em;border-radius: 3px;text-align: center;font-family:"Helvetica Bold"; }
+
+.mailInfo{font-size: 4em;line-height: 1em;color: #6d6e70;padding: 10px 0 20px;text-align: center;}
+.img{background: url("../images/for_mail.jpg") no-repeat 50% 50%;background-size: cover;width: 100%;height: 200px}
+.fmLink{display: block;background: #c6db63;color: #000;font-size: 4em;line-height: 1em;padding: 20px 0;text-align: center;margin:0;}
+
+@media screen and (max-width:320px) {}

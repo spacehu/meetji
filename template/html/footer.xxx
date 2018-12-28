@@ -1,0 +1,43 @@
+<div class="Foot">
+    <div class="Bar">
+        <div class="BarL">
+            <a href="#">移动版</a>
+            <span>|</span>
+            <a href="javascript:void(0);" class="about_us" data-value="./img/contactus.png">关于我们</a>
+            <span>|</span>
+            <a href="javascript:void(0);" class="contact_us" data-value="./img/aboutus.png">联系我们</a>
+            <span>|</span>
+            <a href="javascript:void(0);" class="business" data-value="./img/business.png">商业合作</a>
+            <span>|</span>
+            <a href="javascript:void(0);" class="add_fans" data-value="./img/addfans.png">加入Fans团</a>
+            <hr class="clear hr" />
+            <p>京ICP备17067685号 | 北京太歌影视音乐有限公司</p>
+        </div>
+    </div>
+</div>
+<div class="footShadow hide"></div>
+<div class="footWindow hide">
+    <img class="closeFoot" src="./img/close.png" />
+    <img class="bodyFoot" src="" />
+</div>
+<div class="registWindow regist_window">
+    <p>TIGER.HU.FANS.CLUB</p>
+    <p class="p2"> 新用户注册 </p>
+    <select class="text phoneFix" name="phone_fix">
+        <option value="086">中国+86</option>
+    </select><input class="text phone" type="text" name="phone" value="" placeholder="手机号" />
+    <input class="text code" type="text" name="code" value="" placeholder="请输入验证码" /><a class="getCode get_code " href="javascript:void(0);" >获取短信验证码</a>
+    <input class="text" type="password" name="password" value="" placeholder="输入密码" />
+    <input class="text" type="password" name="cfn_password" value="" placeholder="再次输入密码" />
+    <a class="bottom do_regist" href="javascript:void(0);" >注册</a>
+    <p class="underText">已有账号？<a href="javascript:void(0);" class="login">登录</a></p>
+</div>
+<div class="registWindow loginWindow login_window">
+    <p>TIGER.HU.FANS.CLUB</p>
+    <p class="p2"> 用户登录 </p>
+    <input class="text phone" type="text" name="phone" value="" placeholder="手机号" />
+    <input class="text" type="password" name="password" value="" placeholder="输入密码" />
+    <a class="bottom do_login" href="javascript:void(0);" >登录</a>
+    <p class="underText">没有账号？<a href="javascript:void(0);" class="regist">注册</a></p>
+</div>
+<script type="text/javascript" src="./js/footer.js"></script>

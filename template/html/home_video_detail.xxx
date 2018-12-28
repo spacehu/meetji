@@ -1,0 +1,12 @@
+<?php
+$data = isset(\action\home::$data['video']) ? \action\home::$data['video'] : "";
+
+include_once 'video_show.xxx';
+?>
+<!--
+<div class="Body">
+
+</div>
+-->
+<?php
+//print_r($data);die;

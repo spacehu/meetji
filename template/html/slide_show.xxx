@@ -1,0 +1,12 @@
+<script src="./js/slide_show.js"></script>
+<div class="SlideShow slide_show" >
+    <?php foreach($slide_show as $k=>$v){?>
+    <img src=".<?php echo $v['original_src'];?>" class="img" />
+    <?php }?>
+    <div class="Point point">
+        <?php foreach($slide_show as $k=>$v){?>
+        <img class="a" src="./img/no_img.jpg" />
+        <?php }?>
+    </div>
+    <img src=".<?php echo $slide_show[0]['original_src'];?>" class="bg " />
+</div>

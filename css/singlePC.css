@@ -1,0 +1,39 @@
+/* 规范
+#88124c Petite
+#c11b1c Cabernet
+#8b718a Zinfandel
+#f7953e Fusion
+#6a8a22 Chardonnay
+#4b6a8f Riesling
+#8c8c8c How2buy
+#000000 About
+#ffffff 大局文字
+#f9bc0b 按钮文字
+*/
+
+@charset "utf-8";
+@font-face{  
+    font-family : "Bebas";
+    src: url("./font/BEBAS.TTF");
+}
+body{-webkit-text-size-adjust:none;background:#fff;color:#282828;font-family:PingFangSC-Regular,SimHei, sans-serif;font-size: 62.5%; line-height:0; margin: 0; padding: 0;}
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dt,dd{border:0 none;margin:0;padding:0;font-weight: normal;}
+ul, li, menu, ol, dd, dl, dt { list-style: none outside none; margin: 0; padding: 0; }
+img, a { border: medium none; color: #333; text-decoration: none; }
+em,i { font-style: normal; }
+table td {border-collapse: collapse;padding:0;margin:0}
+a:hover { color: #800000; }
+input[type=submit], input[type=button], button {cursor:pointer}
+.clearn, .clear { clear: both; height: 0; }
+.clearfix:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+.text { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.sbSeo{position: absolute;top: -5000px;}
+.hr{border-bottom: 0px;border-right: 0px;border-left: 0px;}
+.Html{position:relative;}
+.shadle{width: 100%; height: 100%; z-index: 500; background: #000; position: fixed; top: 0; opacity: 0.7;}
+.y80{height:80px;}
+img{background:url(../img/blogo.jpg) no-repeat center center #c4c4c4;}
+#preload-01 { background: url(../img/loading.gif) no-repeat -9999px -9999px #f02300;text-align: center; }
+
+
+

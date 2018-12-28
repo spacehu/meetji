@@ -1,0 +1,94 @@
+<?php
+$data = isset(\action\account::$data['data']) ? \action\account::$data['data'] : "";
+$region = isset(\action\account::$data['region']) ? \action\account::$data['region'] : "";
+$regionCity = isset(\action\account::$data['region_city']) ? \action\account::$data['region_city'] : "";
+$calendar = isset(\action\account::$data['calendar']) ? \action\account::$data['calendar'] : "";
+$_regionArray = ['110000', '120000', '310000', '500000'];
+include_once 'image_show.xxx';
+?>
+<div class="Body">
+    <div class="accountOverview">
+        <div class="headPhoto">
+            <img src="<?php echo!empty(\mod\common::getSession("photo")) ? \mod\common::getSession("photo") : "./img/default_head.jpg"; ?>" />
+        </div>
+        <div class="nickname"><?php echo!empty(\mod\common::getSession("nickname")) ? \mod\common::getSession("nickname") : "未命名昵称"; ?></div>
+        <div class="menu">
+            <a class="main" href="javascript:void(0);">主页</a>
+            <a class="center hover" href="./account-center.htm">基本信息</a>
+            <a class="collect" href="javascript:void(0);">收藏</a>
+            <a class="point" href="./account-point.htm">积分</a>
+        </div>
+    </div>
+    <div class="accountDetail">
+        <div class="baseInfo">
+            <div class="title">
+                基本信息
+                <a href="javascript:void(0);" class="save_user_info">保存</a>
+            </div>
+            <div class="list">
+                <div class="th">会员号</div>TG<?php echo \mod\common::add_len($data['id'], 8); ?>
+                <br />
+                <div class="th">注册时间</div><?php echo $data['add_time']; ?>
+                <br />
+                <div class="th">昵称</div>
+                <?php if (empty($data['nickname'])) { ?>
+                    <input class="text" type="text" name="nickname" value="" />
+                    <?php
+                } else {
+                    echo $data['nickname'];
+                }
+                ?>
+                <br />
+                <div class="th">性别</div><input class="radio" type="radio" name="sex" value="gentleman" <?php echo!empty($data['sex']) ? ($data['sex'] == 'gentleman') ? "checked" : "" : 'checked'; ?> />男<input class="radio" type="radio" name="sex" value="lady" <?php echo!empty($data['sex']) ? ($data['sex'] == 'lady') ? "checked" : "" : ''; ?> />女
+                <br />
+                <div class="th">出生日期</div><input class="text" type="text" name="brithday" id="brithday" placeholder="1999/09/09" value="<?php echo!empty($data['brithday']) ? $data['brithday'] : ""; ?>" readonly="true" />
+                <div class="hide schedule" id="schedule-box">
+
+                </div>
+                <br />
+                <div class="th">居住地</div>
+                <select class="text select province" name="province" id="province">
+                    <option value="">请选择</option>
+                    <?php if (!empty($region)) { ?>
+                        <?php foreach ($region as $k => $v) { ?>
+                            <option value="<?php echo $v['id'] ?>" data-value="<?php echo $v['id'] ?>" <?php echo ($data['province'] == $v['id']) ? "selected" : ""; ?>><?php echo $v['name'] ?></option>
+                        <?php } ?>
+                    <?php } ?>
+                </select>
+                <select class="text select2 city" name="city" id="city">
+                    <option value="">请选择</option>
+                    <?php if (!empty($regionCity)) { ?>
+                        <?php foreach ($regionCity as $k => $v) { ?>
+                            <option value="<?php echo $v['id'] ?>" data-value="<?php echo $v['id'] ?>" <?php echo ($data['city'] == $v['id']) ? "selected" : ""; ?>><?php echo $v['name'] ?></option>
+                        <?php } ?>
+                    <?php } ?>
+                </select>
+                <select class=" select2 <?php echo in_array($data['province'], $_regionArray) ? "hide " : "text "; ?>" name="district" id="district">
+                    <option value="">请选择</option>
+                </select>
+                <br />
+                <div class="th">邮箱</div><input class="text" type="text" name="email" placeholder="balabala@126.com" value="<?php echo!empty($data['email']) ? $data['email'] : ""; ?>" />
+                <br />
+                <div class="th">手机</div><?php echo!empty($data['phone']) ? $data['phone'] : mod\common::getSession("phone"); ?>
+            </div>
+        </div>
+        <div class="baseInfo photoInfo">
+            <div class="title">
+                头像
+            </div>
+            <div class="list">
+                <form id="uploadPhoto" enctype='multipart/form-data'>
+                    <input type="file" name="photo" class="photo_form" value="" />( 请上传1mb以内，正方形图片作为头像。)
+                </form>
+                <div class="overviewPhoto">
+                    <img class="photoValue photo_value" src="./img/no_img.jpg" />
+                    <input type="hidden" class="check_photo" name="check_photo" value="0" />
+                </div>
+                <a class="save_photo" href="javascript:void(0);">保存</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./js/schedule.js"></script>
+<script src="./js/account_center.js"></script>
+<?php //print_r($data);die;

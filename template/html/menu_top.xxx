@@ -1,0 +1,10 @@
+<div class="topMenuBox">
+    <a href="javascript:;" class="menuBtn hdl_Btn">menuBtn</a>
+    <menu class="topMenu menuList">
+        <li class="menuLi"><a href="#Wine_1" class="muBtns" data-page="Wine_1">Wine_1</a></li>
+        <li class="menuLi"><a href="#How2buy" class="muBtns" data-page="How2buy">How2buy</a></li>
+        <li class="menuLi"><a href="#About" class="muBtns" data-page="About">About</a></li>
+
+        <li class="goTopBtn"><a href="#header" id="GoTop"><span>top</span></a></li>
+    </menu>
+</div>

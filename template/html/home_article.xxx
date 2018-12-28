@@ -1,0 +1,33 @@
+<?php
+$data = isset(\action\home::$data['article']) ? \action\home::$data['article'] : "";
+$Total = \action\home::$data['total'];
+$currentPage = \action\home::$data['currentPage'];
+$pagesize = \action\home::$data['pagesize'];
+
+include_once 'image_show.xxx';
+?>
+<div class="Body">
+    <div class="Title Trible">
+        <span class="simple trible"><l>ACTIVITY</l> | 活动</span>
+    </div>
+    <div class="List Line">
+        <?php if (!empty($data)) { ?>
+            <?php foreach ($data as $k => $v) { ?>
+                <div class="Article " <?php echo!empty($v['link']) ? 'onclick="javascript:window.open(\'//' . $v['link'] . '\');" style="cursor:pointer"' : 'onclick="javascript:window.location.href=\'./home-article_detail-id-' . $v['id'] . '.htm\';"'; ?> >
+                    <img src=".<?php echo $v['src']; ?>" />
+                    <p class="name"><?php echo $v['name']; ?></p>
+                    <p class="date">日期：<?php echo $v['year'] . '.' . $v['month'] . '.' . $v['day']; ?></p>
+                    <p class="address">地点：<?php echo $v['address']; ?></p>
+                    <p class="overview"><?php echo $v['overview']; ?></p>
+                </div>
+            <?php } ?>
+            <?php
+            $url = 'index.php?a=home&m=article';
+            $Totalpage = ceil($Total / 4);
+            include_once 'page.xxx';
+            ?>
+        <?php } ?>
+    </div>
+</div>
+<?php
+//print_r($data);die;

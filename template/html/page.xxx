@@ -1,0 +1,82 @@
+<div class="currentPage">
+    <div class="page_left">
+    </div>
+    <div class="page_right">
+        <!--currentPage-->
+        <?php
+        $space = '3'; //左右各留下$space个页面链接
+        $first = '2';
+        $last = $Totalpage - 1;
+        $sl = '';
+        /** 向前翻页 */
+        if ($currentPage > 1) {
+            $fUrl = \mod\common::url_rewrite($url . '&currentPage=' . ($currentPage - 1) . '&pagesize=' . $pagesize);
+            $sl .= '<a href = "' . $fUrl . '" class="firstA"><</a>';
+        } else {
+            $fUrl = \mod\common::url_rewrite($url . '&currentPage=1&pagesize=' . $pagesize);
+            $sl .= '<a href = "' . $fUrl . '" class="firstA"><</a>';
+        }
+        if ($Totalpage < 10) {
+            /** 小于10页的排列方式 */
+            for ($i = 1; $i <= $Totalpage; $i++) {
+                $fUrl = \mod\common::url_rewrite($url . '&currentPage=' . $i . '&pagesize=' . $pagesize);
+                $sl .= '<a href = "' . $fUrl . '"';
+                if ($currentPage == $i) {
+                    $sl .= 'class = "active"';
+                }
+                $sl .= '>' . $i . '</a>';
+            }
+        } else {
+            /** 大于10页的排列方式 */
+            if ($currentPage > $space) {
+                $fUrl = \mod\common::url_rewrite($url . '&currentPage=1&pagesize=' . $pagesize);
+                $sl .= '<a href = "' . $fUrl . '">1</a><a >...</a>';
+            } else {
+                $fUrl = \mod\common::url_rewrite($url . '&currentPage=1&pagesize=' . $pagesize);
+                $sl .= '<a href = "' . $fUrl . '"';
+                if ($currentPage == 1) {
+                    $sl .= 'class = "active"';
+                }
+                $sl .= '>1</a>';
+            }
+            if (($currentPage - $space) > 1) {
+                $first = $currentPage - $space;
+            }
+            if (($currentPage + $space) < $Totalpage) {
+                $last = $currentPage + $space;
+            }
+            for ($i = $first; $i <= $last; $i++) {
+                $fUrl = \mod\common::url_rewrite($url . '&currentPage=' . $i . '&pagesize=' . $pagesize);
+                $sl .= '<a href = "' . $fUrl . '"';
+                if ($currentPage == $i) {
+                    $sl .= 'class = "active"';
+                }
+                $sl .= '>' . $i . '</a>';
+            }
+            if ($currentPage < ($Totalpage - $space)) {
+                $fUrl = \mod\common::url_rewrite($url . '&currentPage=' . $Totalpage . '&pagesize=' . $pagesize);
+                $sl .= '<a >...</a><a href = "' . $fUrl . '">' . $Totalpage . '</a>';
+            } else {
+                $fUrl = \mod\common::url_rewrite($url . '&currentPage=' . $Totalpage . '&pagesize=' . $pagesize);
+                $sl .= '<a href = "' . $fUrl . '"';
+                if ($currentPage == $Totalpage) {
+                    $sl .= 'class = "active"';
+                }
+                $sl .= '>' . $Totalpage . '</a>';
+            }
+        }
+        /** 向后翻页 */
+        if ($currentPage < $Totalpage) {
+            $fUrl = \mod\common::url_rewrite($url . '&currentPage=' . ($currentPage + 1) . '&pagesize=' . $pagesize);
+            $sl .= '<a href = "' . $fUrl . '" class="lastA">></a>';
+        } else {
+            $fUrl = \mod\common::url_rewrite($url . '&currentPage=' . ($currentPage) . '&pagesize=' . $pagesize);
+            $sl .= '<a href = "' . $fUrl . '" class="lastA">></a>';
+        }
+        /** 显示分页 */
+        echo $sl;
+        ?>
+        <!--currentPage end-->
+    </div>
+    <div class="clear"></div>
+</div>

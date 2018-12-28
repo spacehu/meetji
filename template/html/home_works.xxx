@@ -1,0 +1,84 @@
+<?php
+$data = isset(\action\home::$data['data']) ? \action\home::$data['data'] : "";
+$Total = \action\home::$data['total'];
+$currentPage = \action\home::$data['currentPage'];
+$pagesize = \action\home::$data['pagesize'];
+$type = \action\home::$data['type'];
+
+include_once 'image_show.xxx';
+?>
+<div class="Body">
+    <div class="Title">
+        <span class="simple click" onclick="javascript:window.location.href = './home-awards.htm';"><l>PROFILE</l> | 简介</span>
+        <span class="simple"><l>FILMOGRAPHY</l> | 作品</span>
+    </div>
+    <div class="List Line nextLine">
+        <div class="Menu secondMenu">
+            <div class="button <?php echo $type == "album" ? "org" : ""; ?>" onclick="javascript:window.location.href = './home-works-type-album.htm';"><p>ALBUM</p><p>专&nbsp;&nbsp;&nbsp;&nbsp;辑</p></div>
+            <div class="button <?php echo $type == "film" ? "org" : ""; ?>" onclick="javascript:window.location.href = './home-works-type-film.htm';"><p>O.S.T.</p><p>影视原声</p></div>
+        </div>
+    </div>
+    <div class="List Line nextLine onNextLine">
+        <div class="Menu secondMenu">
+            <div class="button <?php echo $type == "variety" ? "org" : ""; ?>" onclick="javascript:window.location.href = './home-works-type-variety.htm';"><p>VARIETY</p><p>综&nbsp;&nbsp;&nbsp;&nbsp;艺</p></div>
+            <div class="button <?php echo $type == "concert" ? "org" : ""; ?>" onclick="javascript:alert(`comming soon.`);"><p>CONCERT</p><p>演&nbsp;唱&nbsp;会</p></div>
+            <!--<div class="button <?php echo $type == "concert" ? "org" : ""; ?>" onclick="javascript:window.location.href = './home-works-type-concert.htm';"><p>CONCERT</p><p>演&nbsp;唱&nbsp;会</p></div>-->
+        </div>
+    </div>
+    <div class="List Down">
+        <?php if (!empty($data)) { ?>
+            <?php if ($type == "album" || $type == "film") { ?>
+                <?php foreach ($data as $k => $v) { ?>
+                    <?php
+                    $leaveOne = ($k % 3 == 0) ? "leaveOne" : "";
+                    ?>
+                    <div class="album albumR <?php echo $leaveOne; ?>" <?php echo!empty($v['link']) ? 'onclick="javascript:window.location.href=\'' . $v['link'] . '\';" style="cursor:pointer;"' : ''; ?> >
+                        <?php if ($k == 0 && $currentPage == 1) { ?>
+                            <div class="new"></div>
+                        <?php } ?>
+                        <div class="row">
+                            <div class="rowImage">
+                                <img src=".<?php echo $v['src']; ?>" />
+                            </div>
+                            <div class="rowDown">
+                                <p><?php echo $v['name']; ?></p>
+                                <p><?php echo $v['overview']; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+                <?php
+                $url = 'index.php?a=home&m=works&type=' . $type;
+                $Totalpage = ceil($Total / 12);
+                include_once 'page.xxx';
+                ?>
+            <?php } else { ?>
+                <?php foreach ($data as $k => $v) { ?>
+                    <?php
+                    $leaveOne = ($k % 2 == 0) ? "leaveOne" : "";
+                    ?>
+                    <div class="video <?php echo $leaveOne; ?>"  <?php echo!empty($v['link']) ? 'onclick="javascript:window.open(\'' . $v['link'] . '\');" style="cursor:pointer;"' : ''; ?> >
+                        <?php if ($k == 0 && $currentPage == 1) { ?>
+                            <div class="new"></div>
+                        <?php } ?>
+                        <div class="row">
+                            <div class="rowImage">
+                                <img src=".<?php echo $v['src']; ?>" />
+                            </div>
+                            <div class="rowDown">
+                                <p><?php echo $v['name']; ?></p>
+                                <p><?php echo $v['overview']; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+                <?php
+                $url = 'index.php?a=home&m=works&type=' . $type;
+                $Totalpage = ceil($Total / 8);
+                include_once 'page.xxx';
+                ?>
+            <?php } ?>
+        <?php } ?>
+    </div>
+</div>
+<?php //print_r($data);die;

@@ -1,0 +1,30 @@
+<div class="Head">
+    <div class="title">
+        TIGER.HU.FANS.CLUB
+    </div>
+    <div class="account">
+        <?php if (!empty(\mod\common::getSession("user_id"))) { ?>
+            <a href="javascript:void(0);" class="menu" >
+                <img src="<?php echo!empty(\mod\common::getSession("photo")) ? \mod\common::getSession("photo") : "./img/default_head.jpg"; ?>" />
+                <?php echo!empty(\mod\common::getSession("nickname")) ? \mod\common::getSession("nickname") : "未命名昵称"; ?>
+            </a>
+            <div class="menuDiv hide" >
+                <a href="./account-center.htm" >基本信息</a>
+                <a href="./account-point.htm" >我的积分</a>
+                <a href="./account-logout.htm" >退出</a>
+            </div>
+        <?php } else { ?>
+            <a href="javascript:void(0);" class="login" >登录</a> | <a href="javascript:void(0);" class="regist">注册</a>
+        <?php } ?>
+    </div>
+    <div class="menu">
+        <a href="./" class="">首页</a>
+        <a href="./home-awards.htm" class="">简介</a>
+        <a href="./home-album.htm" class="">音乐</a>
+        <a href="./home-video.htm" class="">视频</a>
+        <a href="./home-article.htm" class="">活动</a>
+        <a href="./home-photo.htm" class="">照片</a>
+        <a href="./home-notice.htm" class="">行程</a>
+        <a href="javascript:alert(`comming soon.`);" class="">分享</a>
+    </div>
+</div>

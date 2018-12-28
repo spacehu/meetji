@@ -1,0 +1,31 @@
+<?php
+$data = isset(\action\home::$data['article']) ? \action\home::$data['article'] : "";
+$buttonMenu = isset(\action\home::$data['buttonMenu']) ? \action\home::$data['buttonMenu'] : "";
+
+include_once 'image_show.xxx';
+?>
+<div class="Body">
+    <div class="Title Trible">
+        <span class="simple trible"><l>ACTIVITY</l> | 活动</span>
+    </div>
+    <div class="Detail Line">
+        <?php if (!empty($data)) { ?>
+            <div class="title "  >
+                <p class="name"><?php echo $data['name']; ?></p>
+                <p class="date">日期：<?php echo $data['year'] . '.' . $data['month'] . '.' . $data['day']; ?></p>
+                <p class="access">阅读量：<?php echo $data['access']; ?></p>
+                <p class="source">来源：<?php echo $data['source']; ?></p>
+            </div>
+            <div class="detail">
+                <?php echo $data['detail']; ?>
+            </div>
+            <div class="buttonMenu">
+                <image class="left" src="./img/left.png" <?php echo !empty($buttonMenu['left']['id']) ? 'onclick="javascript:window.location.href = \'./home-article_detail-id-' . $buttonMenu['left']['id'] . '.htm\';" style="cursor: pointer"' : ''; ?> />
+                <image class="middle" src="./img/middle.png" onclick="javascript:window.location.href = './home-article.htm';" />
+                <image class="right" src="./img/right.png" <?php echo !empty($buttonMenu['right']['id']) ? 'onclick="javascript:window.location.href = \'./home-article_detail-id-' . $buttonMenu['right']['id'] . '.htm\';" style="cursor: pointer"' : ''; ?> />
+            </div>
+        <?php } ?>
+    </div>
+</div>
+<?php
+//print_r($data);die;

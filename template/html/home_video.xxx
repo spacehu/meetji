@@ -1,0 +1,53 @@
+<?php
+$data = isset(\action\home::$data['video']) ? \action\home::$data['video'] : "";
+$Total = \action\home::$data['total'];
+$currentPage = \action\home::$data['currentPage'];
+$pagesize = \action\home::$data['pagesize'];
+$type = \action\home::$data['type'];
+
+include_once 'image_show.xxx';
+?>
+<div class="Body">
+    <div class="Title Trible">
+        <span class="simple trible"><l>VIDEO</l> | 视频</span>
+    </div>
+    <div class="List Line">
+        <div class="videoMenu">
+            <a <?php echo $type=="all"||empty($type)?'class="hover"':"";?> href="./home-video-type-all.htm">全&nbsp;部</a>
+            <a <?php echo $type=="mv"?'class="hover"':"";?> href="./home-video-type-mv.htm">MV</a>
+            <a <?php echo $type=="live"?'class="hover"':"";?> href="./home-video-type-live.htm">现场LIVE</a>
+            <a <?php echo $type=="joker"?'class="hover"':"";?> href="./home-video-type-joker.htm">太牛樂</a>
+            <a <?php echo $type=="concert"?'class="hover"':"";?> href="./home-video-type-concert.htm">演唱会</a>
+        </div>
+    </div>
+    <div class="List ">
+        <?php if (!empty($data)) { ?>
+        <?php foreach ($data as $k => $v) { ?>
+            <?php
+            $leaveOne = ($k % 3 == 0) ? "leaveOne" : "";
+            ?>
+            <div class="Video <?php echo $leaveOne; ?>" onclick="window.location.href = './home-video_detail-id-<?php echo $v['id']; ?>.htm'">
+                <?php if ($k == 0 && $currentPage == 1) { ?>
+                    <div class="new"></div>
+                <?php } ?>
+                <div class="row">
+                    <div class="rowImage">
+                        <img src="./img/video_start.png" style="background:url(.<?php echo $v['src']; ?>);" />
+                    </div>
+                    <div class="rowDown">
+                        <p><?php echo $v['name']; ?></p>
+                        <p><?php echo $v['minstrel']; ?></p>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        <?php
+        $url = 'index.php?a=home&m=video&type=' . $type;
+        $Totalpage = ceil($Total / 6);
+        include_once 'page.xxx';
+        ?>
+        <?php } ?>
+    </div>
+</div>
+<?php
+//print_r($data);die;

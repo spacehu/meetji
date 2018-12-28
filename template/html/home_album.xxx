@@ -1,0 +1,41 @@
+<?php
+$data = isset(\action\home::$data['album']) ? \action\home::$data['album'] : "";
+$Total = \action\home::$data['total'];
+$currentPage = \action\home::$data['currentPage'];
+$pagesize = \action\home::$data['pagesize'];
+
+include_once 'image_show.xxx';
+?>
+<div class="Body">
+    <div class="Title Trible">
+        <span class="simple trible"><l>MUSIC</l> | 音乐</span>
+    </div>
+    <div class="List Line">
+        <?php foreach ($data as $k => $v) { ?>
+            <?php
+            $leaveOne = ($k % 3 == 0) ? "leaveOne" : "";
+            ?>
+            <div class="album <?php echo $leaveOne; ?>" onclick="window.location.href = './home-album_music-id-<?php echo $v['id']; ?>.htm'">
+                <?php if ($k == 0 && $currentPage == 1) { ?>
+                    <div class="new"></div>
+                <?php } ?>
+                <div class="row">
+                    <div class="rowImage">
+                        <img src=".<?php echo $v['src']; ?>" />
+                    </div>
+                    <div class="rowDown">
+                        <p><?php echo $v['name']; ?></p>
+                        <p><?php echo $v['publish_time']; ?></p>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        <?php
+        $url = 'index.php?a=home&m=album';
+        $Totalpage = ceil($Total / 9);
+        include_once 'page.xxx';
+        ?>
+    </div>
+</div>
+<?php
+//print_r($data);die;

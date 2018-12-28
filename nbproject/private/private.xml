@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file://192.168.30.225/share/alein/mod/init.php</file>
+            <file>file://192.168.30.225/share/alein/config/config.php</file>
+            <file>file://192.168.30.225/share/alein/action/RestfulApi.php</file>
+            <file>file://192.168.30.225/share/alein/action/v1/ApiSystem.php</file>
+            <file>file://192.168.30.225/share/alein/action/v1/ApiAccount.php</file>
+            <file>file://192.168.30.225/share/alein/action/home.php</file>
+        </group>
+    </open-files>
+</project-private>

@@ -1,0 +1,60 @@
+<?php
+$data = isset(\action\home::$data['awards']) ? \action\home::$data['awards'] : "";
+
+include_once 'image_show.xxx';
+?>
+<div class="Body">
+    <div class="Title">
+        <span class="simple"><l>PROFILE</l> | 简介</span>
+        <span class="simple click" onclick="javascript:window.location.href = './home-works-type-album.htm';"><l>FILMOGRAPHY</l> | 作品</span>
+    </div>
+    <div class="Overview">
+        <div class="OverviewL">
+            <img src="./img/self.jpg" />
+        </div>
+        <div class="OverviewR">
+            <p class="title">胡彦斌</p>
+            <hr class="short" />
+            <p class="overview"><span>BIRTHDAY 生 日</span><span class="sSecond">1983.07.04</span></p>
+            <p class="overview"><span>BLOOD TYPE 血 型</span><span class="sSecond">B型</span></p>
+            <p class="overview"><span>ZODIAC SIGN 星 座</span><span class="sSecond">巨蟹座</span></p>
+            <p class="overview"><span>HEIGHT 身 高</span><span class="sSecond">180cm</span></p>
+            <p class="overview"><span>PROFESSION 职 业</span><span class="sSecond">歌手|音乐制作人|电影导演</span></p>
+            <hr class="long" />
+            <p class="subTitle">ACHIEVEMENT 成 就</p>
+            <p class="subOverview subOverviewFirst">
+                首张唱片即在两岸三地发行，囊括香港四大颁奖典礼最佳新人.2002年至今发行11张全创作专辑 , 多次获得最佳男歌手奖项.红牛史上唯一一位艺人代言人.
+            </p>
+            <p class="subOverview">
+                江苏卫视《全能星战》总冠军. 湖南卫视《我是歌手》总决赛.湖南卫视《名声大震》总冠军.
+            </p>
+        </div>
+    </div>
+    <div class="List">
+        <div class="Menu">
+            <div class="button org"><p>EXPERIENCE</p><p>经&nbsp;&nbsp;&nbsp;&nbsp;历</p></div>
+            <div class="button" onclick="javascript:window.location.href = './home-works-type-album.htm';"><p>ALBUM</p><p>专&nbsp;&nbsp;&nbsp;&nbsp;辑</p></div>
+            <div class="button" onclick="javascript:window.location.href = './home-works-type-film.htm';"><p>O.S.T.</p><p>影视原声</p></div>
+            <div class="button" onclick="javascript:window.location.href = './home-works-type-variety.htm';"><p>VARIETY</p><p>综&nbsp;&nbsp;&nbsp;&nbsp;艺</p></div>
+            <div class="button" onclick="javascript:alert(`comming soon.`);"><p>CONCERT</p><p>演&nbsp;唱&nbsp;会</p></div>
+            <!--<div class="button" onclick="javascript:window.location.href = './home-works-type-concert.htm';"><p>CONCERT</p><p>演&nbsp;唱&nbsp;会</p></div>-->
+        </div>
+        <div class="awards">
+            <?php $year = 0; ?>
+            <?php foreach ($data as $k => $v) { ?>
+                <?php if ($v['year'] != $year) { ?>
+                    <div class="row">
+                        <div class="rowLeft"><?php echo $v['year']; ?></div>
+                        <div class="rowRight">
+                        <?php } ?>
+                        <p><?php echo $v['overview']; ?></p>
+                        <?php if (empty($data[$k + 1]) || $v['year'] !== $data[$k + 1]['year']) { ?>
+                        </div>
+                    </div>
+                <?php } ?>
+                <?php $year = $v['year']; ?>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+<?php //print_r($data);die;

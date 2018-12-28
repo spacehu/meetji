@@ -1,0 +1,80 @@
+<?php
+$music = isset(\action\home::$data['music']) ? \action\home::$data['music'] : "";
+$data = isset(\action\home::$data['album']) ? \action\home::$data['album'] : "";
+$Total = \action\home::$data['total'];
+$currentPage = \action\home::$data['currentPage'];
+$pagesize = \action\home::$data['pagesize'];
+$id = \action\home::$data['id'];
+include_once 'image_show.xxx';
+?>
+<script>
+    var music_list = <?php echo json_encode($music["music"]); ?>;
+</script>
+<script src="./js/album_music.js"></script>
+<div class="Body">
+    <div class="Title Trible">
+        <span class="simple trible"><l>MUSIC</l> | 音乐</span>
+    </div>
+    <div class="MusicDetail Line">
+        <div class="CoverL">
+            <img src=".<?php echo!empty($music['src']) ? $music['src'] : "/img/no_img.jpg"; ?>" />
+            <div class="play hide">
+                <audio class="music" id="myAudio" src="" >
+                    你的浏览器不支持<code>audio</code>标签.
+                </audio>
+            </div>
+            <div class="info">
+                <p><?php echo count($music['music']); ?> 首歌曲，<?php echo $music['long']; ?> 分钟</p>
+                <p class="play_all playALL">全部播放</p>
+            </div>
+        </div>
+        <div class="CoverR">
+            <div class="name"><?php echo $music['name']; ?></div>
+            <div class="minstrel">歌手：<?php echo $music['minstrel']; ?></div>
+            <div class="styles"><?php echo $music['style']; ?></div>
+            <div class="overview">专辑详情：<p><?php echo $music['overview']; ?></p></div>
+            <div class="musicS">
+                <div class="top">
+                    <div class="song">歌曲</div>
+                    <div class="minstrel">歌手</div>
+                    <div class="duration">时长</div>
+                </div>
+                <?php if (!empty($music['music'])) { ?>
+                    <?php foreach ($music['music'] as $k => $v) { ?>
+                        <div class="top songs">
+                            <div class="song"><?php echo ($k + 1) . " " . $v['name']; ?></div>
+                            <div class="minstrel"><?php echo $v['minstrel']; ?></div>
+                            <div class="duration"><?php echo $v['duration']; ?></div>
+                        </div>
+                    <?php } ?>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    <div class="Title subTitle Trible ">
+        <span class="simple sub trible"><l>TIGER.HU</l> | 更多专辑</span>
+    </div>
+    <div class="List subLine">
+        <?php foreach ($data as $k => $v) { ?>
+            <?php $leaveOne = ($k % 4 == 0) ? "leaveOne" : ""; ?>
+            <div class="subAlbum <?php echo $leaveOne; ?>" onclick="window.location.href = './home-album_music-id-<?php echo $v['id']; ?>.htm'">
+                <div class="row">
+                    <div class="rowImage">
+                        <img src=".<?php echo $v['src']; ?>" />
+                    </div>
+                    <div class="rowDown">
+                        <p><?php echo $v['name']; ?></p>
+                        <p><?php echo $v['publish_time']; ?></p>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        <?php
+        $url = 'index.php?a=home&m=album_music&id=' . $id;
+        $Totalpage = ceil($Total / 4);
+        include_once 'page.xxx';
+        ?>
+    </div>
+</div>
+<?php
+//print_r($data);die;

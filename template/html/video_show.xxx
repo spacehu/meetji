@@ -1,0 +1,34 @@
+<div class="SlideShow slide_show" >
+    <?php if (!empty($data)) { ?>
+        <div class="rowVideo">
+            <video class="videoShow" autoplay="true" controls="controls"  >
+                <source src="<?php echo $data['src']; ?>" type="video/mp4">
+                您的浏览器不支持 video 标签。
+            </video>
+            
+            
+            
+        </div>
+        <div class="rowDown">
+            <p><?php echo $data['name']; ?><span>-<?php echo $data['minstrel']; ?></span></p>
+            <div class="shareBox">分享<!-- JiaThis Button BEGIN -->
+                <div class="jiathis_style_32x32">
+                    <a class="jiathis_button_tsina"></a>
+                    <a class="jiathis_button_weixin"></a>
+                    <a class="jiathis_button_qzone"></a>
+                    <a class="jiathis_button_cqq"></a>
+                </div>
+                <script type="text/javascript" >
+                    var jiathis_config = {
+                        summary: "",
+                        shortUrl: false,
+                        hideMore: false
+                    }
+                </script>
+                <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+                <!-- JiaThis Button END -->
+            </div>
+            <p><?php echo $data['access']; ?>次播放</p>
+        </div>
+    <?php } ?>
+</div>

@@ -1,0 +1,138 @@
+<?php
+$title = isset(\action\home::$data['title']) ? \action\home::$data['title'] : \action\account::$data['title'];
+$action = isset(\action\home::$data['action']) ? \action\home::$data['action'] : \action\account::$data['action'];
+$keywords = isset(\action\home::$data['keywords']) ? \action\home::$data['keywords'] : \action\account::$data['keywords'];
+$slide_show = isset(\action\home::$data['slide_show']) ? \action\home::$data['slide_show'] : "";
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="baidu-site-verification" content="BJOP4HTGn1" />
+        <!-- <meta http-equiv="Cache-Control" content="no-transform" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" /> -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1">
+        <meta content="telephone=no" name="format-detection" />
+        <!--
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        -->
+        <meta name="Keywords" content="<?php echo isset($keywords) ? $keywords : ''; ?>" />
+        <meta name="Description" content="" />
+        <link rel="shortcut icon" href="favicon.ico" />
+
+        <title><?php echo isset($title) ? $title : ''; ?></title>
+
+        <link rel="stylesheet" href="./css/web.css?a=<?php echo rand(1, 9999999); ?>" />
+        <?php include_once './css/web.css.php'; ?>
+
+        <script type="text/javascript" src="./js/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="./js/jquery.lazyload.min.js"></script>
+        <!--[if lte IE 9]>
+                <script src="/Scripts/html5.js" type="text/javascript"></script>
+        <![endif]-->
+    </head>
+    <body id="preload-01">
+        <?php if ($action == 'home_index') { ?>
+            <div class="loading_bg">
+                <div class="loading">
+                    <img class="loadingImg loading_img" src="./img/loading.gif" />
+                    <!--<img class="loadingImg " style="opacity: 0" src="./img/loading.jpg" />-->
+                    <!--<div class="progress">
+                        <div class="progressbar"></div>
+                        
+                    </div>-->
+                    <div class="progresstext">
+                        <span class="current">0</span>%
+                    </div>
+                </div>
+            </div>
+            <div class="Html hide">
+            <?php } else { ?>
+                <div class="Html">
+                <?php } ?>
+                <?php
+                include_once 'header.xxx';
+                if (!empty($slide_show)) {
+                    
+                } else {
+                    
+                }
+                include_once $action . ".xxx";
+                include_once 'footer.xxx';
+                ?>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    $(".about_us,.contact_us,.business,.add_fans").click(function () {
+                        if ($(this).hasClass("business")) {
+                            $(".footWindow").width("696px");
+                            $(".footWindow").height("167px");
+                        } else {
+                            $(".footWindow").width("915px");
+                            $(".footWindow").height("568px");
+                        }
+                        show_foot($(this).attr("data-value"));
+                        $(".footShadow").show();
+                        $(".footWindow").show();
+                    });
+                    $(".footShadow,.closeFoot").click(function () {
+                        $(".footShadow").hide();
+                        $(".footWindow").hide();
+                        $(".registWindow").hide();
+                        $(".loginWindow").hide();
+                    });
+                });
+                var show_foot = function (_src) {
+                    $(".bodyFoot").attr("src", _src);
+                    var testContTop = ($(window).height() - $(".footWindow").height()) / 2;  //计算弹出的框距离页面顶部的距离
+                    var testContWidth = ($(window).width() - $(".footWindow").width()) / 2;  //计算弹出的框距离页面左边的距离
+                    $(".footWindow").css({
+                        "top": testContTop,
+                        "left": testContWidth
+                    });
+                };
+            </script>
+            <?php if ($action == 'home_index') { ?>
+                <script src="./js/resLoader.js"></script>
+                <script type="text/javascript">
+                    $(function () {
+                        document.onreadystatechange = subSomething;//当页面加载状态改变的时候执行这个方法. 
+                        function subSomething()
+                        {
+                            if (document.readyState == "complete") { //当页面加载状态为完全结束时进入
+                                //$('.loading_img').animate({opacity: '0'}, 1000).next().animate({opacity: '1'}, 1000);
+                                $('.loading_bg').animate({top: '-100%'}, 3000).next().show();
+                            }
+                        }
+                    });
+                </script>
+                <script>
+                    var imgLength = document.getElementsByTagName('img').length;
+                    var image = [];
+                    for (var i = 0; i < imgLength; i++) {
+                        image[i] = document.getElementsByTagName('img')[i].src;
+                    }
+                    var loader = new resLoader({
+                        resources: image,
+                        onStart: function (total) {
+                            console.log('start:' + total);
+                        },
+                        onProgress: function (current, total) {
+                            console.log(current + '/' + total);
+                            var percent = current / total * 100;
+                            $('.progresstext .current').text(percent.toFixed(1));
+                        },
+                        onComplete: function (total) {
+                            //alert('加载完毕:'+total+'个资源');
+                        }
+                    });
+                    loader.start();
+                </script>
+            <?php } ?>
+            <script type="text/javascript" charset="utf-8">
+                $(function () {
+                    $("img").lazyload();
+                });
+            </script>
+    </body>
+</html>

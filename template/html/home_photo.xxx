@@ -1,0 +1,83 @@
+<?php
+$data = isset(\action\home::$data['photo']) ? \action\home::$data['photo'] : "";
+$Total = \action\home::$data['total'];
+$currentPage = \action\home::$data['currentPage'];
+$pagesize = \action\home::$data['pagesize'];
+
+$album = isset(\action\home::$data['album']) ? \action\home::$data['album'] : "";
+$video = isset(\action\home::$data['video']) ? \action\home::$data['video'] : "";
+include_once 'image_show.xxx';
+?>
+<script src="./js/home_photo.js?a=<?php echo rand(1,9999999);?>"></script>
+<div class="Body">
+    <div class="Title Trible">
+        <span class="simple trible"><l>PHOTO</l> | 照片</span>
+    </div>
+    <div class="List Line Middle">
+        <div class="Right">
+            <?php if (!empty($album)) { ?>
+                <div class="albumRight">
+                    <div class="title">
+                        NEW ALBUM
+                        <a href="./home-album.htm">MORE ></a>
+                    </div>
+                    <div class="albumOverview">
+                        <img src=".<?php echo $album['src']; ?>" />
+                        <span class="lineOne">专辑名称：<?php echo $album['name']; ?></span>
+                        <span class="lineOne">歌手：<?php echo $album['minstrel']; ?></span>
+                        <span class="lineTwo"><?php echo $album['style']; ?></span>
+                        <span class="lineTwo">发行时间：<?php echo $album['publish_time']; ?></span>
+                        <p class="overview">专辑介绍：</p>
+                        <p class="overviewDetail" ><?php echo $album['overview']; ?></p>
+                    </div>
+                </div>
+            <?php } ?>
+            <?php if (!empty($video)) { ?>
+                <div class="albumRight videoRight">
+                    <div class="title">
+                        MUSIC VIDEO
+                        <a href="./home-video.htm">MORE ></a>
+                    </div>
+                    <div class="albumOverview videoOverview">
+                        <div class="innerOverview">
+                            <?php foreach ($video as $k => $v) { ?>
+                                <img src=".<?php echo $v['src']; ?>" onclick="javascript:window.location.href = './home-video_detail-id-<?php echo $v['id']; ?>.htm';" />
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <?php $point = ceil(count($video) / 4); ?>
+                    <div class="Point point">
+                        <?php for ($i = 0; $i < $point; $i++) { ?>
+                            <img class="a" src="./img/mobile.jpg">
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+        <?php foreach ($data as $k => $v) { ?>
+            <?php
+            $leaveOne = ($k % 2 == 0) ? "leaveOne" : "";
+            ?>
+            <div class="Photo <?php echo $leaveOne; ?>" >
+                <div class="row">
+                    <div class="rowImage">
+                        <img src=".<?php echo $v['src_min']; ?>" />
+                        <img class="hide" src=".<?php echo $v['src']; ?>" />
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        <?php
+        $url = 'index.php?a=home&m=photo';
+        $Totalpage = ceil($Total / 4);
+        include_once 'page.xxx';
+        ?>
+    </div>
+</div>
+<div class="shadle hide"></div>
+<div class="photo_overview hide" id="photo_overview">
+    <img class="close" src="./img/close.png" />
+    <img class="photo" src="./data/image_doc/da58ba5da2797c2f4a6681cce71a2e65.jpg">
+</div>
+<?php
+//print_r($data);die;

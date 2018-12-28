@@ -1,0 +1,7 @@
+<?php
+$data = isset(\action\home::$data['data']) ? \action\home::$data['data'] : "";
+?>
+<script>
+    var _src = '<?php echo $data; ?>';
+</script>
+<img id="img" src="./img/<?php echo $data; ?>.jpg" />

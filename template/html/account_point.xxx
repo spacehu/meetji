@@ -1,0 +1,39 @@
+<?php
+$data = isset(\action\account::$data['data']) ? \action\account::$data['data'] : "";
+include_once 'image_show.xxx';
+?>
+<div class="Body">
+    <div class="accountOverview">
+        <div class="headPhoto">
+            <img src="<?php echo!empty(\mod\common::getSession("photo")) ? \mod\common::getSession("photo") : "./img/default_head.jpg"; ?>" />
+        </div>
+        <div class="nickname"><?php echo!empty(\mod\common::getSession("nickname")) ? \mod\common::getSession("nickname") : "未命名昵称"; ?></div>
+        <div class="menu">
+            <a class="main" href="javascript:void(0);">主页</a>
+            <a class="center " href="./account-center.htm">基本信息</a>
+            <a class="collect" href="javascript:void(0);">收藏</a>
+            <a class="point hover" href="./account-point.htm">积分</a>
+        </div>
+    </div>
+    <div class="accountDetail">
+        <div class="baseInfo">
+            <div class="title">
+                积分规则
+                <p>分值</p>
+            </div>
+            <div class="list thP">
+                <div class="th">1. 账号注册</div><div class="td">+20分</div>
+                <div class="th">2. 每天登录</div><div class="td">+5分</div>
+                <!--
+                <div class="th">3. 每邀请一位好友完成注册</div><div class="td">+15分</div>
+                -->
+            </div>
+            <div class="title titleP">
+                我的积分
+                <p><?php echo $data; ?>分</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./js/account_center.js"></script>
+<?php //print_r($data);die;

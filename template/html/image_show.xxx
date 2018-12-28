@@ -1,0 +1,7 @@
+<div class="SlideShow slide_show" >
+    <?php if($action=="home_album_music"){ ?>
+    <img src=".<?php echo $music['srcS'];?>" class="bg " />
+    <?php }else{?>
+    <img src="./img/<?php echo $action;?>.jpg" class="bg " />
+    <?php }?>
+</div>
