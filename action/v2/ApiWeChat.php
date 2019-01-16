@@ -80,7 +80,7 @@ class ApiWeChat extends \action\RestfulApi {
      * 再判断是否在数据库中，没有则写入数据库。最后将open_id写入session。  
      */
     public function beforeWeb() {
-        if (!$_GET['openid']) {                             //如果$_SESSION中没有openid，说明用户刚刚登陆，就执行getCode、getOpenId、getUserInfo获取他的信息  
+        if (empty($_GET['openid'])) {                             //如果$_SESSION中没有openid，说明用户刚刚登陆，就执行getCode、getOpenId、getUserInfo获取他的信息  
             $this->code = $this->getCode();
             LogDAL::saveLog("DEBUG", "INFO", json_encode($this->code));
             if (self::$data['success'] == false) {

@@ -70,7 +70,7 @@ return $config = [
     ],
     'debug' => false, //调试器
     'wechat' => [
-        'appid' => 'wxf392e79eb4a23567',
+        'appid' => 'wx11eb371cd85adfd4',
         'secret' => '8957b8cdb1d8710cfd8774c8b29b47d3',
         'index_url' => 'https://api.tigerhuclub.com',
     ],
