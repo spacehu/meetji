@@ -45,18 +45,9 @@ return $config = [
             'GET /v1/ApiSms-sendSms.htm' => 'v1-ApiSms-sendSms',
             'GET /v1/ApiSms-sendRegistSms.htm' => 'v1-ApiSms-sendRegistSms',
             /* base api */
-            'GET /v1/ApiHome-slideShow.htm' => 'v1-ApiHome-slideShow',
-            'GET /v1/ApiHome-awards.htm' => 'v1-ApiHome-awards',
-            'GET /v1/ApiHome-works.htm' => 'v1-ApiHome-works',
-            'GET /v1/ApiHome-album.htm' => 'v1-ApiHome-album',
-            'GET /v1/ApiHome-album_music.htm' => 'v1-ApiHome-album_music',
-            'GET /v1/ApiHome-notice.htm' => 'v1-ApiHome-notice',
-            'GET /v1/ApiHome-article.htm' => 'v1-ApiHome-article',
+            'GET /v2/ApiHome-slideShow.htm' => 'v2-ApiHome-slideShow',
+            'GET /v2/ApiHome-article.htm' => 'v2-ApiHome-article',
             'GET /v1/ApiHome-article_detail.htm' => 'v1-ApiHome-article_detail',
-            'GET /v1/ApiHome-video.htm' => 'v1-ApiHome-video',
-            'GET /v1/ApiHome-video_detail.htm' => 'v1-ApiHome-video_detail',
-            'GET /v1/ApiHome-photo.htm' => 'v1-ApiHome-photo',
-            'GET /v1/ApiHome-share.htm' => 'v1-ApiHome-share',
             'GET /v1/ApiHome-single.htm' => 'v1-ApiHome-single',
             'POST /v1/ApiHome-saveSingle.htm' => 'v1-ApiHome-saveSingle',
             /* user api */
@@ -71,7 +62,7 @@ return $config = [
             'POST /v1/ApiAccount-uploadPhoto.htm' => 'v1-ApiAccount-uploadPhoto',
             'GET /v1/ApiAccount-point.htm' => 'v1-ApiAccount-point',
             /* wechat api */
-            'GET /v1/ApiWeChat-getWeChatInfo.htm' => 'v1-ApiWeChat-getWeChatInfo',
+            'GET /v2/ApiWeChat-getWeChatInfo.htm' => 'v2-ApiWeChat-getWeChatInfo',
             /* applets api */
             'GET /v1/ApiApplets-photo.htm' => 'v1-ApiApplets-photo',
             'POST /v1/ApiApplets-saveWeChatInfo.htm' => 'v1-ApiApplets-saveWeChatInfo',

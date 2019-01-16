@@ -59,12 +59,14 @@ class ArticleImageDAL {
         $base = new BaseDAL();
         $sql = "delete from " . $base->table_name('article_image') . " where `article_id`='" . $aid . "';";
         $base->query($sql);
-        
+
         foreach ($_data as $v) {
-            $os = $_sourseData;
-            array_unshift($os, $aid, $v);
-            //print_r($os);
-            self::insert($os);
+            if ($v != 0) {
+                $os = $_sourseData;
+                array_unshift($os, $v, $aid);
+                //print_r($os);
+                self::insert($os);
+            }
         }
         return true;
     }

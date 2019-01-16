@@ -75,7 +75,7 @@ class works {
             self::$data['system'] = (array) json_decode($_subjectCategory['value']);
             self::$data['category'] = CategoryDAL::getAll(1, 999, "");
             self::$data['brand'] = BrandDAL::getAll(1, 999, "");
-            //print_r(self::$data['system']);die;
+            //print_r(self::$data['article_image']);die;
         } catch (Exception $ex) {
             TigerDAL\CatchDAL::markError(code::$code[code::WORKS_INDEX], code::WORKS_INDEX, json_encode($ex));
         }

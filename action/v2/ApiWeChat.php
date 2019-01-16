@@ -35,11 +35,7 @@ class ApiWeChat extends \action\RestfulApi {
         $this->appid = \mod\init::$config['wechat']['appid'];                   //微信APPID，公众平台获取  
         $this->appsecret = \mod\init::$config['wechat']['secret'];              //微信APPSECREC，公众平台获取  
         $this->get = Common::exchangeGet();
-        $this->index_url = urlencode(\mod\init::$config['wechat']['index_url'] . '/api-index-title-' . $this->get['backurl']);           //微信回调地址，要跟公众平台的配置域名相同  
         //$this->index_url = urlencode("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);           //微信回调地址，要跟公众平台的配置域名相同  
-
-        $this->insertStatistics($_SERVER);
-        //Common::pr($_SERVER);
         if (!empty($path)) {
             $_path = explode("-", $path);
             $actEval = "\$res = \$this ->" . $_path['2'] . "();";
@@ -84,7 +80,7 @@ class ApiWeChat extends \action\RestfulApi {
      * 再判断是否在数据库中，没有则写入数据库。最后将open_id写入session。  
      */
     public function beforeWeb() {
-        if (!$_SESSION['openid']) {                             //如果$_SESSION中没有openid，说明用户刚刚登陆，就执行getCode、getOpenId、getUserInfo获取他的信息  
+        if (!$_GET['openid']) {                             //如果$_SESSION中没有openid，说明用户刚刚登陆，就执行getCode、getOpenId、getUserInfo获取他的信息  
             $this->code = $this->getCode();
             LogDAL::saveLog("DEBUG", "INFO", json_encode($this->code));
             if (self::$data['success'] == false) {
@@ -120,7 +116,7 @@ class ApiWeChat extends \action\RestfulApi {
                 self::$data['data'] = 'openid: ' . $userInfo['openid'];
             }
         }
-        LogDAL::save(json_encode($_SESSION['openid']));
+        LogDAL::save(json_encode($_GET['openid']));
     }
 
     /**
@@ -135,7 +131,7 @@ class ApiWeChat extends \action\RestfulApi {
             return $this->get["code"];
         } else {
             //$str = "location: https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . $this->appid . "&redirect_uri=" . $this->index_url . "&response_type=code&scope=snsapi_userinfo#wechat_redirect";
-            $str = "location: https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . $this->appid . "&redirect_uri=" . $this->index_url . "&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+            $str = "location: https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . $this->appid . "&redirect_uri=INDEX_URL&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
             //LogDAL::save($str);
             self::$data['success'] = false;
             self::$data['data'] = $str;
