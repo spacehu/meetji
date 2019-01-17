@@ -44,6 +44,10 @@ return $config = [
             'GET /v1/ApiEnum-getRegion.htm' => 'v1-ApiEnum-getRegion',
             'GET /v1/ApiSms-sendSms.htm' => 'v1-ApiSms-sendSms',
             'GET /v1/ApiSms-sendRegistSms.htm' => 'v1-ApiSms-sendRegistSms',
+            /* system api */
+            'GET /v2/ApiHome-getCategory.htm' => 'v2-ApiHome-getCategory',
+            'GET /v2/ApiHome-getBrand.htm' => 'v2-ApiHome-getBrand',
+            'GET /v2/ApiHome-getSysConfig.htm' => 'v2-ApiHome-getSysConfig',
             /* base api */
             'GET /v2/ApiHome-slideShow.htm' => 'v2-ApiHome-slideShow',
             'GET /v2/ApiHome-article.htm' => 'v2-ApiHome-article',

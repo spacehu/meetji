@@ -159,6 +159,30 @@ $article_school = \action\works::$data['article_school'];
                                 <input class="text day" name="end_time" type="text" value="<?php echo isset($data['end_time']) ? $data['end_time'] : ''; ?>" />
                             </div>
                         </div>
+                        <div class="leftAlist" >
+                            <span>MARKET PRICE 市场价</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <input class="text" name="market_price" type="text" value="<?php echo isset($data['market_price']) ? $data['market_price'] : ''; ?>" />
+                            </div>
+                        </div>
+                        <div class="leftAlist" >
+                            <span>OUT LINK 外部链接</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <input class="text" name="out_link" type="text" value="<?php echo isset($data['out_link']) ? $data['out_link'] : ''; ?>" />
+                            </div>
+                        </div>
+                        <div class="leftAlist" >
+                            <span>CURRENT PRICE 现价</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <input class="text" name="current_price" type="text" value="<?php echo isset($data['current_price']) ? $data['current_price'] : ''; ?>" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="pathB">

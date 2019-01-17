@@ -103,6 +103,9 @@ class works {
                     'praise' => isset($_POST['praise']) ? $_POST['praise'] : '',
                     'start_time' => isset($_POST['start_time']) ? $_POST['start_time'] : date("Y-m-d"),
                     'end_time' => isset($_POST['end_time']) ? $_POST['end_time'] : date("Y-m-d"),
+                    'market_price' => isset($_POST['market_price']) ? $_POST['market_price'] : '',
+                    'out_link' => isset($_POST['out_link']) ? $_POST['out_link'] : '',
+                    'current_price' => isset($_POST['current_price']) ? $_POST['current_price'] : '',
                 ];
 
                 self::$data = ArticleDAL::update($id, $data);
@@ -129,6 +132,9 @@ class works {
                     'praise' => isset($_POST['praise']) ? $_POST['praise'] : '',
                     'start_time' => isset($_POST['start_time']) ? $_POST['start_time'] : date("Y-m-d"),
                     'end_time' => isset($_POST['end_time']) ? $_POST['end_time'] : date("Y-m-d"),
+                    'market_price' => isset($_POST['market_price']) ? $_POST['market_price'] : '',
+                    'out_link' => isset($_POST['out_link']) ? $_POST['out_link'] : '',
+                    'current_price' => isset($_POST['current_price']) ? $_POST['current_price'] : '',
                 ];
                 self::$data = ArticleDAL::insert($data);
                 $id = self::$data;
