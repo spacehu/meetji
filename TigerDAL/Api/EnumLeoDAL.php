@@ -11,7 +11,7 @@ use TigerDAL\BaseDAL;
  * 继承数据库包
  */
 
-class EnumDAL {
+class EnumLeoDAL {
 
     function __construct() {
         
@@ -21,26 +21,13 @@ class EnumDAL {
     public static function GetRegion($id = 0) {
 
         $base = new BaseDAL();
-        $sql = "select * from " . $base->table_name("region_china") . " where pid='" . $id . "' order by id asc;";
+        $sql = "select * from " . $base->table_name("region_leo") . " where pid='" . $id . "' order by id asc;";
         $data = $base->getFetchAll($sql);
 
-        $sql = "select count(1) as num from " . $base->table_name("region_china") . " where pid='" . $id . "' limit 1; ";
+        $sql = "select count(1) as num from " . $base->table_name("region_leo") . " where pid='" . $id . "' limit 1; ";
         $total = $base->getFetchRow($sql);
 
         return ['list' => $data, 'total' => $total['num']];
-    }
-
-    /** 中国地区 除了国家 */
-    public static function GetRegionWithOutCountry($id = 0) {
-
-        $res = self::GetRegion($id);
-        if ($id == 0) {
-            unset($res['list'][0]);
-            $res['list'] = array_values($res['list']);
-            $res['total'] = $res['total'] - 1;
-        }
-
-        return $res;
     }
 
     /** 获取该地区的完整层级 */
@@ -48,7 +35,7 @@ class EnumDAL {
         $obj[] = $id;
         $base = new BaseDAL();
         while ($id != 0) {
-            $sql = "select * from " . $base->table_name("region_china") . " where id='" . $id . "';";
+            $sql = "select * from " . $base->table_name("region_leo") . " where id='" . $id . "';";
             $id = $base->getFetchRow($sql)['pid'];
             $obj[] = $id;
         }

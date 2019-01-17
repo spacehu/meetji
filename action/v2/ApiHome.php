@@ -12,6 +12,7 @@ use TigerDAL\Web\HomeDAL;
 use TigerDAL\Api\LeaveMessageDAL;
 use TigerDAL\Cms\CategoryDAL;
 use TigerDAL\Cms\BrandDAL;
+use TigerDAL\Cms\SystemDAL;
 use config\code;
 
 class ApiHome extends \action\RestfulApi {
@@ -55,8 +56,8 @@ class ApiHome extends \action\RestfulApi {
             $CategoryDAL = new CategoryDAL();
             $res = $CategoryDAL->getAll(1, 10);
             //print_r($res);die;
-            self::$data['data']['total'] = $res['total'];
-            self::$data['data']['list'] = $res['data'];
+            self::$data['data']['total'] = $CategoryDAL->getTotal();
+            self::$data['data']['list'] = $res;
         } catch (Exception $ex) {
             TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
         }
@@ -70,8 +71,33 @@ class ApiHome extends \action\RestfulApi {
             $BrandDAL = new BrandDAL();
             $res = $BrandDAL->getAll(1, 10);
             //print_r($res);die;
-            self::$data['data']['total'] = $res['total'];
-            self::$data['data']['list'] = $res['data'];
+            self::$data['data']['total'] = $BrandDAL->getTotal();
+            self::$data['data']['list'] = $res;
+        } catch (Exception $ex) {
+            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+        }
+        return self::$data;
+    }
+
+    /** 年龄段列表 */
+    function getAgeRange() {
+        try {
+            //轮播列表
+            $res = SystemDAL::getConfig('age_range');
+            //print_r($res);die;
+            self::$data['data']['list'] = explode(';', $res['value']);
+        } catch (Exception $ex) {
+            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+        }
+        return self::$data;
+    }
+
+    /** 学科分类列表 */
+    function getSubjectCategory() {
+        try {
+            //轮播列表
+            $_subjectCategory = SystemDAL::getConfig("subject_category");
+            self::$data['data']['list'] = (array) json_decode($_subjectCategory['value']);
         } catch (Exception $ex) {
             TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
         }
