@@ -117,6 +117,14 @@ class HomeDAL {
         $base = new BaseDAL();
         $sql = "select * from " . $base->table_name("article") . "  where`delete`=0 and `id`='" . $id . "';";
         $data = $base->getFetchRow($sql);
+        $_sql = "select i.* from " . $base->table_name("article_image") . " as ai ," . $base->table_name("image") . " as i "
+                . "where ai.image_id=i.id and ai.article_id='" . $id . "' order by ai.add_time asc;";
+        $_data = $base->getFetchAll($_sql);
+        $data['image'] = $_data;
+        $_sql = "select s.* from " . $base->table_name("article_school") . " as `as` ," . $base->table_name("school") . " as s "
+                . "where `as`.school_id=s.id and `as`.article_id='" . $id . "' order by `as`.add_time asc;";
+        $_data = $base->getFetchAll($_sql);
+        $data['school'] = $_data;
         return ['data' => $data];
     }
 

@@ -9,8 +9,6 @@ namespace action\v2;
 
 use mod\common as Common;
 use TigerDAL\Web\HomeDAL;
-use TigerDAL\Web\StatisticsDAL;
-use TigerDAL\AccessDAL;
 use TigerDAL\Api\LeaveMessageDAL;
 use config\code;
 
@@ -94,15 +92,9 @@ class ApiHome extends \action\RestfulApi {
         try {
             $id = $_GET['id'];
             self::$data['id'] = $id;
-            //奖项列表
             $HomeDAL = new HomeDAL();
-            $HomeDAL->AddAccess($id, "article");
-
             $res = $HomeDAL->GetArticleOne($id);
-            self::$data['article'] = $res['data'];
-            $buttonMenu = $HomeDAL->GetArticleButtonMenu($id);
-            self::$data['buttonMenu'] = $buttonMenu['data'];
-
+            self::$data['data']['info'] = $res['data'];
             //Common::pr($res);die;
         } catch (Exception $ex) {
             TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
