@@ -50,13 +50,13 @@ class ApiHome extends \action\RestfulApi {
         try {
             $currentPage = isset($_GET['currentPage']) ? $_GET['currentPage'] : 1;
             $pagesize = isset($_GET['pagesize']) ? $_GET['pagesize'] : 5;
-            $keywords = isset($_GET['keywords']) ? $_GET['keywords'] : '';
-            $region = isset($_GET['region']) ? $_GET['region'] : '';
-            $cat = isset($_GET['cat']) ? $_GET['cat'] : '';
-            $brand = isset($_GET['brand']) ? $_GET['brand'] : '';
+            $keywords = isset($_GET['keywords']) ? urldecode($_GET['keywords']) : '';
+            $region = isset($_GET['region']) ? urldecode($_GET['region']) : '';
+            $cat = isset($_GET['cat']) ? urldecode($_GET['cat']) : '';
+            $brand = isset($_GET['brand']) ? urldecode($_GET['brand']) : '';
             $age_start = isset($_GET['age_start']) ? $_GET['age_start'] : '';
             $age_end = isset($_GET['age_end']) ? $_GET['age_end'] : '';
-            $subject_category = isset($_GET['subject_category']) ? $_GET['subject_category'] : '';
+            $subject_category = isset($_GET['subject_category']) ? urldecode($_GET['subject_category']) : '';
             self::$data['currentPage'] = $currentPage;
             self::$data['pagesize'] = $pagesize;
             self::$data['keywords'] = $keywords;
@@ -72,6 +72,8 @@ class ApiHome extends \action\RestfulApi {
                 $age[0] = $age_start;
                 if (!empty($age_end)) {
                     $age[1] = $age_end;
+                } else {
+                    $age[1] = 0;
                 }
             }
             //奖项列表
@@ -89,8 +91,6 @@ class ApiHome extends \action\RestfulApi {
 
     /** 活动详情 */
     function article_detail() {
-        self::$data['title'] = "活动";
-        self::$data['action'] = $this->class . '_' . __FUNCTION__;
         try {
             $id = $_GET['id'];
             self::$data['id'] = $id;

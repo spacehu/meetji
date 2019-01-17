@@ -47,7 +47,7 @@ return $config = [
             /* base api */
             'GET /v2/ApiHome-slideShow.htm' => 'v2-ApiHome-slideShow',
             'GET /v2/ApiHome-article.htm' => 'v2-ApiHome-article',
-            'GET /v1/ApiHome-article_detail.htm' => 'v1-ApiHome-article_detail',
+            'GET /v2/ApiHome-article_detail.htm' => 'v2-ApiHome-article_detail',
             'GET /v1/ApiHome-single.htm' => 'v1-ApiHome-single',
             'POST /v1/ApiHome-saveSingle.htm' => 'v1-ApiHome-saveSingle',
             /* user api */
@@ -71,7 +71,7 @@ return $config = [
     'debug' => false, //调试器
     'wechat' => [
         'appid' => 'wx11eb371cd85adfd4',
-        'secret' => '8957b8cdb1d8710cfd8774c8b29b47d3',
+        'secret' => '01ef7de58bc18da629d4ec33a62744f9',
         'index_url' => 'https://api.tigerhuclub.com',
     ],
     'actionList' => [

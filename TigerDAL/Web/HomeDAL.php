@@ -39,14 +39,44 @@ class HomeDAL {
         $base = new BaseDAL();
         $where = '';
         if (!empty($keywords)) {
-            $where .= " and (`name` like '%" . $keywords . "%' and `overview` like '%" . $keywords . "%' and `tags` like '%" . $keywords . "%') ";
+            $where .= " and (`a`.`name` like '%" . $keywords . "%' and `a`.`overview` like '%" . $keywords . "%' and `a`.`tags` like '%" . $keywords . "%') ";
         }
         if (!empty($region)) {
-            $_sql = "select `as`.`article_id` as `id`"
+            $_sql = "select `as`.`article_id` as `id` "
                     . "from " . $base->table_name("school") . " as `s` ," . $base->table_name("article_school") . " as `as` "
                     . "where `s`.id=`as`.school_id and `s`.`region_name` like '%" . $region . "%' ";
             $_region = $base->getFetchAll($_sql);
-            $_id = implode(',', $_region);
+            if (!empty($_region)) {
+                foreach ($_region as $v) {
+                    $_arr[] = $v['id'];
+                }
+                $_id = implode(',', $_arr);
+                $where .= " and `a`.id in (" . $_id . ")";
+            }
+        }
+        if (!empty($cat)) {
+            $_sql = "select id "
+                    . "from " . $base->table_name("category") . " as `s`  "
+                    . "where `s`.`name` = '" . $cat . "' ";
+            $_cat = $base->getFetchRow($_sql);
+            if (!empty($_cat)) {
+                $where .= " and `a`.cat_id = " . $_cat['id'] . " ";
+            }
+        }
+        if (!empty($brand)) {
+            $_sql = "select id "
+                    . "from " . $base->table_name("brand") . " as `s`  "
+                    . "where `s`.`name` like '%" . $brand . "%' ";
+            $_brand = $base->getFetchRow($_sql);
+            if (!empty($_brand)) {
+                $where .= " and `a`.brand_id = " . $_brand['id'] . " ";
+            }
+        }
+        if (!empty($age)) {
+            $where .= " and ((`age_min`<='" . $age[0] . "' and `age_max`>='" . $age[0] . "') or (`age_min`<='" . $age[1] . "' and `age_max`>='" . $age[1] . "'))";
+        }
+        if (!empty($subject_category)) {
+            $where .= " and `a`.`subject_category`='" . $subject_category . "' ";
         }
         $sql = "from " . $base->table_name("article") . " as a "
                 . "left join " . $base->table_name("article_image") . " as ai on a.id=ai.article_id "
@@ -76,7 +106,7 @@ class HomeDAL {
     public function GetArticleTotal($keywords = '', $region = '', $cat = '', $brand = '', $age = [], $subject_category = '') {
 
         $base = new BaseDAL();
-        $sql = "select count(1) as total";
+        $sql = "select count(1) as total ";
         $sql .= $this->GetArticleSql($keywords, $region, $cat, $brand, $age, $subject_category);
         return $base->getFetchRow($sql)['total'];
     }
