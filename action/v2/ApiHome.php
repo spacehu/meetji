@@ -14,12 +14,15 @@ use config\code;
 
 class ApiHome extends \action\RestfulApi {
 
+    public $post;
+
     /**
      * 主方法引入父类的基类
      * 责任是分担路由的工作
      */
     function __construct() {
         $path = parent::__construct();
+        $this->post = Common::exchangePost();
         if (!empty($path)) {
             $_path = explode("-", $path);
             $actEval = "\$res = \$this ->" . $_path['2'] . "();";
@@ -102,58 +105,24 @@ class ApiHome extends \action\RestfulApi {
         return self::$data;
     }
 
-    /** 分享列表 */
-    function share() {
-        self::$data['title'] = "分享";
-        self::$data['action'] = $this->class . '_' . __FUNCTION__;
-        try {
-            $currentPage = isset($_GET['currentPage']) ? $_GET['currentPage'] : 1;
-            $pagesize = isset($_GET['pagesize']) ? $_GET['pagesize'] : 9;
-            self::$data['currentPage'] = $currentPage;
-            self::$data['pagesize'] = $pagesize;
-            //照片列表
-            $HomeDAL = new HomeDAL();
-
-            $res = $HomeDAL->GetShare($currentPage, $pagesize);
-            self::$data['total'] = $HomeDAL->GetShareTotal();
-            self::$data['share'] = $res['data'];
-
-            //Common::pr($res);die;
-        } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
-        }
-        return self::$data;
-    }
-
-    /** 单页 */
-    function single() {
-        self::$data['action'] = $this->class . '_' . __FUNCTION__;
-        try {
-//            $_data = (array) json_decode(base64_decode($_GET['keyword']));
-//            self::$data['title'] = $_data['title'];
-//            self::$data['data'] = $_data['data'];
-        } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
-        }
-        return self::$data;
-    }
-
     /** 记录留言信息和抽奖内容的方法 */
     function saveSingle() {
         $leaveMessage = new LeaveMessageDAL();
+        if (empty($this->post['phone'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
         $_data = [
-            'name' => $_POST['name'],
-            'phone' => $_POST['phone'],
-            'overview' => !empty($_POST['overview']) ? $_POST['overview'] : '',
+            'name' => !empty($this->post['name']) ? $this->post['name'] : '',
+            'phone' => $this->post['phone'],
+            'age' => !empty($this->post['age']) ? $this->post['age'] : '',
+            'sex' => !empty($this->post['sex']) ? $this->post['sex'] : '',
+            'school' => !empty($this->post['school']) ? $this->post['school'] : '',
+            'arrive_time' => !empty($this->post['arrive_time']) ? $this->post['arrive_time'] : '',
             'add_time' => date('Y-m-d H:i:s'),
-            'source' => $_POST['source'],
-            'province' => !empty($_POST['province']) ? $_POST['province'] : '',
-            'city' => !empty($_POST['city']) ? $_POST['city'] : '',
-            'district' => !empty($_POST['district']) ? $_POST['district'] : '',
-            'code' => "0",
-            'code_used' => 0,
         ];
-        if ($_data['source'] == "givemeachance") {
+        /* 抽奖规则 */
+        if (!empty($this->post['source'])&&$this->post['source'] == "givemeachance") {
             $_bonus = $leaveMessage::getBonus($_data);
             if ($_bonus['error'] == 1) {
                 self::$data = $_bonus;
@@ -162,7 +131,6 @@ class ApiHome extends \action\RestfulApi {
                 $_data['code'] = $_bonus['code'];
             }
         }
-//print_r($_data);die;
         self::$data['result'] = $leaveMessage::insert($_data);
         self::$data['post'] = $_data;
         return self::$data;

@@ -271,6 +271,19 @@ class common {
         return $res;
     }
 
+    /**
+     * 获取url 参数方法
+     */
+    public static function exchangePost() {
+        $res = "";
+        if (!empty($_POST)) {
+            $res = $_POST;
+        } else {
+            $res = (array) json_decode(file_get_contents('php://input'));
+        }
+        return $res;
+    }
+
     /*     * *********************************************** */
 
     function StrLenW($str) {
