@@ -7,7 +7,7 @@ use TigerDAL\BaseDAL;
 class BrandDAL {
 
     /** 获取用户信息列表 */
-    public static function getAll($currentPage, $pagesize, $keywords) {
+    public static function getAll($currentPage, $pagesize, $keywords = '') {
         $base = new BaseDAL();
         $limit_start = ($currentPage - 1) * $pagesize;
         $limit_end = $pagesize;
@@ -20,7 +20,7 @@ class BrandDAL {
     }
 
     /** 获取数量 */
-    public static function getTotal($keywords) {
+    public static function getTotal($keywords = '') {
         $base = new BaseDAL();
         $where = "";
         if (!empty($keywords)) {

@@ -39,7 +39,7 @@ class HomeDAL {
         $base = new BaseDAL();
         $where = '';
         if (!empty($keywords)) {
-            $where .= " and (`a`.`name` like '%" . $keywords . "%' and `a`.`overview` like '%" . $keywords . "%' and `a`.`tags` like '%" . $keywords . "%') ";
+            $where .= " and (`a`.`name` like '%" . $keywords . "%' or `a`.`overview` like '%" . $keywords . "%' or `a`.`tags` like '%" . $keywords . "%') ";
         }
         if (!empty($region)) {
             $_sql = "select `as`.`article_id` as `id` "
@@ -108,6 +108,7 @@ class HomeDAL {
         $base = new BaseDAL();
         $sql = "select count(1) as total ";
         $sql .= $this->GetArticleSql($keywords, $region, $cat, $brand, $age, $subject_category);
+        //echo $sql;
         return $base->getFetchRow($sql)['total'];
     }
 

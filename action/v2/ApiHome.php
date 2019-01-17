@@ -10,6 +10,8 @@ namespace action\v2;
 use mod\common as Common;
 use TigerDAL\Web\HomeDAL;
 use TigerDAL\Api\LeaveMessageDAL;
+use TigerDAL\Cms\CategoryDAL;
+use TigerDAL\Cms\BrandDAL;
 use config\code;
 
 class ApiHome extends \action\RestfulApi {
@@ -31,7 +33,7 @@ class ApiHome extends \action\RestfulApi {
         }
     }
 
-    /** 首页 */
+    /** 轮播图片 */
     function slideShow() {
         try {
             //轮播列表
@@ -46,7 +48,37 @@ class ApiHome extends \action\RestfulApi {
         return self::$data;
     }
 
-    /** 活动列表 */
+    /** 分类列表 */
+    function getCategory() {
+        try {
+            //轮播列表
+            $CategoryDAL = new CategoryDAL();
+            $res = $CategoryDAL->getAll(1, 10);
+            //print_r($res);die;
+            self::$data['data']['total'] = $res['total'];
+            self::$data['data']['list'] = $res['data'];
+        } catch (Exception $ex) {
+            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+        }
+        return self::$data;
+    }
+
+    /** 品牌列表 */
+    function getBrand() {
+        try {
+            //轮播列表
+            $BrandDAL = new BrandDAL();
+            $res = $BrandDAL->getAll(1, 10);
+            //print_r($res);die;
+            self::$data['data']['total'] = $res['total'];
+            self::$data['data']['list'] = $res['data'];
+        } catch (Exception $ex) {
+            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+        }
+        return self::$data;
+    }
+
+    /** 课程列表 */
     function article() {
         try {
             $currentPage = isset($_GET['currentPage']) ? $_GET['currentPage'] : 1;
@@ -81,7 +113,7 @@ class ApiHome extends \action\RestfulApi {
             $HomeDAL = new HomeDAL();
 
             $res = $HomeDAL->GetArticle($currentPage, $pagesize, $keywords, $region, $cat, $brand, $age, $subject_category);
-            self::$data['data']['total'] = $HomeDAL->GetArticleTotal();
+            self::$data['data']['total'] = $HomeDAL->GetArticleTotal($keywords, $region, $cat, $brand, $age, $subject_category);
             self::$data['data']['list'] = $res['data'];
             //Common::pr($res);die;
         } catch (Exception $ex) {
@@ -90,7 +122,7 @@ class ApiHome extends \action\RestfulApi {
         return self::$data;
     }
 
-    /** 活动详情 */
+    /** 课程详情 */
     function article_detail() {
         try {
             $id = $_GET['id'];
@@ -122,7 +154,7 @@ class ApiHome extends \action\RestfulApi {
             'add_time' => date('Y-m-d H:i:s'),
         ];
         /* 抽奖规则 */
-        if (!empty($this->post['source'])&&$this->post['source'] == "givemeachance") {
+        if (!empty($this->post['source']) && $this->post['source'] == "givemeachance") {
             $_bonus = $leaveMessage::getBonus($_data);
             if ($_bonus['error'] == 1) {
                 self::$data = $_bonus;
