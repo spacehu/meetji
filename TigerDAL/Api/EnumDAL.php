@@ -36,6 +36,7 @@ class EnumDAL {
         $res = self::GetRegion($id);
         if ($id == 0) {
             unset($res['list'][0]);
+            array_values($res);
         }
 
         return $res;
