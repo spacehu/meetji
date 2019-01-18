@@ -98,7 +98,7 @@ class HomeDAL {
         $sql .= "group by a.id "
                 . "order by i.add_time desc,a.add_time desc "
                 . "limit " . $limit_start . "," . $limit_end . ";";
-        echo $sql;die;
+        //echo $sql;die;
         $data = $base->getFetchAll($sql);
         return ['data' => $data];
     }
