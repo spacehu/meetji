@@ -176,7 +176,7 @@ $article_school = \action\works::$data['article_school'];
                             </div>
                         </div>
                         <div class="leftAlist" >
-                            <span>CURRENT PRICE 现价</span>
+                            <span>CURRENT PRICE 现价(请不要输入中文，如需‘免费’请输入：0)</span>
                         </div>
                         <div class="leftAlist" >
                             <div class="r_row">

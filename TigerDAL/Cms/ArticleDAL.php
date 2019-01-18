@@ -49,21 +49,25 @@ class ArticleDAL {
 
     /** 新增用户信息 */
     public static function insert($data) {
-        $base = new BaseDAL();
-        if (is_array($data)) {
-            foreach ($data as $v) {
-                $_data[] = " '" . $v . "' ";
+        try {
+            $base = new BaseDAL();
+            if (is_array($data)) {
+                foreach ($data as $v) {
+                    $_data[] = " '" . $v . "' ";
+                }
+                $set = implode(',', $_data);
+                $sql = "insert into " . $base->table_name('article') . " values (null," . $set . ");";
+                //echo $sql;die;
+                $res = $base->query($sql);
+                $id = $base->last_insert_id();
+                if ($res) {
+                    return $id;
+                }
+            } else {
+                return true;
             }
-            $set = implode(',', $_data);
-            $sql = "insert into " . $base->table_name('article') . " values (null," . $set . ");";
-            //echo $sql;die;
-            $res = $base->query($sql);
-            $id = $base->last_insert_id();
-            if ($res) {
-                return $id;
-            }
-        } else {
-            return true;
+        } catch (Exception $ex) {
+            \TigerDAL\CatchDAL::markError(\config\code::$code[\config\code::WORKS_UPDATE], \config\code::WORKS_UPDATE, json_encode($ex));
         }
     }
 
