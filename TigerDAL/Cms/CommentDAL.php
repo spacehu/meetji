@@ -75,7 +75,7 @@ class CommentDAL {
         $limit_start = ($currentPage - 1) * $pagesize;
         $limit_end = $pagesize;
         $sql = "select * from " . $base->table_name("comment") . " "
-                . "where `status`!=2 and `article_id`=" . $id . " "
+                . "where `status`=1 and `article_id`=" . $id . " "
                 . "order by star desc,add_time desc limit " . $limit_start . "," . $limit_end . " ;";
         return $base->getFetchAll($sql);
     }

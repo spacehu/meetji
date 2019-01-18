@@ -74,6 +74,14 @@
         </div>
         <div class="title">
             <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=userWechat&m=index'" href="javascript:void(0);" >CUSTOMER  客户</a>
+            <div class="sub_title">
+                <div class="title">
+                    <a class="second" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=book&m=index'" href="javascript:void(0);" >BOOKED 预定</a>
+                </div>
+                <div class="title">
+                    <a class="second" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=comment&m=index'" href="javascript:void(0);" >COMMENT 评论</a>
+                </div>
+            </div>
         </div>
         <?php if (\mod\common::getSession('id') == 1) { ?>
             <div class="title">
