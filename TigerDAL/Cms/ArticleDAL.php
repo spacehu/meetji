@@ -67,7 +67,7 @@ class ArticleDAL {
                 return true;
             }
         } catch (Exception $ex) {
-            \TigerDAL\CatchDAL::markError(\config\code::$code[\config\code::WORKS_UPDATE], \config\code::WORKS_UPDATE, json_encode($ex));
+            \TigerDAL\CatchDAL::markError(\config\code::$code[\config\code::WORKS_UPDATE], \config\code::WORKS_UPDATE, json_encode($sql));
         }
     }
 

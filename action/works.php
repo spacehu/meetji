@@ -106,6 +106,7 @@ class works {
                     'market_price' => isset($_POST['market_price']) ? $_POST['market_price'] : '',
                     'out_link' => isset($_POST['out_link']) ? $_POST['out_link'] : '',
                     'current_price' => isset($_POST['current_price']) ? $_POST['current_price'] : '',
+                    'source_count' => isset($_POST['current_price']) ? $_POST['current_price'] : 0,
                 ];
 
                 self::$data = ArticleDAL::update($id, $data);
@@ -135,6 +136,7 @@ class works {
                     'market_price' => isset($_POST['market_price']) ? $_POST['market_price'] : '',
                     'out_link' => isset($_POST['out_link']) ? $_POST['out_link'] : '',
                     'current_price' => isset($_POST['current_price']) ? $_POST['current_price'] : '',
+                    'source_count' => isset($_POST['current_price']) ? $_POST['current_price'] : 0,
                 ];
                 self::$data = ArticleDAL::insert($data);
                 $id = self::$data;

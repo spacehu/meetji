@@ -183,6 +183,14 @@ $article_school = \action\works::$data['article_school'];
                                 <input class="text" name="current_price" type="text" value="<?php echo isset($data['current_price']) ? $data['current_price'] : ''; ?>" />
                             </div>
                         </div>
+                        <div class="leftAlist" >
+                            <span>SOURCE COUNT 资源数量</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <input class="text" name="source_count" type="text" value="<?php echo isset($data['source_count']) ? $data['source_count'] : ''; ?>" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="pathB">
