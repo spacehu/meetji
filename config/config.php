@@ -55,6 +55,7 @@ return $config = [
             'GET /v2/ApiHome-article.htm' => 'v2-ApiHome-article',
             'GET /v2/ApiHome-article_detail.htm' => 'v2-ApiHome-article_detail',
             'POST /v2/ApiHome-saveSingle.htm' => 'v2-ApiHome-saveSingle',
+            'POST /v2/ApiHome-saveComment.htm' => 'v2-ApiHome-saveComment',
             /* user api */
             'POST /v1/ApiAccount-regist.htm' => 'v1-ApiAccount-regist',
             'POST /v1/ApiAccount-login.htm' => 'v1-ApiAccount-login',

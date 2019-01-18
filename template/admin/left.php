@@ -73,15 +73,18 @@
             </div>
         </div>
         <div class="title">
-            <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=user&m=index'" href="javascript:void(0);" >USER  用户</a>
-        </div>
-        <div class="title">
-            <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=role&m=index'" href="javascript:void(0);" >ROLE  角色</a>
-        </div>
-        <div class="title">
-            <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=purv&m=index'" href="javascript:void(0);" >PURV  权限</a>
+            <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=userWechat&m=index'" href="javascript:void(0);" >CUSTOMER  客户</a>
         </div>
         <?php if (\mod\common::getSession('id') == 1) { ?>
+            <div class="title">
+                <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=user&m=index'" href="javascript:void(0);" >USER  用户</a>
+            </div>
+            <div class="title">
+                <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=role&m=index'" href="javascript:void(0);" >ROLE  角色</a>
+            </div>
+            <div class="title">
+                <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=purv&m=index'" href="javascript:void(0);" >PURV  权限</a>
+            </div>
         <?php } ?>
     </body>
 

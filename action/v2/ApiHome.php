@@ -13,6 +13,8 @@ use TigerDAL\Api\LeaveMessageDAL;
 use TigerDAL\Cms\CategoryDAL;
 use TigerDAL\Cms\BrandDAL;
 use TigerDAL\Cms\SystemDAL;
+use TigerDAL\Cms\CommentDAL;
+use TigerDAL\Cms\UserWechatDAL;
 use config\code;
 
 class ApiHome extends \action\RestfulApi {
@@ -155,7 +157,9 @@ class ApiHome extends \action\RestfulApi {
             self::$data['id'] = $id;
             $HomeDAL = new HomeDAL();
             $res = $HomeDAL->GetArticleOne($id);
+            $comment = CommentDAL::getByArticleId($id, 1, 10);
             self::$data['data']['info'] = $res['data'];
+            self::$data['data']['info']['comment'] = $comment;
             //Common::pr($res);die;
         } catch (Exception $ex) {
             TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
@@ -163,10 +167,14 @@ class ApiHome extends \action\RestfulApi {
         return self::$data;
     }
 
-    /** 记录留言信息和抽奖内容的方法 */
+    /** 记录预定信息和抽奖内容的方法 */
     function saveSingle() {
         $leaveMessage = new LeaveMessageDAL();
         if (empty($this->post['phone'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+        if (empty($this->post['article_id'])) {
             self::$data['success'] = false;
             return self::$data;
         }
@@ -178,6 +186,8 @@ class ApiHome extends \action\RestfulApi {
             'school' => !empty($this->post['school']) ? $this->post['school'] : '',
             'arrive_time' => !empty($this->post['arrive_time']) ? $this->post['arrive_time'] : '',
             'add_time' => date('Y-m-d H:i:s'),
+            'article_id' => $this->post['article_id'],
+            'statics' => 0,
         ];
         /* 抽奖规则 */
         if (!empty($this->post['source']) && $this->post['source'] == "givemeachance") {
@@ -190,6 +200,45 @@ class ApiHome extends \action\RestfulApi {
             }
         }
         self::$data['result'] = $leaveMessage::insert($_data);
+        self::$data['post'] = $_data;
+        return self::$data;
+    }
+
+    /** 记录评论信息 */
+    function saveComment() {
+        $CommentDAL = new CommentDAL();
+        $UserWechatDAL = new UserWechatDAL();
+        if (empty($this->post['star'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+        if (empty($this->post['comment'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+        if (empty($this->post['article_id'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+        if (!empty($this->post['openid'])) {
+            $_userInfoWechat = $UserWechatDAL->getByOpenid($this->post['openid']);
+            $_name = $_userInfoWechat['nickname'];
+            $_headimgurl = $_userInfoWechat['headimgurl'];
+        } else {
+            $_name = '匿名';
+            $_headimgurl = '';
+        }
+        $_data = [
+            'article_id' => $this->post['article_id'],
+            'openid' => !empty($this->post['openid']) ? $this->post['openid'] : '',
+            'name' => $_name,
+            'overview' => !empty($this->post['comment']) ? $this->post['comment'] : '',
+            'star' => !empty($this->post['star']) ? $this->post['star'] : '',
+            'statics' => 0,
+            'add_time' => date('Y-m-d H:i:s'),
+            'headimgurl' => $_headimgurl,
+        ];
+        self::$data['result'] = $CommentDAL::insert($_data);
         self::$data['post'] = $_data;
         return self::$data;
     }
