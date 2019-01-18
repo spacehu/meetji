@@ -4,7 +4,7 @@ namespace TigerDAL\Cms;
 
 use TigerDAL\BaseDAL;
 
-class CommentDAL {
+class BookDAL {
 
     /** 获取用户信息列表 */
     public static function getAll($currentPage, $pagesize, $keywords = '') {
@@ -13,9 +13,9 @@ class CommentDAL {
         $limit_end = $pagesize;
         $where = "";
         if (!empty($keywords)) {
-            $where .= " and (name like '%" . $keywords . "%' or overview like '%" . $keywords . "%') ";
+            $where .= " and name like '%" . $keywords . "%' ";
         }
-        $sql = "select * from " . $base->table_name("comment") . " where `status`!=2 " . $where . " order by add_time desc limit " . $limit_start . "," . $limit_end . " ;";
+        $sql = "select * from " . $base->table_name("leave_message") . " where `status`!=2 " . $where . " order by add_time desc limit " . $limit_start . "," . $limit_end . " ;";
         return $base->getFetchAll($sql);
     }
 
@@ -24,16 +24,16 @@ class CommentDAL {
         $base = new BaseDAL();
         $where = "";
         if (!empty($keywords)) {
-            $where .= " and (name like '%" . $keywords . "%' or overview like '%" . $keywords . "%') ";
+            $where .= " and name like '%" . $keywords . "%' ";
         }
-        $sql = "select count(1) as total from " . $base->table_name("comment") . " where `status`!=2 " . $where . " limit 1 ;";
+        $sql = "select count(1) as total from " . $base->table_name("leave_message") . " where `status`!=2 " . $where . " limit 1 ;";
         return $base->getFetchRow($sql)['total'];
     }
 
     /** 获取用户信息 */
     public static function getOne($id) {
         $base = new BaseDAL();
-        $sql = "select * from " . $base->table_name("comment") . " where id=" . $id . "  limit 1 ;";
+        $sql = "select * from " . $base->table_name("leave_message") . " where `status`!=2 and id=" . $id . "  limit 1 ;";
         return $base->getFetchRow($sql);
     }
 
@@ -45,8 +45,7 @@ class CommentDAL {
                 $_data[] = " '" . $v . "' ";
             }
             $set = implode(',', $_data);
-            $sql = "insert into " . $base->table_name('comment') . " values (null," . $set . ");";
-            //echo $sql;die;
+            $sql = "insert into " . $base->table_name('leave_message') . " values (null," . $set . ");";
             return $base->query($sql);
         } else {
             return true;
@@ -61,24 +60,11 @@ class CommentDAL {
                 $_data[] = " `" . $k . "`='" . $v . "' ";
             }
             $set = implode(',', $_data);
-            $sql = "update " . $base->table_name('comment') . " set " . $set . "  where id=" . $id . " ;";
+            $sql = "update " . $base->table_name('brand') . " set " . $set . "  where id=" . $id . " ;";
             return $base->query($sql);
         } else {
             return true;
         }
-    }
-
-    /*     * *************************************************************************** */
-
-    public static function getByArticleId($id, $currentPage, $pagesize) {
-        $base = new BaseDAL();
-        $limit_start = ($currentPage - 1) * $pagesize;
-        $limit_end = $pagesize;
-        $sql = "select * from " . $base->table_name("comment") . " "
-                . "where `status`=1 and `article_id`=" . $id . " "
-                . "order by star desc,add_time desc limit " . $limit_start . "," . $limit_end . " ;";
-        //echo $sql;die;
-        return $base->getFetchAll($sql);
     }
 
 }

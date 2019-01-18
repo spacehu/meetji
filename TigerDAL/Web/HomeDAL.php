@@ -93,7 +93,7 @@ class HomeDAL {
         $limit_start = ($currentPage - 1) * $pagesize;
         $limit_end = $pagesize;
 
-        $sql = "select a.*,i.original_src as src,if(lm.statics=1,count(1),0) as booked_count ";
+        $sql = "select a.*,i.original_src as src,if(lm.status=1,count(1),0) as booked_count ";
         $sql .= $this->GetArticleSql($keywords, $region, $cat, $brand, $age, $subject_category);
         $sql .= "group by a.id "
                 . "order by i.add_time desc,a.add_time desc "
@@ -107,7 +107,7 @@ class HomeDAL {
     public function GetArticleTotal($keywords = '', $region = '', $cat = '', $brand = '', $age = [], $subject_category = '') {
 
         $base = new BaseDAL();
-        $sql = "select count(1) as total ";
+        $sql = "select count(distinct(a.id)) as total ";
         $sql .= $this->GetArticleSql($keywords, $region, $cat, $brand, $age, $subject_category);
         //echo $sql;
         return $base->getFetchRow($sql)['total'];

@@ -187,7 +187,7 @@ class ApiHome extends \action\RestfulApi {
             'arrive_time' => !empty($this->post['arrive_time']) ? $this->post['arrive_time'] : '',
             'add_time' => date('Y-m-d H:i:s'),
             'article_id' => $this->post['article_id'],
-            'statics' => 0,
+            'status' => 0,
         ];
         /* 抽奖规则 */
         if (!empty($this->post['source']) && $this->post['source'] == "givemeachance") {
@@ -234,7 +234,7 @@ class ApiHome extends \action\RestfulApi {
             'name' => $_name,
             'overview' => !empty($this->post['comment']) ? $this->post['comment'] : '',
             'star' => !empty($this->post['star']) ? $this->post['star'] : '',
-            'statics' => 0,
+            'status' => 0,
             'add_time' => date('Y-m-d H:i:s'),
             'headimgurl' => $_headimgurl,
         ];
