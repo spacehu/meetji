@@ -82,6 +82,8 @@ class HomeDAL {
                 . "left join " . $base->table_name("article_image") . " as ai on a.id=ai.article_id "
                 . "left join " . $base->table_name("image") . " as i on ai.image_id=i.id "
                 . "left join " . $base->table_name("leave_message") . " as lm on a.id=lm.article_id "
+                . "left join " . $base->table_name("article_school") . " as `as` on `as`.article_id=a.id "
+                . "left join " . $base->table_name("school") . " as s on `as`.school_id=s.id "
                 . "where a.`delete`=0 and i.`delete`=0 " . $where;
         return $sql;
     }
@@ -93,10 +95,10 @@ class HomeDAL {
         $limit_start = ($currentPage - 1) * $pagesize;
         $limit_end = $pagesize;
 
-        $sql = "select a.*,i.original_src as src,if(lm.status=1,count(1),0) as booked_count ";
+        $sql = "select a.*,i.original_src as src,if(lm.status=1,count(1),0) as booked_count,s.name as school ";
         $sql .= $this->GetArticleSql($keywords, $region, $cat, $brand, $age, $subject_category);
         $sql .= "group by a.id "
-                . "order by i.add_time desc,a.add_time desc "
+                . "order by ai.add_time desc,a.add_time desc "
                 . "limit " . $limit_start . "," . $limit_end . ";";
         //echo $sql;die;
         $data = $base->getFetchAll($sql);
