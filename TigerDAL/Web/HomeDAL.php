@@ -95,7 +95,7 @@ class HomeDAL {
         $limit_start = ($currentPage - 1) * $pagesize;
         $limit_end = $pagesize;
 
-        $sql = "select a.*,i.original_src as src,if(lm.status=1,count(1),0) as booked_count,s.name as school ";
+        $sql = "select a.*,i.original_src as src,if(lm.status=1,count(1),0) as booked_count,if(count(`as`.article_id)>1,'全国',s.region_name) AS school ";
         $sql .= $this->GetArticleSql($keywords, $region, $cat, $brand, $age, $subject_category);
         $sql .= "group by a.id "
                 . "order by ai.add_time desc,a.add_time desc "

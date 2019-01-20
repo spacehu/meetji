@@ -99,7 +99,7 @@ class ApiHome extends \action\RestfulApi {
         try {
             //轮播列表
             $_subjectCategory = SystemDAL::getConfig("subject_category");
-            self::$data['data']['list'] = (array) json_decode($_subjectCategory['value']);
+            self::$data['data']['list'] = array_values((array) json_decode($_subjectCategory['value']));
         } catch (Exception $ex) {
             TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
         }
@@ -129,9 +129,9 @@ class ApiHome extends \action\RestfulApi {
             self::$data['subject_category'] = $subject_category;
 
             $age = [];
-            if (!empty($age_start)) {
+            if (isset($age_start)) {
                 $age[0] = $age_start;
-                if (!empty($age_end)) {
+                if (isset($age_end)) {
                     $age[1] = $age_end;
                 } else {
                     $age[1] = 0;
@@ -139,7 +139,7 @@ class ApiHome extends \action\RestfulApi {
             }
             //奖项列表
             $HomeDAL = new HomeDAL();
-
+            //Common::pr($age);
             $res = $HomeDAL->GetArticle($currentPage, $pagesize, $keywords, $region, $cat, $brand, $age, $subject_category);
             self::$data['data']['total'] = $HomeDAL->GetArticleTotal($keywords, $region, $cat, $brand, $age, $subject_category);
             self::$data['data']['list'] = $res['data'];
