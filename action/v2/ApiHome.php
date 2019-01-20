@@ -115,8 +115,8 @@ class ApiHome extends \action\RestfulApi {
             $region = isset($_GET['region']) ? urldecode($_GET['region']) : '';
             $cat = isset($_GET['cat']) ? urldecode($_GET['cat']) : '';
             $brand = isset($_GET['brand']) ? urldecode($_GET['brand']) : '';
-            $age_start = isset($_GET['age_start']) ? $_GET['age_start'] : '';
-            $age_end = isset($_GET['age_end']) ? $_GET['age_end'] : '';
+            $age_start = isset($_GET['age_start']) ? (int)$_GET['age_start'] : '';
+            $age_end = isset($_GET['age_end']) ? (int)$_GET['age_end'] : '';
             $subject_category = isset($_GET['subject_category']) ? urldecode($_GET['subject_category']) : '';
             self::$data['currentPage'] = $currentPage;
             self::$data['pagesize'] = $pagesize;
