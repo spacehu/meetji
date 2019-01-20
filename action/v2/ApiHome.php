@@ -129,9 +129,9 @@ class ApiHome extends \action\RestfulApi {
             self::$data['subject_category'] = $subject_category;
 
             $age = [];
-            if (isset($age_start)) {
+            if (isset($age_start) && is_int($age_start)) {
                 $age[0] = $age_start;
-                if (isset($age_end)) {
+                if (isset($age_end) && is_int($age_end)) {
                     $age[1] = $age_end;
                 } else {
                     $age[1] = 0;
