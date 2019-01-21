@@ -1,8 +1,7 @@
 <?php
-$class = \action\book::$data['class'];
-$data = \action\book::$data['data'];
-$article = \action\book::$data['article'];
-$school = \action\book::$data['school'];
+$class = \action\comment::$data['class'];
+$data = \action\comment::$data['data'];
+$article = \action\comment::$data['article'];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -16,7 +15,7 @@ $school = \action\book::$data['school'];
         <div class="status r_top">
         </div>
         <div class="content">
-            <form name="theForm" id="demo" action="./index.php?a=<?php echo $class; ?>&m=updateBook&id=<?php echo $data['id']; ?>" method="post" enctype='multipart/form-data'>
+            <form name="theForm" id="demo" action="./index.php?a=<?php echo $class; ?>&m=updateComment&id=<?php echo $data['id']; ?>" method="post" enctype='multipart/form-data'>
                 <div class="pathA ">
                     <div class="leftA">
                         <div class="leftAlist" >
@@ -28,35 +27,19 @@ $school = \action\book::$data['school'];
                             </div>
                         </div>
                         <div class="leftAlist" >
-                            <span>PHONE 手机</span>
+                            <span>COMMENT 评论</span>
                         </div>
                         <div class="leftAlist" >
                             <div class="r_row">
-                                <input class="text" name="phone" type="text" value="<?php echo isset($data['phone']) ? $data['phone'] : ''; ?>" />
+                                <input class="text" name="overview" type="text" value="<?php echo isset($data['overview']) ? $data['overview'] : ''; ?>" />
                             </div>
                         </div>
                         <div class="leftAlist" >
-                            <span>AGE 年龄</span>
+                            <span>STAR 打分</span>
                         </div>
                         <div class="leftAlist" >
                             <div class="r_row">
-                                <input class="text" name="age" type="text" value="<?php echo isset($data['age']) ? $data['age'] : ''; ?>" />
-                            </div>
-                        </div>
-                        <div class="leftAlist" >
-                            <span>SEX 性别</span>
-                        </div>
-                        <div class="leftAlist" >
-                            <div class="r_row">
-                                <input class="text" name="sex" type="text" value="<?php echo isset($data['sex']) ? $data['sex'] : ''; ?>" />
-                            </div>
-                        </div>
-                        <div class="leftAlist" >
-                            <span>ARRIVE TIME 预计抵达时间</span>
-                        </div>
-                        <div class="leftAlist" >
-                            <div class="r_row">
-                                <input class="text" name="arrive_time" type="text" value="<?php echo isset($data['arrive_time']) ? $data['arrive_time'] : ''; ?>" />
+                                <input class="text" name="star" type="text" value="<?php echo isset($data['star']) ? $data['star'] : ''; ?>" />
                             </div>
                         </div>
 
@@ -75,32 +58,19 @@ $school = \action\book::$data['school'];
                         </div>
 
                         <div class="leftAlist" >
-                            <span>SCHOOL 校区</span
-                        </div>
-                        <div class="leftAlist list_image" >
-                            <select name="school">
-                                <option value="0">请选择</option>
-                                <?php if (is_array($school)) { ?>
-                                    <?php foreach ($school as $k => $v) { ?>
-                                        <option value="<?php echo $v['id']; ?>"  <?php echo $data['school'] == $v['id'] ? 'selected' : ''; ?>><?php echo $v['name']; ?></option>
-                                    <?php } ?>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="leftAlist" >
                             <span>STATUS 状态</span>
                         </div>
                         <div class="leftAlist" >
                             <select name="status">
                                 <option value="0" <?php if ($data['status'] == 0) {
                                     echo 'selected';
-                                } ?>>未确认</option>
+                                } ?>>未通过</option>
                                 <option value="1" <?php if ($data['status'] == 1) {
                                     echo 'selected';
-                                } ?>>确认</option>
+                                } ?>>通过</option>
                                 <option value="2" <?php if ($data['status'] == 2) {
                                     echo 'selected';
-                                } ?>>作废</option>
+                                } ?>>不通过</option>
                             </select>
                         </div>
                     </div>

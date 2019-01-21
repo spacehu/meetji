@@ -60,7 +60,8 @@ class BookDAL {
                 $_data[] = " `" . $k . "`='" . $v . "' ";
             }
             $set = implode(',', $_data);
-            $sql = "update " . $base->table_name('brand') . " set " . $set . "  where id=" . $id . " ;";
+            $sql = "update " . $base->table_name('leave_message') . " set " . $set . "  where id=" . $id . " ;";
+            //echo $sql;die;
             return $base->query($sql);
         } else {
             return true;
