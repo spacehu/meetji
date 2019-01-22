@@ -45,14 +45,16 @@ class HomeDAL {
             $_sql = "select `as`.`article_id` as `id` "
                     . "from " . $base->table_name("school") . " as `s` ," . $base->table_name("article_school") . " as `as` "
                     . "where `s`.id=`as`.school_id and `s`.`region_name` like '%" . $region . "%' ";
+            //\mod\common::pr($_sql);die;
             $_region = $base->getFetchAll($_sql);
+            $_arr = [0];
             if (!empty($_region)) {
                 foreach ($_region as $v) {
                     $_arr[] = $v['id'];
                 }
-                $_id = implode(',', $_arr);
-                $where .= " and `a`.id in (" . $_id . ")";
             }
+            $_id = implode(',', $_arr);
+            $where .= " and `a`.id in (" . $_id . ")";
         }
         if (!empty($cat)) {
             $_sql = "select id "
