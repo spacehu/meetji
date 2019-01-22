@@ -44,4 +44,23 @@ class EnumLeoDAL {
         return $res;
     }
 
+    /** 获取模糊地理位置的所有id */
+    public static function GetRegionIdByName($name) {
+        $base = new BaseDAL();
+        $sql = "SELECT if(`rl`.id is not null,`rl`.id,0) as aid,if(rll.id is not null,rll.id,0) as bid "
+                . "FROM  " . $base->table_name("region_leo") . " as rl  "
+                . "left join " . $base->table_name("region_leo") . " as rll on rl.id=rll.pid  "
+                . "WHERE   rl.`name` like '%" . $name . "%' or rll.`name` like '%" . $name . "%';";
+        $obj = $base->getFetchAll($sql);
+        $_arr = [0];
+        if (!empty($obj)) {
+            foreach ($obj as $k => $v) {
+                $_arr[] = $v['aid'];
+                $_arr[] = $v['bid'];
+            }
+        }
+        $res = implode(",", array_unique($_arr));
+        return $res;
+    }
+
 }

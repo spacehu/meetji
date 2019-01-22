@@ -42,9 +42,11 @@ class HomeDAL {
             $where .= " and (`a`.`name` like '%" . $keywords . "%' or `a`.`overview` like '%" . $keywords . "%' or `a`.`tags` like '%" . $keywords . "%') ";
         }
         if (!empty($region)) {
+            //get region_leo id
+            $region_ids = \TigerDAL\Api\EnumLeoDAL::GetRegionIdByName($region);
             $_sql = "select `as`.`article_id` as `id` "
                     . "from " . $base->table_name("school") . " as `s` ," . $base->table_name("article_school") . " as `as` "
-                    . "where `s`.id=`as`.school_id and `s`.`region_name` like '%" . $region . "%' ";
+                    . "where `s`.id=`as`.school_id and `s`.`region_id` in (" . $region_ids . ") ";
             //\mod\common::pr($_sql);die;
             $_region = $base->getFetchAll($_sql);
             $_arr = [0];

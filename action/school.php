@@ -5,7 +5,7 @@ namespace action;
 use mod\common as Common;
 use TigerDAL;
 use TigerDAL\Cms\SchoolDAL;
-use TigerDAL\Api\EnumDAL;
+use TigerDAL\Api\EnumLeoDAL;
 use config\code;
 
 class school {
@@ -44,7 +44,7 @@ class school {
         try {
             if ($id != null) {
                 self::$data['data'] = SchoolDAL::getOne($id);
-                self::$data['region'] = EnumDAL::GetRegionFamily(self::$data['data']['region_id']);
+                self::$data['region'] = EnumLeoDAL::GetRegionFamily(self::$data['data']['region_id']);
             } else {
                 self::$data['data'] = null;
                 self::$data['region'] = [];

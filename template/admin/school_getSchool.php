@@ -43,7 +43,7 @@ $class = \action\school::$data['class'];
                             <select name="tempC" id="tempC">
                                 <option value="0">请选择</option>
                             </select>
-                            <input type="hidden" name="region_id" id="region_id" value="<?php echo isset($data['region_id']) ? $data['region_id'] : ""; ?>" />
+                            <input type="hidden" name="region_id" id="region_id" value="<?php echo isset($data['region_id']) ? $data['region_id'] : 0; ?>" />
                             <input type="hidden" name="region_name" id="region_name" value="<?php echo isset($data['region_name']) ? $data['region_name'] : ""; ?>" />
                         </div>
                         <div class="leftAlist" >
@@ -70,7 +70,7 @@ $class = \action\school::$data['class'];
                     var regionlist;
                     $.ajax({
                         async: false,
-                        url: "./v1/ApiEnum-getRegion.htm?id=" + id,
+                        url: "./v2/ApiEnum-getRegion.htm?id=" + id,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
@@ -104,6 +104,7 @@ $class = \action\school::$data['class'];
                 //click
                 $("#tempA").on('change', function () {
                     $("#tempB").html(mkOption(getRegionList(this.value), 0));
+                    $("#tempC").html(mkOption(getRegionList(0), 0));
                     setRegionInfo(this.value, this.options[this.selectedIndex ].text);
                 });
                 $("#tempB").on('change', function () {
