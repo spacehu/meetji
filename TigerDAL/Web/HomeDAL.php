@@ -99,7 +99,7 @@ class HomeDAL {
         $limit_start = ($currentPage - 1) * $pagesize;
         $limit_end = $pagesize;
 
-        $sql = "select a.*,i.original_src as src,if(lm.status=1,count(1),0) as booked_count,if(count(`as`.article_id)>1,'全国',s.region_name) AS school ";
+        $sql = "select a.*,i.original_src as src,if(lm.status=1,count(1),0) as booked_count,if(count(`as`.article_id)>1,'全国',if(s.region_name<>'请选择',s.region_name,'全国')) AS school ";
         $sql .= $this->GetArticleSql($keywords, $region, $cat, $brand, $age, $subject_category);
         $sql .= "group by a.id "
                 . "order by ai.add_time desc,a.add_time desc "
@@ -129,8 +129,10 @@ class HomeDAL {
                 . "where ai.image_id=i.id and ai.article_id='" . $id . "' order by ai.add_time asc;";
         $_data = $base->getFetchAll($_sql);
         $data['image'] = $_data;
-        $_sql = "select s.* from " . $base->table_name("article_school") . " as `as` ," . $base->table_name("school") . " as s "
+        $_sql = "select s.id,s.name,s.phone,s.region_id,if(s.region_name<>'请选择',s.region_name,'全国') AS region_name,s.address "
+                . "from " . $base->table_name("article_school") . " as `as` ," . $base->table_name("school") . " as s "
                 . "where `as`.school_id=s.id and `as`.article_id='" . $id . "' order by `as`.add_time asc;";
+        //print_r($_sql);die;
         $_data = $base->getFetchAll($_sql);
         $data['school'] = $_data;
         return ['data' => $data];
