@@ -43,25 +43,63 @@ class ApiWeChat extends \action\RestfulApi {
             exit(json_encode($res));
         }
     }
-
-    /** 记录日志 */
-    private function insertStatistics($method) {
-        $access = new AccessDAL();
-        $statistics = new StatisticsDAL();
-        $data = [
-            'ip' => $access->getIP(),
-            'machine' => $access->getOS(),
-            'browser' => $access->getBrowse(),
-            'user_id' => !empty(Common::getSession("user_id")) ? Common::getSession("user_id") : "",
-            'action' => $this->class,
-            'model' => $_GET['m'],
-            'page' => $_GET['m'],
-            'page_url' => $method['HTTP_HOST'] . $method['REQUEST_URI'],
-            'add_time' => date("Y-m-d H:i:s"),
-        ];
-        $statistics->insert($data);
+    
+    
+    /** 获取access_token */
+    function getAccessToken() {
+        self::$data['title'] = "获取AccessToken";
+        self::$data['action'] = $this->class . '_' . __FUNCTION__;
+        try {
+            $this->code = $this->getCode();
+            $this->access_token = $this->getOpenId();
+            LogDAL::saveLog("DEBUG", "INFO", json_encode($this->access_token));
+            $userInfo = $this->getUserInfo();
+            LogDAL::saveLog("DEBUG", "INFO", json_encode($userInfo));
+            self::$data['data'] = [
+                'openid' => $this->access_token['openid'],
+                'access_token' => $this->access_token['access_token'],
+                'nickname' => $userInfo['nickname'],
+                'headimgurl' => $userInfo['headimgurl'],
+            ];
+        } catch (Exception $ex) {
+            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+        }
+        LogDAL::saveLog("DEBUG", "INFO", json_encode(self::$data));
+        return self::$data;
     }
 
+    /** 获取access_token */
+    function getTicket() {
+        self::$data['title'] = "获取JsApiTicket";
+        self::$data['action'] = $this->class . '_' . __FUNCTION__;
+        try {
+            $_token = $this->getToken();
+            LogDAL::saveLog("DEBUG", "INFO", json_encode($_token));
+            $res = $this->getJsApiTicket($_token['access_token']);
+            LogDAL::saveLog("DEBUG", "INFO", json_encode($res));
+            $noncestr = "DSFHAJKHFJKA";
+            $timestamp = time();
+            $url = urldecode($this->get['url']);
+            $string = 'jsapi_ticket=' . $res['ticket'] . '&noncestr=' . $noncestr . '&timestamp=' . $timestamp . '&url=' . $url;
+            $signature = sha1($string);
+            self::$data['data'] = [
+                'ticket' => $res['ticket'],
+                'expires_in' => $res['expires_in'],
+                'access_token' => $_token['access_token'],
+                'noncestr' => $noncestr,
+                'timestamp' => $timestamp,
+                'url' => $url,
+                'signature' => $signature,
+                'string' => $string,
+            ];
+        } catch (Exception $ex) {
+            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+        }
+        LogDAL::saveLog("DEBUG", "INFO", json_encode(self::$data));
+        return self::$data;
+    }
+
+    
     /** 获取授权信息 */
     function getWeChatInfo() {
         try {
@@ -165,6 +203,31 @@ class ApiWeChat extends \action\RestfulApi {
         return $userinfo_array;
     }
 
+    
+    /**
+     * 前端用 获取access_token 用 的 
+     * @param type $access_token
+     * @return type
+     */
+    public function getToken() {
+        $userinfo_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $this->appid . "&secret=" . $this->appsecret . "";
+        $userinfo_json = $this->https_request($userinfo_url);
+        $userinfo_array = json_decode($userinfo_json, TRUE);
+        return $userinfo_array;
+    }
+
+    /**
+     * 前端用 获取ticket 用 的 
+     * @param type $access_token
+     * @return type
+     */
+    public function getJsApiTicket($access_token) {
+        $userinfo_url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" . $access_token . "&type=jsapi";
+        $userinfo_json = $this->https_request($userinfo_url);
+        $userinfo_array = json_decode($userinfo_json, TRUE);
+        return $userinfo_array;
+    }
+    
     /**
      * @explain 
      * 发送http请求，并返回数据 

@@ -69,6 +69,8 @@ return $config = [
             'GET /v1/ApiAccount-point.htm' => 'v1-ApiAccount-point',
             /* wechat api */
             'GET /v2/ApiWeChat-getWeChatInfo.htm' => 'v2-ApiWeChat-getWeChatInfo',
+            'GET /v2/ApiWeChat-getAccessToken.htm' => 'v2-ApiWeChat-getAccessToken',
+            'GET /v2/ApiWeChat-getJsApiTicket.htm' => 'v2-ApiWeChat-getTicket',
             /* applets api */
             'GET /v1/ApiApplets-photo.htm' => 'v1-ApiApplets-photo',
             'POST /v1/ApiApplets-saveWeChatInfo.htm' => 'v1-ApiApplets-saveWeChatInfo',
