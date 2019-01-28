@@ -209,6 +209,7 @@ class ApiWeChat extends \action\RestfulApi {
      */
     public function getToken() {
         $userinfo_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $this->appid . "&secret=" . $this->appsecret . "";
+        LogDAL::saveLog("DEBUG", "INFO", $userinfo_url);
         $userinfo_json = $this->https_request($userinfo_url);
         LogDAL::saveLog("DEBUG", "INFO", $userinfo_json);
         $userinfo_array = json_decode($userinfo_json, TRUE);
