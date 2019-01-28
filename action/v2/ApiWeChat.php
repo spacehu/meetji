@@ -43,8 +43,7 @@ class ApiWeChat extends \action\RestfulApi {
             exit(json_encode($res));
         }
     }
-    
-    
+
     /** 获取access_token */
     function getAccessToken() {
         self::$data['title'] = "获取AccessToken";
@@ -71,6 +70,7 @@ class ApiWeChat extends \action\RestfulApi {
     /** 获取access_token */
     function getTicket() {
         self::$data['title'] = "获取JsApiTicket";
+        LogDAL::saveLog("DEBUG", "INFO", json_encode($this->get));
         self::$data['action'] = $this->class . '_' . __FUNCTION__;
         try {
             $_token = $this->getToken();
@@ -99,7 +99,6 @@ class ApiWeChat extends \action\RestfulApi {
         return self::$data;
     }
 
-    
     /** 获取授权信息 */
     function getWeChatInfo() {
         try {
@@ -203,7 +202,6 @@ class ApiWeChat extends \action\RestfulApi {
         return $userinfo_array;
     }
 
-    
     /**
      * 前端用 获取access_token 用 的 
      * @param type $access_token
@@ -227,7 +225,7 @@ class ApiWeChat extends \action\RestfulApi {
         $userinfo_array = json_decode($userinfo_json, TRUE);
         return $userinfo_array;
     }
-    
+
     /**
      * @explain 
      * 发送http请求，并返回数据 
