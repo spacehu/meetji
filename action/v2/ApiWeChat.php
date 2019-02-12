@@ -163,11 +163,11 @@ class ApiWeChat extends \action\RestfulApi {
             }
         } else {
             $wechat = new WeChatDAL();
-            $result = $wechat->getOpenId($_GET['openid']);
+            $result = $wechat->getOpenId($this->header['openid']);
             self::$data['success'] = true;
             self::$data['data'] = $result;
         }
-        LogDAL::save(json_encode($_GET['openid']));
+        LogDAL::save(json_encode($this->header['openid']));
     }
 
     /**
