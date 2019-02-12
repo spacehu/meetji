@@ -124,9 +124,9 @@ class ApiWeChat extends \action\RestfulApi {
                 return false;
             }
             $this->access_token = $this->getOpenId();
-            //LogDAL::saveLog(json_encode($this->access_token));
+            LogDAL::saveLog("LOG", "INFO", json_encode($this->access_token));
             $userInfo = $this->getUserInfo();
-            //LogDAL::saveLog("LOG", "INFO", json_encode($userInfo));
+            LogDAL::saveLog("LOG", "INFO", json_encode($userInfo));
             if ($userInfo) {
                 $wechat = new WeChatDAL();
                 $result = $wechat->getOpenId($userInfo['openid']);     //根据OPENID查找数据库中是否有这个用户，如果没有就写数据库。继承该类的其他类，用户都写入了数据库中。  
