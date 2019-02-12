@@ -124,9 +124,9 @@ class ApiWeChat extends \action\RestfulApi {
                 return false;
             }
             $this->access_token = $this->getOpenId();
-            LogDAL::saveLog("LOG", "INFO", json_encode($this->access_token));
+            LogDAL::saveLog("DEBUG", "INFO", json_encode($this->access_token));
             $userInfo = $this->getUserInfo();
-            LogDAL::saveLog("LOG", "INFO", json_encode($userInfo));
+            LogDAL::saveLog("DEBUG", "INFO", json_encode($userInfo));
             if ($userInfo) {
                 $wechat = new WeChatDAL();
                 $result = $wechat->getOpenId($userInfo['openid']);     //根据OPENID查找数据库中是否有这个用户，如果没有就写数据库。继承该类的其他类，用户都写入了数据库中。  
@@ -181,6 +181,7 @@ class ApiWeChat extends \action\RestfulApi {
      * */
     public function getOpenId() {
         $access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $this->appid . "&secret=" . $this->appsecret . "&code=" . $this->code . "&grant_type=authorization_code";
+        LogDAL::saveLog("DEBUG", "info", $access_token_url);
         $access_token_json = $this->https_request($access_token_url);
         $access_token_array = json_decode($access_token_json, TRUE);
         return $access_token_array;
@@ -195,8 +196,8 @@ class ApiWeChat extends \action\RestfulApi {
      * access_token每日获取次数是有限制的，access_token有时间限制，可以存储到数据库7200s. 7200s后access_token失效 
      * */
     public function getUserInfo() {
-
         $userinfo_url = "https://api.weixin.qq.com/sns/userinfo?access_token=" . $this->access_token['access_token'] . "&openid=" . $this->access_token['openid'] . "&lang=zh_CN";
+        LogDAL::saveLog("DEBUG", "info", $access_token_url);
         $userinfo_json = $this->https_request($userinfo_url);
         $userinfo_array = json_decode($userinfo_json, TRUE);
         return $userinfo_array;

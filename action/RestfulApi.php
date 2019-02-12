@@ -13,6 +13,7 @@ use TigerDAL\Api\SmsDAL;
 use TigerDAL\AccessDAL;
 use config\code;
 use TigerDAL\Web\StatisticsDAL;
+use TigerDAL\Api\LogDAL;
 
 class RestfulApi {
 
@@ -33,6 +34,7 @@ class RestfulApi {
         $this->insertStatistics($_SERVER);
         if (\mod\init::$config['restful_api']['isopen']) {
             try {
+                LogDAL::save(date("Y-m-d H:i:s") . "-------------------------------------", "DEBUG");
                 if (!empty(\mod\init::$config['restful_api']['path'][$this->_method . ' ' . $this->_path])) {
                     return \mod\init::$config['restful_api']['path'][$this->_method . ' ' . $this->_path];
                 } else {
