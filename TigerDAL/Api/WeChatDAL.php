@@ -34,8 +34,8 @@ class WeChatDAL {
         $base = new BaseDAL();
         if (is_array($data)) {
             foreach ($data as $k => $v) {
-                if ($k == "user_id") {
-                    $_data[] = " " . $v . " ";
+                if (empty($v)) {
+                    $_data[] = " null ";
                 } else {
                     $_data[] = " '" . $v . "' ";
                 }
