@@ -23,6 +23,7 @@ class ApiWeChat extends \action\RestfulApi {
     public $code;
     public $openid;
     private $get;
+    public $header;
 
     /**
      * 主方法引入父类的基类
@@ -35,6 +36,7 @@ class ApiWeChat extends \action\RestfulApi {
         $this->appid = \mod\init::$config['wechat']['appid'];                   //微信APPID，公众平台获取  
         $this->appsecret = \mod\init::$config['wechat']['secret'];              //微信APPSECREC，公众平台获取  
         $this->get = Common::exchangeGet();
+        $this->header = Common::exchangeHeader();
         //$this->index_url = urlencode("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);           //微信回调地址，要跟公众平台的配置域名相同  
         if (!empty($path)) {
             $_path = explode("-", $path);
@@ -121,7 +123,7 @@ class ApiWeChat extends \action\RestfulApi {
      * 再判断是否在数据库中，没有则写入数据库。最后将open_id写入session。  
      */
     public function beforeWeb() {
-        if (empty($_GET['openid'])) {                             //如果$_SESSION中没有openid，说明用户刚刚登陆，就执行getCode、getOpenId、getUserInfo获取他的信息  
+        if (empty($this->header['openid'])) {                             //如果$_SESSION中没有openid，说明用户刚刚登陆，就执行getCode、getOpenId、getUserInfo获取他的信息  
             $this->code = $this->getCode();
             LogDAL::saveLog("DEBUG", "INFO", json_encode($this->code));
             if (self::$data['success'] == false) {

@@ -6,6 +6,13 @@ use TigerDAL\BaseDAL;
 
 class LeaveMessageDAL {
 
+    /** 获取用户信息列表 */
+    public static function getAll($id) {
+        $base = new BaseDAL();
+        $sql = "select * from " . $base->table_name("leave_message") . " where `openid`='" . $id . "' order by add_time desc;";
+        return $base->getFetchAll($sql);
+    }
+
     /** 新增用户信息 */
     public static function insert($data) {
         $base = new BaseDAL();

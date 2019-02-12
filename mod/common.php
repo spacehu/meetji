@@ -272,7 +272,7 @@ class common {
     }
 
     /**
-     * 获取url 参数方法
+     * 获取post 参数方法
      */
     public static function exchangePost() {
         $res = "";
@@ -282,6 +282,30 @@ class common {
             $res = (array) json_decode(file_get_contents('php://input'));
         }
         return $res;
+    }
+
+    /**
+     * 获取post 参数方法
+     */
+    public static function exchangeHeader() {
+        // 忽略获取的header数据
+        $ignore = array('host', 'accept', 'content-length', 'content-type');
+
+        $headers = array();
+
+        foreach ($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) === 'HTTP_') {
+                $key = substr($key, 5);
+                $key = str_replace('_', ' ', $key);
+                $key = str_replace(' ', '-', $key);
+                $key = strtolower($key);
+
+                if (!in_array($key, $ignore)) {
+                    $headers[$key] = $value;
+                }
+            }
+        }
+        return $headers;
     }
 
     /*     * *********************************************** */

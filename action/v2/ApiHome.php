@@ -20,6 +20,7 @@ use config\code;
 class ApiHome extends \action\RestfulApi {
 
     public $post;
+    public $header;
 
     /**
      * 主方法引入父类的基类
@@ -28,6 +29,7 @@ class ApiHome extends \action\RestfulApi {
     function __construct() {
         $path = parent::__construct();
         $this->post = Common::exchangePost();
+        $this->header = Common::exchangeHeader();
         if (!empty($path)) {
             $_path = explode("-", $path);
             $actEval = "\$res = \$this ->" . $_path['2'] . "();";
@@ -171,6 +173,10 @@ class ApiHome extends \action\RestfulApi {
     /** 记录预定信息和抽奖内容的方法 */
     function saveSingle() {
         $leaveMessage = new LeaveMessageDAL();
+        if (empty($this->header['openid'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
         if (empty($this->post['phone'])) {
             self::$data['success'] = false;
             return self::$data;
@@ -189,6 +195,7 @@ class ApiHome extends \action\RestfulApi {
             'add_time' => date('Y-m-d H:i:s'),
             'article_id' => $this->post['article_id'],
             'status' => 0,
+            'openid' => $this->header['openid'],
         ];
         /* 抽奖规则 */
         if (!empty($this->post['source']) && $this->post['source'] == "givemeachance") {
@@ -221,8 +228,8 @@ class ApiHome extends \action\RestfulApi {
             self::$data['success'] = false;
             return self::$data;
         }
-        if (!empty($this->post['openid'])) {
-            $_userInfoWechat = $UserWechatDAL->getByOpenid($this->post['openid']);
+        if (!empty($this->header['openid'])) {
+            $_userInfoWechat = $UserWechatDAL->getByOpenid($this->header['openid']);
             $_name = $_userInfoWechat['nickname'];
             $_headimgurl = $_userInfoWechat['headimgurl'];
         } else {
@@ -231,7 +238,7 @@ class ApiHome extends \action\RestfulApi {
         }
         $_data = [
             'article_id' => $this->post['article_id'],
-            'openid' => !empty($this->post['openid']) ? $this->post['openid'] : '',
+            'openid' => !empty($this->header['openid']) ? $this->header['openid'] : '',
             'name' => $_name,
             'overview' => !empty($this->post['comment']) ? $this->post['comment'] : '',
             'star' => !empty($this->post['star']) ? $this->post['star'] : '',
@@ -241,6 +248,18 @@ class ApiHome extends \action\RestfulApi {
         ];
         self::$data['result'] = $CommentDAL::insert($_data);
         self::$data['post'] = $_data;
+        return self::$data;
+    }
+
+    /** 获取已预定信息 */
+    function getBookedList() {
+        $leaveMessage = new LeaveMessageDAL();
+        if (empty($this->header['openid'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+
+        self::$data['data'] = $leaveMessage::getAll($this->header['openid']);
         return self::$data;
     }
 
