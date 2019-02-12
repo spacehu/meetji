@@ -131,11 +131,11 @@ class ApiWeChat extends \action\RestfulApi {
             LogDAL::saveLog("DEBUG", "INFO", json_encode($this->access_token));
             $userInfo = $this->getUserInfo();
             LogDAL::saveLog("DEBUG", "INFO", json_encode($userInfo));
-            if ($userInfo) {
+            if (!empty($userInfo)) {
                 $wechat = new WeChatDAL();
                 $result = $wechat->getOpenId($userInfo['openid']);     //根据OPENID查找数据库中是否有这个用户，如果没有就写数据库。继承该类的其他类，用户都写入了数据库中。  
                 LogDAL::saveLog("DEBUG", "INFO", json_encode($result));
-                if (!$result) {
+                if (empty($result)) {
                     $_data = [
                         'openid' => $userInfo['openid'],
                         'nickname' => $userInfo['nickname'],
@@ -148,7 +148,7 @@ class ApiWeChat extends \action\RestfulApi {
                         'privilege' => json_encode($userInfo['privilege']),
                         'add_time' => date("Y-m-d H:i:s"),
                         'edit_time' => date("Y-m-d H:i:s"),
-                        'user_id' => !empty(Common::getSession("user_id")) ? Common::getSession("user_id") : null,
+                        'user_id' => !empty(Common::getSession("user_id")) ? Common::getSession("user_id") : "",
                         'phone' => "",
                     ];
                     LogDAL::saveLog("DEBUG", "INFO", json_encode($_data));
