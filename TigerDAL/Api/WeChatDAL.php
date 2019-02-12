@@ -38,7 +38,7 @@ class WeChatDAL {
             }
             $set = implode(',', $_data);
             $sql = "insert into " . $base->table_name('user_info_wechat') . " values (null," . $set . ");";
-            //LogDAL::saveLog("LOG", "INFO", $sql);
+            LogDAL::saveLog("log", "INFO", $sql);
             $base->query($sql);
             return $base->last_insert_id();
         } else {
