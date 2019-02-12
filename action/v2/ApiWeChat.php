@@ -148,7 +148,7 @@ class ApiWeChat extends \action\RestfulApi {
                         'privilege' => json_encode($userInfo['privilege']),
                         'add_time' => date("Y-m-d H:i:s"),
                         'edit_time' => date("Y-m-d H:i:s"),
-                        'user_id' => !empty(Common::getSession("user_id")) ? Common::getSession("user_id") : "",
+                        'user_id' => !empty(Common::getSession("user_id")) ? Common::getSession("user_id") : null,
                         'phone' => "",
                     ];
                     LogDAL::saveLog("DEBUG", "INFO", json_encode($_data));
