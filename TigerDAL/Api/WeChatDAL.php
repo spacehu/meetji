@@ -33,8 +33,12 @@ class WeChatDAL {
     public static function addWeChatUserInfo($data) {
         $base = new BaseDAL();
         if (is_array($data)) {
-            foreach ($data as $v) {
-                $_data[] = " '" . $v . "' ";
+            foreach ($data as $k => $v) {
+                if ($k == "user_id") {
+                    $_data[] = " " . $v . " ";
+                } else {
+                    $_data[] = " '" . $v . "' ";
+                }
             }
             $set = implode(',', $_data);
             $sql = "insert into " . $base->table_name('user_info_wechat') . " values (null," . $set . ");";
