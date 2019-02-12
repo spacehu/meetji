@@ -34,7 +34,7 @@ class RestfulApi {
         $this->insertStatistics($_SERVER);
         if (\mod\init::$config['restful_api']['isopen']) {
             try {
-                LogDAL::save(date("Y-m-d H:i:s") . "-------------------------------------", "DEBUG");
+                LogDAL::save(date("Y-m-d H:i:s") . "-------------------------------------" . $this->_path . "", "DEBUG");
                 if (!empty(\mod\init::$config['restful_api']['path'][$this->_method . ' ' . $this->_path])) {
                     return \mod\init::$config['restful_api']['path'][$this->_method . ' ' . $this->_path];
                 } else {
@@ -51,8 +51,10 @@ class RestfulApi {
             return false;
         }
         //Common::pr($this);
+        LogDAL::_saveLog();
         exit();
     }
+
 
     /** 记录日志 */
     private function insertStatistics($method) {

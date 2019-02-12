@@ -16,11 +16,30 @@ class LogDAL {
     // 文件最大3M
     const maxSize = 3;
 
+    public $_data;
+
     function __construct() {
         
     }
 
     public static function save($str, $filename = 'log') {
+        $this->_data[$filename] .= "\n" . $str;
+    }
+
+    public static function saveLog($level, $info, $keyword) {
+        $str = "[" . $level . "][" . $info . "][" . date("Y-m-d H:i:s") . "]:" . $keyword . "";
+        self::save($str, $level);
+    }
+
+    public static function _saveLog() {
+        if (!empty($this->_data)) {
+            foreach ($this->_data as $k => $v) {
+                self::_save($v, $k);
+            }
+        }
+    }
+
+    public static function _save($str, $filename = 'log') {
         $logPath = $_SERVER['DOCUMENT_ROOT'] . \mod\init::$config['env']['logPath'] . '/';
         if (!is_dir($logPath)) {
             mkdir($logPath, 0777);
@@ -40,13 +59,7 @@ class LogDAL {
                 }
             }
         }
-
         file_put_contents($file, $str . "\n", FILE_APPEND);
-    }
-
-    public static function saveLog($level, $info, $keyword) {
-        $str = "[" . $level . "][" . $info . "][" . date("Y-m-d H:i:s") . "]:" . $keyword . "";
-        self::save($str, $level);
     }
 
 }
