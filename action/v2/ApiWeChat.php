@@ -155,11 +155,12 @@ class ApiWeChat extends \action\RestfulApi {
                     ];
                     LogDAL::saveLog("DEBUG", "INFO", json_encode($_data));
                     $wechat->addWeChatUserInfo($_data);
+                    $result = $_data;
                 }
                 //$_SESSION['openid'] = $userInfo['openid'];         //写到$_SESSION中。微信缓存很坑爹，调试时请及时清除缓存再试。  
                 //self::$data['data'] = 'openid: ' . $userInfo['openid'];
                 self::$data['success'] = true;
-                self::$data['data'] = $_data;
+                self::$data['data'] = $result;
             }
         } else {
             $wechat = new WeChatDAL();
