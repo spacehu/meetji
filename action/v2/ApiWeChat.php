@@ -145,13 +145,21 @@ class ApiWeChat extends \action\RestfulApi {
                         'add_time' => date("Y-m-d H:i:s"),
                         'edit_time' => date("Y-m-d H:i:s"),
                         'user_id' => !empty(Common::getSession("user_id")) ? Common::getSession("user_id") : "",
+                        'phone' => "",
                     ];
                     LogDAL::saveLog("DEBUG", "INFO", json_encode($_data));
                     $wechat->addWeChatUserInfo($_data);
                 }
                 //$_SESSION['openid'] = $userInfo['openid'];         //写到$_SESSION中。微信缓存很坑爹，调试时请及时清除缓存再试。  
-                self::$data['data'] = 'openid: ' . $userInfo['openid'];
+                //self::$data['data'] = 'openid: ' . $userInfo['openid'];
+                self::$data['success'] = true;
+                self::$data['data'] = $_data;
             }
+        } else {
+            $wechat = new WeChatDAL();
+            $result = $wechat->getOpenId($_GET['openid']);
+            self::$data['success'] = true;
+            self::$data['data'] = $result;
         }
         LogDAL::save(json_encode($_GET['openid']));
     }
@@ -181,7 +189,7 @@ class ApiWeChat extends \action\RestfulApi {
      * */
     public function getOpenId() {
         $access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $this->appid . "&secret=" . $this->appsecret . "&code=" . $this->code . "&grant_type=authorization_code";
-        LogDAL::saveLog("DEBUG", "info", $access_token_url);
+        //LogDAL::saveLog("DEBUG", "info", $access_token_url);
         $access_token_json = $this->https_request($access_token_url);
         $access_token_array = json_decode($access_token_json, TRUE);
         return $access_token_array;
@@ -197,7 +205,7 @@ class ApiWeChat extends \action\RestfulApi {
      * */
     public function getUserInfo() {
         $userinfo_url = "https://api.weixin.qq.com/sns/userinfo?access_token=" . $this->access_token['access_token'] . "&openid=" . $this->access_token['openid'] . "&lang=zh_CN";
-        LogDAL::saveLog("DEBUG", "info", $access_token_url);
+        //LogDAL::saveLog("DEBUG", "info", $userinfo_url);
         $userinfo_json = $this->https_request($userinfo_url);
         $userinfo_array = json_decode($userinfo_json, TRUE);
         return $userinfo_array;
