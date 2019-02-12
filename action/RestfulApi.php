@@ -51,10 +51,12 @@ class RestfulApi {
             return false;
         }
         //Common::pr($this);
-        LogDAL::_saveLog();
         exit();
     }
 
+    function __destruct() {
+        LogDAL::_saveLog();
+    }
 
     /** 记录日志 */
     private function insertStatistics($method) {

@@ -40,9 +40,12 @@ class ApiWeChat extends \action\RestfulApi {
             $_path = explode("-", $path);
             $actEval = "\$res = \$this ->" . $_path['2'] . "();";
             eval($actEval);
-            LogDAL::_saveLog();
             exit(json_encode($res));
         }
+    }
+
+    function __destruct() {
+        parent::__destruct();
     }
 
     /** 获取access_token */

@@ -16,14 +16,14 @@ class LogDAL {
     // 文件最大3M
     const maxSize = 3;
 
-    public $_data;
+    public static $_data = ['DEBUG' => "", "log" => ""];
 
     function __construct() {
         
     }
 
     public static function save($str, $filename = 'log') {
-        $this->_data[$filename] .= "\n" . $str;
+        self::$_data[$filename] .= "\n" . $str;
     }
 
     public static function saveLog($level, $info, $keyword) {
@@ -32,8 +32,8 @@ class LogDAL {
     }
 
     public static function _saveLog() {
-        if (!empty($this->_data)) {
-            foreach ($this->_data as $k => $v) {
+        if (!empty(self::$_data)) {
+            foreach (self::$_data as $k => $v) {
                 self::_save($v, $k);
             }
         }
