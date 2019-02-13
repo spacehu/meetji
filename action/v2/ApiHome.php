@@ -261,7 +261,7 @@ class ApiHome extends \action\RestfulApi {
             return self::$data;
         }
         $currentPage = isset($this->get['currentPage']) ? $this->get['currentPage'] : 1;
-        $pagesize = 10;
+        $pagesize = isset($this->get['pagesize']) ? $this->get['pagesize'] : 10;
 
         self::$data['data']['list'] = $leaveMessage::getAll($currentPage, $pagesize, $this->header['openid']);
         self::$data['data']['total'] = $leaveMessage::getTotal($this->header['openid']);
