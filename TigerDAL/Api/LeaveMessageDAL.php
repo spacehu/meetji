@@ -9,7 +9,16 @@ class LeaveMessageDAL {
     /** 获取用户信息列表 */
     public static function getAll($id) {
         $base = new BaseDAL();
-        $sql = "select * from " . $base->table_name("leave_message") . " where `openid`='" . $id . "' order by add_time desc;";
+        $sql = "select lm.*,a.name as subjectName,a.current_price as subjectCurrentPrice,i.original_src as subjectSrc "
+                . "from " . $base->table_name("leave_message") . " as lm "
+                . ", " . $base->table_name("article") . " as a "
+                . ", " . $base->table_name("article_image") . " as ai "
+                . ", " . $base->table_name("image") . " as i "
+                . "where lm.article_id=a.id "
+                . "and a.id=ai.article_id "
+                . "and ai.image_id=i.id "
+                . "and lm.`openid`='" . $id . "' order by lm.add_time desc;";
+        //\mod\common::pr($sql);
         return $base->getFetchAll($sql);
     }
 
