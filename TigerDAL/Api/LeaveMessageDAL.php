@@ -7,7 +7,7 @@ use TigerDAL\BaseDAL;
 class LeaveMessageDAL {
 
     /** 获取用户信息列表 */
-    public static function getAll($id) {
+    public static function getAll($currentPage, $pagesize, $id) {
         $base = new BaseDAL();
         $sql = "select lm.*,a.name as subjectName,a.overview as subjectOverview,a.current_price as subjectCurrentPrice,i.original_src as subjectSrc "
                 . "from " . $base->table_name("leave_message") . " as lm "
@@ -17,9 +17,25 @@ class LeaveMessageDAL {
                 . "where lm.article_id=a.id "
                 . "and a.id=ai.article_id "
                 . "and ai.image_id=i.id "
-                . "and lm.`openid`='" . $id . "' order by lm.add_time desc;";
+                . "and lm.`openid`='" . $id . "' "
+                . "order by lm.add_time desc;";
         //\mod\common::pr($sql);
         return $base->getFetchAll($sql);
+    }
+
+    public static function getTotal($id) {
+        $base = new BaseDAL();
+        $sql = "select count(1) as total "
+                . "from " . $base->table_name("leave_message") . " as lm "
+                . ", " . $base->table_name("article") . " as a "
+                . ", " . $base->table_name("article_image") . " as ai "
+                . ", " . $base->table_name("image") . " as i "
+                . "where lm.article_id=a.id "
+                . "and a.id=ai.article_id "
+                . "and ai.image_id=i.id "
+                . "and lm.`openid`='" . $id . "' ";
+        //\mod\common::pr($sql);
+        return $base->getFetchRow($sql)['total'];
     }
 
     /** 新增用户信息 */

@@ -20,6 +20,7 @@ use config\code;
 class ApiHome extends \action\RestfulApi {
 
     public $post;
+    public $get;
     public $header;
 
     /**
@@ -29,6 +30,7 @@ class ApiHome extends \action\RestfulApi {
     function __construct() {
         $path = parent::__construct();
         $this->post = Common::exchangePost();
+        $this->get = Common::exchangeGet();
         $this->header = Common::exchangeHeader();
         if (!empty($path)) {
             $_path = explode("-", $path);
@@ -258,8 +260,11 @@ class ApiHome extends \action\RestfulApi {
             self::$data['success'] = false;
             return self::$data;
         }
+        $currentPage = isset($this->get['currentPage']) ? $this->get['currentPage'] : 1;
+        $pagesize = 10;
 
-        self::$data['data'] = $leaveMessage::getAll($this->header['openid']);
+        self::$data['data']['list'] = $leaveMessage::getAll($currentPage, $pagesize, $this->header['openid']);
+        self::$data['data']['total'] = $leaveMessage::getTotal($this->header['openid']);
         return self::$data;
     }
 
