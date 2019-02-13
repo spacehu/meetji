@@ -9,7 +9,7 @@ class LeaveMessageDAL {
     /** 获取用户信息列表 */
     public static function getAll($id) {
         $base = new BaseDAL();
-        $sql = "select lm.*,a.name as subjectName,a.current_price as subjectCurrentPrice,i.original_src as subjectSrc "
+        $sql = "select lm.*,a.name as subjectName,a.overview as subjectOverview,a.current_price as subjectCurrentPrice,i.original_src as subjectSrc "
                 . "from " . $base->table_name("leave_message") . " as lm "
                 . ", " . $base->table_name("article") . " as a "
                 . ", " . $base->table_name("article_image") . " as ai "
