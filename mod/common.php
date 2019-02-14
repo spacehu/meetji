@@ -308,6 +308,20 @@ class common {
         return $headers;
     }
 
+    public static function getIP() {
+        global $_SERVER;
+        if (getenv('HTTP_CLIENT_IP')) {
+            $ip = getenv('HTTP_CLIENT_IP');
+        } else if (getenv('HTTP_X_FORWARDED_FOR')) {
+            $ip = getenv('HTTP_X_FORWARDED_FOR');
+        } else if (getenv('REMOTE_ADDR')) {
+            $ip = getenv('REMOTE_ADDR');
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
+    }
+
     /*     * *********************************************** */
 
     function StrLenW($str) {
@@ -361,20 +375,6 @@ class common {
         $cncap .= $chiao . $cent . "整";
         $cncap = preg_replace("/(零)+/", "\\1", $cncap); //合并连续“零”
         return $cncap;
-    }
-
-    function getIP() {
-        global $_SERVER;
-        if (getenv('HTTP_CLIENT_IP')) {
-            $ip = getenv('HTTP_CLIENT_IP');
-        } else if (getenv('HTTP_X_FORWARDED_FOR')) {
-            $ip = getenv('HTTP_X_FORWARDED_FOR');
-        } else if (getenv('REMOTE_ADDR')) {
-            $ip = getenv('REMOTE_ADDR');
-        } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
-        }
-        return $ip;
     }
 
     function week_e_c($obj) {
