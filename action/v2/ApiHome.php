@@ -214,6 +214,7 @@ class ApiHome extends \action\RestfulApi {
             'article_id' => $this->post['article_id'],
             'status' => 0,
             'openid' => $this->header['openid'],
+            'age_range' => !empty($this->post['age_range']) ? $this->post['age_range'] : '',
         ];
         /* 抽奖规则 */
         if (!empty($this->post['source']) && $this->post['source'] == "givemeachance") {
