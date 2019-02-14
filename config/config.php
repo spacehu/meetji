@@ -58,6 +58,7 @@ return $config = [
             'POST /v2/ApiHome-saveComment.htm' => 'v2-ApiHome-saveComment',
             /* user api */
             'GET /v2/ApiHome-getBookedList.htm' => 'v2-ApiHome-getBookedList',
+            'POST /v2/ApiHome-saveUserInfo.htm' => 'v2-ApiHome-saveUserInfo',
             'POST /v1/ApiAccount-regist.htm' => 'v1-ApiAccount-regist',
             'POST /v1/ApiAccount-login.htm' => 'v1-ApiAccount-login',
             /* need token api */

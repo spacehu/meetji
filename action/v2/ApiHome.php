@@ -15,7 +15,7 @@ use TigerDAL\Cms\BrandDAL;
 use TigerDAL\Cms\SystemDAL;
 use TigerDAL\Cms\CommentDAL;
 use TigerDAL\Cms\UserWechatDAL;
-use TigerDAL\Cms\UserDAL;
+use TigerDAL\Cms\UserInfoDAL;
 use config\code;
 
 class ApiHome extends \action\RestfulApi {
@@ -269,35 +269,53 @@ class ApiHome extends \action\RestfulApi {
         return self::$data;
     }
 
-    /** 记录用户信息 */
+    /** 记录用户信息 *//* 用户名，手机号，生日，性别，邮箱 */
     function saveUserInfo() {
-        $leaveMessage = new LeaveMessageDAL();
+        $UserInfoDAL = new UserInfoDAL();
+        $UserWechatDAL = new UserWechatDAL();
         if (empty($this->header['openid'])) {
             self::$data['success'] = false;
             return self::$data;
         }
-        if (empty($this->post['phone'])) {
-            self::$data['success'] = false;
-            return self::$data;
+        $_userWCdata = $UserWechatDAL->getByOpenid($this->header['openid']);
+        $_user = $UserInfoDAL->getOne($_userWCdata['id']);
+        //Common::pr($_user);
+        if (!empty($_user)) {
+            if (!empty($this->post['name'])) {
+                $_data['name'] = $this->post['name'];
+            }
+            if (!empty($this->post['phone'])) {
+                $_data['phone'] = $this->post['phone'];
+            }
+            if (!empty($this->post['brithday'])) {
+                $_data['brithday'] = $this->post['brithday'];
+            }
+            if (!empty($this->post['sex'])) {
+                $_data['sex'] = $this->post['sex'];
+            }
+            if (!empty($this->post['email'])) {
+                $_data['email'] = $this->post['email'];
+            }
+            $res = $UserInfoDAL->updateByUserId($_userWCdata['id'], $_data);
+        } else {
+            $_data = [
+                'name' => !empty($this->post['name']) ? $this->post['name'] : '',
+                'phone' => !empty($this->post['phone']) ? $this->post['phone'] : '',
+                'nickname' => !empty($this->post['nickname']) ? $this->post['nickname'] : '',
+                'photo' => !empty($this->post['photo']) ? $this->post['photo'] : '',
+                'brithday' => !empty($this->post['brithday']) ? $this->post['brithday'] : '',
+                'province' => !empty($this->post['province']) ? $this->post['province'] : '',
+                'city' => !empty($this->post['city']) ? $this->post['city'] : '',
+                'district' => !empty($this->post['district']) ? $this->post['district'] : '',
+                'email' => !empty($this->post['email']) ? $this->post['email'] : '',
+                'sex' => !empty($this->post['sex']) ? $this->post['sex'] : '',
+                'add_time' => date('Y-m-d H:i:s'),
+                'edit_time' => date('Y-m-d H:i:s'),
+                'user_id' => $_userWCdata['id'],
+            ];
+            $res = $UserInfoDAL->insert($_data);
         }
-        if (empty($this->post['article_id'])) {
-            self::$data['success'] = false;
-            return self::$data;
-        }
-        $_data = [
-            'name' => !empty($this->post['name']) ? $this->post['name'] : '',
-            'phone' => $this->post['phone'],
-            'age' => !empty($this->post['age']) ? $this->post['age'] : '',
-            'sex' => !empty($this->post['sex']) ? $this->post['sex'] : '',
-            'school' => !empty($this->post['school']) ? $this->post['school'] : '',
-            'arrive_time' => !empty($this->post['arrive_time']) ? $this->post['arrive_time'] : '',
-            'add_time' => date('Y-m-d H:i:s'),
-            'article_id' => $this->post['article_id'],
-            'status' => 0,
-            'openid' => $this->header['openid'],
-        ];
-        self::$data['result'] = $leaveMessage::insert($_data);
-        self::$data['post'] = $_data;
+        self::$data['result'] = $res;
         return self::$data;
     }
 
