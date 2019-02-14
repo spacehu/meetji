@@ -23,6 +23,7 @@ class LeaveMessageDAL {
         return $base->getFetchAll($sql);
     }
 
+    /** 获取用户信息总数 */
     public static function getTotal($id) {
         $base = new BaseDAL();
         $sql = "select count(1) as total "

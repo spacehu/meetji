@@ -15,6 +15,7 @@ use TigerDAL\Cms\BrandDAL;
 use TigerDAL\Cms\SystemDAL;
 use TigerDAL\Cms\CommentDAL;
 use TigerDAL\Cms\UserWechatDAL;
+use TigerDAL\Cms\UserDAL;
 use config\code;
 
 class ApiHome extends \action\RestfulApi {
@@ -172,6 +173,21 @@ class ApiHome extends \action\RestfulApi {
         return self::$data;
     }
 
+    /** 获取已预定信息 */
+    function getBookedList() {
+        $leaveMessage = new LeaveMessageDAL();
+        if (empty($this->header['openid'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+        $currentPage = isset($this->get['currentPage']) ? $this->get['currentPage'] : 1;
+        $pagesize = isset($this->get['pagesize']) ? $this->get['pagesize'] : 10;
+
+        self::$data['data']['list'] = $leaveMessage::getAll($currentPage, $pagesize, $this->header['openid']);
+        self::$data['data']['total'] = $leaveMessage::getTotal($this->header['openid']);
+        return self::$data;
+    }
+
     /** 记录预定信息和抽奖内容的方法 */
     function saveSingle() {
         $leaveMessage = new LeaveMessageDAL();
@@ -253,18 +269,35 @@ class ApiHome extends \action\RestfulApi {
         return self::$data;
     }
 
-    /** 获取已预定信息 */
-    function getBookedList() {
+    /** 记录用户信息 */
+    function saveUserInfo() {
         $leaveMessage = new LeaveMessageDAL();
         if (empty($this->header['openid'])) {
             self::$data['success'] = false;
             return self::$data;
         }
-        $currentPage = isset($this->get['currentPage']) ? $this->get['currentPage'] : 1;
-        $pagesize = isset($this->get['pagesize']) ? $this->get['pagesize'] : 10;
-
-        self::$data['data']['list'] = $leaveMessage::getAll($currentPage, $pagesize, $this->header['openid']);
-        self::$data['data']['total'] = $leaveMessage::getTotal($this->header['openid']);
+        if (empty($this->post['phone'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+        if (empty($this->post['article_id'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+        $_data = [
+            'name' => !empty($this->post['name']) ? $this->post['name'] : '',
+            'phone' => $this->post['phone'],
+            'age' => !empty($this->post['age']) ? $this->post['age'] : '',
+            'sex' => !empty($this->post['sex']) ? $this->post['sex'] : '',
+            'school' => !empty($this->post['school']) ? $this->post['school'] : '',
+            'arrive_time' => !empty($this->post['arrive_time']) ? $this->post['arrive_time'] : '',
+            'add_time' => date('Y-m-d H:i:s'),
+            'article_id' => $this->post['article_id'],
+            'status' => 0,
+            'openid' => $this->header['openid'],
+        ];
+        self::$data['result'] = $leaveMessage::insert($_data);
+        self::$data['post'] = $_data;
         return self::$data;
     }
 
