@@ -206,7 +206,7 @@ class ApiHome extends \action\RestfulApi {
         $_data = [
             'name' => !empty($this->post['name']) ? $this->post['name'] : '',
             'phone' => $this->post['phone'],
-            'age' => !empty($this->post['age']) ? $this->post['age'] : '',
+            'age' => !empty($this->post['age']) ? $this->post['age'] : 0,
             'sex' => !empty($this->post['sex']) ? $this->post['sex'] : '',
             'school' => !empty($this->post['school']) ? $this->post['school'] : '',
             'arrive_time' => !empty($this->post['arrive_time']) ? $this->post['arrive_time'] : '',
