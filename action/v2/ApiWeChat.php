@@ -11,6 +11,7 @@ use mod\common as Common;
 use TigerDAL\Web\StatisticsDAL;
 use TigerDAL\AccessDAL;
 use TigerDAL\Api\WeChatDAL;
+use TigerDAL\Cms\UserInfoDAL;
 use TigerDAL\Api\LogDAL;
 use config\code;
 
@@ -123,6 +124,9 @@ class ApiWeChat extends \action\RestfulApi {
      * 再判断是否在数据库中，没有则写入数据库。最后将open_id写入session。  
      */
     public function beforeWeb() {
+        /** 初始化本地数据 */
+        $wechat = new WeChatDAL();
+        $UserInfoDAL = new UserInfoDAL();
         if (empty($this->header['openid'])) {                             //如果$_SESSION中没有openid，说明用户刚刚登陆，就执行getCode、getOpenId、getUserInfo获取他的信息  
             $this->code = $this->getCode();
             LogDAL::saveLog("DEBUG", "INFO", json_encode($this->code));
@@ -134,7 +138,6 @@ class ApiWeChat extends \action\RestfulApi {
             $userInfo = $this->getUserInfo();
             LogDAL::saveLog("DEBUG", "INFO", json_encode($userInfo));
             if (!empty($userInfo) && !empty($userInfo['openid'])) {
-                $wechat = new WeChatDAL();
                 $result = $wechat->getOpenId($userInfo['openid']);     //根据OPENID查找数据库中是否有这个用户，如果没有就写数据库。继承该类的其他类，用户都写入了数据库中。  
                 LogDAL::saveLog("DEBUG", "INFO", json_encode($result));
                 if (empty($result)) {
@@ -155,25 +158,37 @@ class ApiWeChat extends \action\RestfulApi {
                     ];
                     LogDAL::saveLog("DEBUG", "INFO", json_encode($_data));
                     $wechat->addWeChatUserInfo($_data);
-                    $result = $_data;
                 }
                 //$_SESSION['openid'] = $userInfo['openid'];         //写到$_SESSION中。微信缓存很坑爹，调试时请及时清除缓存再试。  
                 //self::$data['data'] = 'openid: ' . $userInfo['openid'];
-                self::$data['success'] = true;
-                self::$data['data'] = $result;
+                $openid = $userInfo['openid'];
             } else {
+                /** 微信返回错误 */
                 self::$data['success'] = false;
                 self::$data['data']['code'] = $this->access_token;
                 self::$data['data']['userError'] = $userInfo;
                 return false;
             }
         } else {
-            $wechat = new WeChatDAL();
-            $result = $wechat->getOpenId($this->header['openid']);
-            self::$data['success'] = true;
-            self::$data['data'] = $result;
+            $openid = $this->header['openid'];
         }
-        LogDAL::save(json_encode($this->header['openid']));
+
+        $result = $wechat->getOpenId($openid);
+
+        $_res = $UserInfoDAL->getByUserIdOne($result['id']);
+        if (!empty($_res)) {
+            $result['nickname'] = $_res['name'];
+            $result['phone'] = $_res['phone'];
+            $result['brithday'] = $_res['brithday'];
+            $result['sex'] = $_res['sex'];
+            $result['email'] = $_res['email'];
+        } else {
+            $result['brithday'] = '';
+            $result['email'] = '';
+        }
+        self::$data['success'] = true;
+        self::$data['data'] = $result;
+        LogDAL::save(json_encode($openid));
     }
 
     /**
