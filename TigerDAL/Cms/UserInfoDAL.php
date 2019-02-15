@@ -37,6 +37,13 @@ class UserInfoDAL {
         return $base->getFetchRow($sql);
     }
 
+    /** 获取用户信息 */
+    public static function getByUserIdOne($id) {
+        $base = new BaseDAL();
+        $sql = "select * from " . $base->table_name("user_info") . " where user_id=" . $id . "  limit 1 ;";
+        return $base->getFetchRow($sql);
+    }
+
     /** 新增用户信息 */
     public static function insert($data) {
         $base = new BaseDAL();
@@ -81,4 +88,5 @@ class UserInfoDAL {
             return true;
         }
     }
+
 }

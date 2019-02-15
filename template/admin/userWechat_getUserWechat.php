@@ -11,6 +11,7 @@ $data = \action\userWechat::$data['data'];
 
     <body>
         <div class="status r_top">
+            <p>微信信息</p>
         </div>
         <div class="content">
             <div class="pathA ">
@@ -77,6 +78,55 @@ $data = \action\userWechat::$data['data'];
                     <div class="leftAlist" >
                         <div class="r_row">
                             <?php echo isset($data['phone']) ? $data['phone'] : ''; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="status r_top">
+            <p>用户信息</p>
+        </div>
+        <div class="content">
+            <div class="pathA ">
+                <div class="leftA">
+                    <div class="leftAlist" >
+                        <span>NAME 姓名</span>
+                    </div>
+                    <div class="leftAlist" >
+                        <div class="r_row">
+                            <?php echo isset($data['subinfo']['name']) ? $data['subinfo']['name'] : ''; ?>
+                        </div>
+                    </div>
+                    <div class="leftAlist" >
+                        <span>PHONE 手机</span>
+                    </div>
+                    <div class="leftAlist" >
+                        <div class="r_row">
+                            <?php echo isset($data['subinfo']['phone']) ? $data['subinfo']['phone'] : ''; ?>
+                        </div>
+                    </div>
+                    <div class="leftAlist" >
+                        <span>BRITHDAY 生日</span>
+                    </div>
+                    <div class="leftAlist" >
+                        <div class="r_row">
+                            <?php echo isset($data['subinfo']['brithday']) ? $data['subinfo']['brithday'] : ''; ?>
+                        </div>
+                    </div>
+                    <div class="leftAlist" >
+                        <span>SEX 性别</span>
+                    </div>
+                    <div class="leftAlist" >
+                        <div class="r_row">
+                            <?php echo isset($data['subinfo']['sex']) ? $data['subinfo']['sex'] : ''; ?>
+                        </div>
+                    </div>
+                    <div class="leftAlist" >
+                        <span>EMAIL 电子邮件地址</span>
+                    </div>
+                    <div class="leftAlist" >
+                        <div class="r_row">
+                            <?php echo isset($data['subinfo']['email']) ? $data['subinfo']['email'] : ''; ?>
                         </div>
                     </div>
                 </div>

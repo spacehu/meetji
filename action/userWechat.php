@@ -5,6 +5,7 @@ namespace action;
 use mod\common as Common;
 use TigerDAL;
 use TigerDAL\Cms\UserWechatDAL;
+use TigerDAL\Cms\UserInfoDAL;
 use config\code;
 
 class userWechat {
@@ -43,7 +44,11 @@ class userWechat {
         $id = isset($_GET['id']) ? $_GET['id'] : null;
         try {
             if ($id != null) {
-                self::$data['data'] = UserWechatDAL::getOne($id);
+                $res = UserWechatDAL::getOne($id);
+                self::$data['data'] = $res;
+                if (!empty($res)) {
+                    self::$data['data']['subinfo'] = UserInfoDAL::getByUserIdOne($id);
+                }
             } else {
                 self::$data['data'] = null;
             }

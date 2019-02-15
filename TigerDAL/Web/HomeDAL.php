@@ -126,7 +126,7 @@ class HomeDAL {
         $sql = "select * from " . $base->table_name("article") . "  where`delete`=0 and `id`='" . $id . "';";
         $data = $base->getFetchRow($sql);
         $_sql = "select i.* from " . $base->table_name("article_image") . " as ai ," . $base->table_name("image") . " as i "
-                . "where ai.image_id=i.id and ai.article_id='" . $id . "' order by ai.add_time asc;";
+                . "where ai.image_id=i.id and ai.article_id='" . $id . "' order by ai.add_time asc limit 1,99;";
         $_data = $base->getFetchAll($_sql);
         $data['image'] = $_data;
         $_sql = "select s.id,s.name,s.phone,s.region_id,if(s.region_name<>'请选择',s.region_name,'全国') AS region_name,s.address "
