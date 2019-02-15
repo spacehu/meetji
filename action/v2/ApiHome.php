@@ -191,10 +191,6 @@ class ApiHome extends \action\RestfulApi {
     /** 记录预定信息和抽奖内容的方法 */
     function saveSingle() {
         $leaveMessage = new LeaveMessageDAL();
-        if (empty($this->header['openid'])) {
-            self::$data['success'] = false;
-            return self::$data;
-        }
         if (empty($this->post['phone'])) {
             self::$data['success'] = false;
             return self::$data;
@@ -213,7 +209,7 @@ class ApiHome extends \action\RestfulApi {
             'add_time' => date('Y-m-d H:i:s'),
             'article_id' => $this->post['article_id'],
             'status' => 0,
-            'openid' => $this->header['openid'],
+            'openid' => !empty($this->header['openid']) ? $this->header['openid'] : '',
             'age_range' => !empty($this->post['age_range']) ? $this->post['age_range'] : '',
         ];
         /* 抽奖规则 */
