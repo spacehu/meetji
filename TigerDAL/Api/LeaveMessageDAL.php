@@ -9,6 +9,8 @@ class LeaveMessageDAL {
     /** 获取用户信息列表 */
     public static function getAll($currentPage, $pagesize, $id) {
         $base = new BaseDAL();
+        $limit_start = ($currentPage - 1) * $pagesize;
+        $limit_end = $pagesize;
         $sql = "select lm.*,a.name as subjectName,a.overview as subjectOverview,a.current_price as subjectCurrentPrice,i.original_src as subjectSrc "
                 . "from " . $base->table_name("leave_message") . " as lm "
                 . ", " . $base->table_name("article") . " as a "
@@ -18,7 +20,8 @@ class LeaveMessageDAL {
                 . "and a.id=ai.article_id "
                 . "and ai.image_id=i.id "
                 . "and lm.`openid`='" . $id . "' "
-                . "order by lm.add_time desc;";
+                . "order by lm.add_time desc "
+                . "limit " . $limit_start . "," . $limit_end . " ;";
         //\mod\common::pr($sql);
         return $base->getFetchAll($sql);
     }

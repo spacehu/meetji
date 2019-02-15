@@ -44,6 +44,14 @@ $school = \action\book::$data['school'];
                             </div>
                         </div>
                         <div class="leftAlist" >
+                            <span>AGE RANGE 年龄段</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <?php echo isset($data['age_range']) ? $data['age_range'] : ''; ?>
+                            </div>
+                        </div>
+                        <div class="leftAlist" >
                             <span>SEX 性别</span>
                         </div>
                         <div class="leftAlist" >
@@ -92,15 +100,21 @@ $school = \action\book::$data['school'];
                         </div>
                         <div class="leftAlist" >
                             <select name="status">
-                                <option value="0" <?php if ($data['status'] == 0) {
+                                <option value="0" <?php
+                                if ($data['status'] == 0) {
                                     echo 'selected';
-                                } ?>>未确认</option>
-                                <option value="1" <?php if ($data['status'] == 1) {
+                                }
+                                ?>>未确认</option>
+                                <option value="1" <?php
+                                if ($data['status'] == 1) {
                                     echo 'selected';
-                                } ?>>确认</option>
-                                <option value="2" <?php if ($data['status'] == 2) {
-                                    echo 'selected';
-                                } ?>>作废</option>
+                                }
+                                ?>>确认</option>
+                                <option value="2" <?php
+                                        if ($data['status'] == 2) {
+                                            echo 'selected';
+                                        }
+                                ?>>作废</option>
                             </select>
                         </div>
                     </div>
