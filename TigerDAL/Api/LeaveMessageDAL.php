@@ -42,7 +42,7 @@ class LeaveMessageDAL {
 //                . "and ai.image_id=i.id "
 //                . "GROUP BY lm.id "
                 . "";
-        \mod\common::pr($sql);
+        //\mod\common::pr($sql);
         return $base->getFetchRow($sql)['total'];
     }
 
