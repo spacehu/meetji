@@ -275,7 +275,7 @@ class ApiHome extends \action\RestfulApi {
             return self::$data;
         }
         $_userWCdata = $UserWechatDAL->getByOpenid($this->header['openid']);
-        $_user = $UserInfoDAL->getOne($_userWCdata['id']);
+        $_user = $UserInfoDAL->getByUserIdOne($_userWCdata['id']);
         //Common::pr($_user);
         if (!empty($_user)) {
             if (!empty($this->post['name'])) {

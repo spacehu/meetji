@@ -111,9 +111,9 @@ $school = \action\book::$data['school'];
                                 }
                                 ?>>确认</option>
                                 <option value="2" <?php
-                                        if ($data['status'] == 2) {
-                                            echo 'selected';
-                                        }
+                                if ($data['status'] == 2) {
+                                    echo 'selected';
+                                }
                                 ?>>作废</option>
                             </select>
                         </div>

@@ -68,4 +68,23 @@ class BookDAL {
         }
     }
 
+    public static function getAllByDate($_startdate, $_enddate) {
+        $base = new BaseDAL();
+        $where = "";
+        if (!empty($_startdate)) {
+            $where .= " and lm.add_time >= '" . $_startdate . " 00:00:00' ";
+        }
+        if (!empty($_enddate)) {
+            $where .= " and lm.add_time <= '" . $_enddate . " 23:59:59' ";
+        }
+        $sql = "select lm.name,lm.phone,a.name as subjectName,s.name as schoolRegion,lm.sex,lm.age_range,lm.add_time,lm.arrive_time "
+                . "from " . $base->table_name("leave_message") . " as lm "
+                . "left join " . $base->table_name("article") . " as a on lm.article_id=a.id "
+                . "left join " . $base->table_name("school") . " as s on lm.school=s.id "
+                . "where lm.`status`!=2 " . $where . " "
+                . "order by lm.add_time desc;";
+        //\mod\common::pr($sql);
+        return $base->getFetchAll($sql);
+    }
+
 }

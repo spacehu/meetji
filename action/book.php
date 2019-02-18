@@ -97,4 +97,43 @@ class book {
         }
     }
 
+    function export() {
+        Common::isset_cookie();
+        Common::writeSession($_SERVER['REQUEST_URI'], $this->class);
+        try {
+            $_startdate = isset($_GET['startdate']) ? $_GET['startdate'] : date("Y-m-d", strtotime("-1 day"));
+            $_enddate = isset($_GET['enddate']) ? $_GET['enddate'] : date("Y-m-d", strtotime("-1 day"));
+
+            $_data = BookDAL::getAllByDate($_startdate, $_enddate);
+            //Common::pr($_data);
+            //$header_data = ["姓名", "电话", "预约课程", "所属区域", "性别", "年龄", "创建时间", "可预约时间"];
+            $header_data = ["姓名", "电话", "所属区域"];
+            $this->export_csv_1($_data, $header_data, "export_".date("YmdHis").".csv");
+        } catch (Exception $ex) {
+            TigerDAL\CatchDAL::markError(code::$code[code::WORKS_INDEX], code::WORKS_INDEX, json_encode($ex));
+        }
+    }
+
+    /**
+     * 导出CSV文件
+     * @param array $data        数据
+     * @param array $header_data 首行数据
+     * @param string $file_name  文件名称
+     * @return string
+     */
+    public function export_csv_1($data = [], $header_data = [], $file_name = '') {
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . $file_name);
+        if (!empty($header_data)) {
+            echo iconv('utf-8', 'gbk//TRANSLIT', '"' . implode('","', $header_data) . '"' . "\n");
+        }
+        foreach ($data as $key => $value) {
+            $output = array();
+            $output[] = $value['name'];
+            $output[] = $value['phone'];
+            $output[] = $value['schoolRegion'];
+            echo iconv('utf-8', 'gbk//TRANSLIT', '"' . implode('","', $output) . "\"\n");
+        }
+    }
+
 }
