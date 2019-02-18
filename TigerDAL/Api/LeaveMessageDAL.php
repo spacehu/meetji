@@ -20,6 +20,7 @@ class LeaveMessageDAL {
                 . "and a.id=ai.article_id "
                 . "and ai.image_id=i.id "
                 . "and lm.`openid`='" . $id . "' "
+                . "GROUP BY lm.id "
                 . "order by lm.add_time desc "
                 . "limit " . $limit_start . "," . $limit_end . " ;";
         //\mod\common::pr($sql);
@@ -37,7 +38,8 @@ class LeaveMessageDAL {
                 . "where lm.article_id=a.id "
                 . "and a.id=ai.article_id "
                 . "and ai.image_id=i.id "
-                . "and lm.`openid`='" . $id . "' ";
+                . "and lm.`openid`='" . $id . "' "
+                . "GROUP BY lm.id ";
         //\mod\common::pr($sql);
         return $base->getFetchRow($sql)['total'];
     }
