@@ -18,6 +18,11 @@ $article_school = \action\works::$data['article_school'];
         <script type="text/javascript" src="lib/uEditor/ueditor.config.js"></script>
         <!-- 编辑器源码文件 -->
         <script type="text/javascript" src="lib/uEditor/ueditor.all.js"></script>
+        <!-- 日历插件 -->
+        <link rel="stylesheet" href="./css/mobileSelect.css" />
+        <script type="text/javascript" src="./js/mobileSelect.js"></script>
+        <script type="text/javascript" src="./js/selectDate.js"></script>
+        <!-- 日历插件 end -->
         <title>无标题文档</title>
     </head>
 
@@ -154,9 +159,9 @@ $article_school = \action\works::$data['article_school'];
                         </div>
                         <div class="leftAlist" >
                             <div class="r_row">
-                                <input class="text day" name="start_time" type="text" value="<?php echo isset($data['start_time']) ? $data['start_time'] : ''; ?>" />
+                                <input class="text day" name="start_time" type="text" id="select_0" value="<?php echo isset($data['start_time']) ? $data['start_time'] : date("Y-m-d", strtotime("+1 day")); ?>" />
                                 -
-                                <input class="text day" name="end_time" type="text" value="<?php echo isset($data['end_time']) ? $data['end_time'] : ''; ?>" />
+                                <input class="text day" name="end_time" type="text" id="select_1" value="<?php echo isset($data['end_time']) ? $data['end_time'] : date("Y-m-d", strtotime("+1 day")); ?>" />
                             </div>
                         </div>
                         <div class="leftAlist" >
@@ -228,6 +233,8 @@ $article_school = \action\works::$data['article_school'];
                 $(".add_school").click(function () {
                     $(".mod_school").children().clone().appendTo('.list_school');
                 });
+                $.selectYY_MM_DD("#select_0");
+                $.selectYY_MM_DD("#select_1");
             });
             /** ueditor ***/
             var ue = UE.getEditor('container');
