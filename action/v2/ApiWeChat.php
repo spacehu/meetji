@@ -13,6 +13,7 @@ use TigerDAL\AccessDAL;
 use TigerDAL\Api\WeChatDAL;
 use TigerDAL\Cms\UserInfoDAL;
 use TigerDAL\Api\LogDAL;
+use TigerDAL\Cms\SystemDAL;
 use config\code;
 
 class ApiWeChat extends \action\RestfulApi {
@@ -80,17 +81,22 @@ class ApiWeChat extends \action\RestfulApi {
         LogDAL::saveLog("DEBUG", "INFO", json_encode($this->get));
         self::$data['action'] = $this->class . '_' . __FUNCTION__;
         try {
-            $_token = $this->getToken();
-            LogDAL::saveLog("DEBUG", "INFO", json_encode($_token));
-            $res = $this->getJsApiTicket($_token['access_token']);
-            LogDAL::saveLog("DEBUG", "INFO", json_encode($res));
+            /* 判断是否有没过期的ticket 有的话 直接拿出来用 */
+            $_ticket = SystemDAL::getConfigWithTime("js_ticket", 7200);
+            if (empty($_ticket)) {
+                $_token = $this->getToken();
+                LogDAL::saveLog("DEBUG", "INFO", json_encode($_token));
+                $res = $this->getJsApiTicket($_token['access_token']);
+                LogDAL::saveLog("DEBUG", "INFO", json_encode($res));
+                $_ticket = $res['ticket'];
+            }
             $noncestr = "DSFHAJKHFJKA";
             $timestamp = time();
             $url = urldecode($this->get['url']);
-            $string = 'jsapi_ticket=' . $res['ticket'] . '&noncestr=' . $noncestr . '&timestamp=' . $timestamp . '&url=' . $url;
+            $string = 'jsapi_ticket=' . $_ticket . '&noncestr=' . $noncestr . '&timestamp=' . $timestamp . '&url=' . $url;
             $signature = sha1($string);
             self::$data['data'] = [
-                'ticket' => $res['ticket'],
+                'ticket' => $_ticket,
                 'expires_in' => $res['expires_in'],
                 'access_token' => $_token['access_token'],
                 'noncestr' => $noncestr,

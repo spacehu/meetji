@@ -54,4 +54,13 @@ class SystemDAL {
         return $res;
     }
 
+    public static function getConfigWithTime($key, $_time = null) {
+        $res = null;
+        $_data = self::getConfig($key);
+        if ($_time != null && !empty($_data)) {
+            $res = (strtotime($_data['edit_time']) + $_time < strtotime("now")) ? null : $_data['value'];
+        }
+        return $res;
+    }
+
 }
