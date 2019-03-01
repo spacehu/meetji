@@ -103,12 +103,13 @@ class book {
         try {
             $_startdate = isset($_GET['startdate']) ? $_GET['startdate'] : date("Y-m-d", strtotime("-1 day"));
             $_enddate = isset($_GET['enddate']) ? $_GET['enddate'] : date("Y-m-d", strtotime("-1 day"));
+            $_keywords = isset($_GET['keywords']) ? $_GET['keywords'] : null;
 
             $_data = BookDAL::getAllByDate($_startdate, $_enddate);
             //Common::pr($_data);
             //$header_data = ["姓名", "电话", "预约课程", "所属区域", "性别", "年龄", "创建时间", "可预约时间"];
-            $header_data = ["姓名", "电话", "所属区域"];
-            $this->export_csv_1($_data, $header_data, "export_".date("YmdHis").".csv");
+            $header_data = ["姓名", "邮箱", "手机号码", "性别", "年龄段", "预约课程", "预约时间", "城市", "校区"];
+            $this->export_csv_1($_data, $header_data, "export_" . date("YmdHis") . ".csv");
         } catch (Exception $ex) {
             TigerDAL\CatchDAL::markError(code::$code[code::WORKS_INDEX], code::WORKS_INDEX, json_encode($ex));
         }
@@ -130,8 +131,14 @@ class book {
         foreach ($data as $key => $value) {
             $output = array();
             $output[] = $value['name'];
+            $output[] = $value['email'];
             $output[] = $value['phone'];
+            $output[] = $value['sex'];
+            $output[] = $value['age_range'];
+            $output[] = $value['subjectName'];
+            $output[] = $value['arrive_time'];
             $output[] = $value['schoolRegion'];
+            $output[] = $value['schoolName'];
             echo iconv('utf-8', 'gbk//TRANSLIT', '"' . implode('","', $output) . "\"\n");
         }
     }

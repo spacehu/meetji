@@ -211,6 +211,8 @@ class ApiHome extends \action\RestfulApi {
             'status' => 0,
             'openid' => !empty($this->header['openid']) ? $this->header['openid'] : '',
             'age_range' => !empty($this->post['age_range']) ? $this->post['age_range'] : '',
+            'email' => !empty($this->post['email']) ? $this->post['email'] : '',
+            'channel_code' => !empty($this->post['channel_code']) ? $this->post['channel_code'] : '',
         ];
         /* 抽奖规则 */
         if (!empty($this->post['source']) && $this->post['source'] == "givemeachance") {

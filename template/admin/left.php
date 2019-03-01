@@ -41,6 +41,9 @@
                 <div class="title">
                     <a class="second" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=material&m=index&type=image'" href="javascript:void(0);" >IMAGE 图片素材</a>
                 </div>
+                <div class="title">
+                    <a class="second" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=channel&m=index'" href="javascript:void(0);" >CHANNEL 渠道</a>
+                </div>
             </div>
         </div>
         <div class="title">
