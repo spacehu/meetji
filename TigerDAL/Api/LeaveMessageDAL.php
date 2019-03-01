@@ -116,4 +116,41 @@ class LeaveMessageDAL {
         }
     }
 
+    public static function getHelp($lm_id) {
+        $base = new BaseDAL();
+        $sql = "select * from " . $base->table_name("leave_message") . " where id=" . $lm_id . "  limit 1 ;";
+        $res = $base->getFetchRow($sql);
+        $sql = "select * from " . $base->table_name("leave_message_help") . " where lm_id=" . $lm_id . "  limit 1 ;";
+        $res['help'] = $base->getFetchRow($sql);
+        $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid=" . $res['help']['openid'] . "  limit 1 ;";
+        $res['help']['list'][0] = $base->getFetchRow($sql);
+        $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid=" . $res['help']['help_openid1'] . "  limit 1 ;";
+        $row = $base->getFetchRow($sql);
+        if (!empty($row)) {
+            $res['help']['list'][] = $row;
+        }
+        $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid=" . $res['help']['help_openid2'] . "  limit 1 ;";
+        $row = $base->getFetchRow($sql);
+        if (!empty($row)) {
+            $res['help']['list'][] = $row;
+        }
+        $res['help']['total'] = count($res['help']['list']);
+        return $res;
+    }
+
+    /** 更新用户信息 */
+    public static function updateHelp($id, $data) {
+        $base = new BaseDAL();
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $_data[] = " `" . $k . "`='" . $v . "' ";
+            }
+            $set = implode(',', $_data);
+            $sql = "update " . $base->table_name('leave_message_help') . " set " . $set . "  where lm_id=" . $id . " ;";
+            return $base->query($sql);
+        } else {
+            return true;
+        }
+    }
+
 }

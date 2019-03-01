@@ -187,8 +187,15 @@ class ApiHome extends \action\RestfulApi {
         self::$data['data']['total'] = $leaveMessage::getTotal($this->header['openid']);
         return self::$data;
     }
-    
-    /**  */
+
+    /** 获取助力信息 */
+    function getHelp() {
+        $leaveMessage = new LeaveMessageDAL();
+        $HomeDAL = new HomeDAL();
+        self::$data['data']['lm'] = $leaveMessage->getHelp($this->get['lm_id']);
+        self::$data['data']['article'] = $HomeDAL->GetArticleOne(self::$data['data']['lm']['article_id']);
+        return self::$data;
+    }
 
     /** 记录预定信息和抽奖内容的方法 */
     function saveSingle() {
@@ -326,6 +333,31 @@ class ApiHome extends \action\RestfulApi {
             $res = $UserInfoDAL->insert($_data);
         }
         self::$data['result'] = $res;
+        return self::$data;
+    }
+
+    /** 助力 */
+    function saveHelp() {
+        $leaveMessage = new LeaveMessageDAL();
+        $lm_id = $this->post['lm_id'];
+        if (!empty($this->header['openid'])) {
+            $openid = $this->header['openid'];
+        } else {
+            $openid = 1;
+        }
+        $_row = $leaveMessage->getHelp($lm_id);
+        if (empty($_row['help']['help_openid1']) && $_row['help']['openid'] != $openid) {
+            $_data = [
+                'help_openid1' => $openid,
+            ];
+        } else if (empty($_row['help']['help_openid2']) && $_row['help']['help_openid1'] != $openid && $_row['help']['openid'] != $openid) {
+            $_data = [
+                'help_openid2' => $openid,
+            ];
+        } else {
+            return self::$data;
+        }
+        self::$data['result'] = $leaveMessage->updateHelp($lm_id, $_data);
         return self::$data;
     }
 
