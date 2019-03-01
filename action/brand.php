@@ -27,7 +27,7 @@ class brand {
             self::$data['currentPage'] = $currentPage;
             self::$data['pagesize'] = $pagesize;
             self::$data['keywords'] = $keywords;
-
+            //Common::pr(self::$data);die;
             self::$data['total'] = BrandDAL::getTotal($keywords);
             self::$data['data'] = BrandDAL::getAll($currentPage, $pagesize, $keywords);
             self::$data['class'] = $this->class;

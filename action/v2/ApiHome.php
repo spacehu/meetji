@@ -187,12 +187,21 @@ class ApiHome extends \action\RestfulApi {
         self::$data['data']['total'] = $leaveMessage::getTotal($this->header['openid']);
         return self::$data;
     }
+    
+    /**  */
 
     /** 记录预定信息和抽奖内容的方法 */
     function saveSingle() {
+        $_error = 0;
         $leaveMessage = new LeaveMessageDAL();
         if (empty($this->post['phone'])) {
             self::$data['success'] = false;
+            return self::$data;
+        }
+        $_has = $leaveMessage->getOneByPhone($this->post['phone']);
+        if (!empty($_has)) {
+            self::$data['success'] = false;
+            self::$data['result'] = "一天不能两次";
             return self::$data;
         }
         if (empty($this->post['article_id'])) {
@@ -213,18 +222,20 @@ class ApiHome extends \action\RestfulApi {
             'age_range' => !empty($this->post['age_range']) ? $this->post['age_range'] : '',
             'email' => !empty($this->post['email']) ? $this->post['email'] : '',
             'channel_code' => !empty($this->post['channel_code']) ? $this->post['channel_code'] : '',
+            'article_type' => !empty($this->post['article_type']) ? $this->post['article_type'] : '',
         ];
-        /* 抽奖规则 */
-        if (!empty($this->post['source']) && $this->post['source'] == "givemeachance") {
-            $_bonus = $leaveMessage::getBonus($_data);
-            if ($_bonus['error'] == 1) {
-                self::$data = $_bonus;
-                return self::$data;
-            } else {
-                $_data['code'] = $_bonus['code'];
-            }
+        self::$data['result']['id'] = $leaveMessage::insert($_data);
+        /* 助力活动 */
+        if (!empty($this->post['article_type']) && $this->post['article_type'] == "help") {
+            $_dataS = [
+                'lm_id' => self::$data['result']['id'],
+                'openid' => !empty($this->header['openid']) ? $this->header['openid'] : '',
+                'add_time' => date('Y-m-d H:i:s'),
+                'help_openid1' => '',
+                'help_openid2' => '',
+            ];
+            self::$data['result']['help'] = $leaveMessage::insertHelp($_dataS);
         }
-        self::$data['result'] = $leaveMessage::insert($_data);
         self::$data['post'] = $_data;
         return self::$data;
     }

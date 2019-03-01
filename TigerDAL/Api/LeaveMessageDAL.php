@@ -27,6 +27,13 @@ class LeaveMessageDAL {
         return $base->getFetchAll($sql);
     }
 
+    /** 获取用户信息列表 */
+    public static function getOneByPhone($phone) {
+        $base = new BaseDAL();
+        $sql = "select * from " . $base->table_name("leave_message") . " where phone=" . $phone . " and add_time>'" . date("Y-m-d") . " 00:00:00'  limit 1 ;";
+        return $base->getFetchRow($sql);
+    }
+
     /** 获取用户信息总数 */
     public static function getTotal($id) {
         $base = new BaseDAL();
@@ -55,7 +62,8 @@ class LeaveMessageDAL {
             }
             $set = implode(',', $_data);
             $sql = "insert into " . $base->table_name('leave_message') . " values (null," . $set . ");";
-            return $base->query($sql);
+            $base->query($sql);
+            return $base->last_insert_id();
         } else {
             return true;
         }
@@ -90,6 +98,22 @@ class LeaveMessageDAL {
             return ['error' => 1, 'errorMessage' => 'hasCode'];
         }
         return ['error' => 0, 'code' => $_data['code']];
+    }
+
+    /** 新增用户信息 */
+    public static function insertHelp($data) {
+        $base = new BaseDAL();
+        if (is_array($data)) {
+            foreach ($data as $v) {
+                $_data[] = " '" . $v . "' ";
+            }
+            $set = implode(',', $_data);
+            $sql = "insert into " . $base->table_name('leave_message_help') . " values (null," . $set . ");";
+            $base->query($sql);
+            return $base->last_insert_id();
+        } else {
+            return true;
+        }
     }
 
 }

@@ -1,6 +1,9 @@
 <?php
 $data = \action\brand::$data['data'];
 $Total = \action\brand::$data['total'];
+$currentPage = \action\brand::$data['currentPage'];
+$pagesize = \action\brand::$data['pagesize'];
+$keywords = \action\brand::$data['keywords'];
 $class = \action\brand::$data['class'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -50,6 +53,11 @@ $class = \action\brand::$data['class'];
             <div class="num_bar">
                 总数<b><?php echo $Total; ?></b>
             </div>
+            <?php
+            $url = 'index.php?a=' . $class . '&m=index&keywords=' . $keywords;
+            $Totalpage = ceil($Total / mod\init::$config['page_width']);
+            include_once 'page.php';
+            ?>
         </div>
     </body>
 </html>
