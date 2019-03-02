@@ -122,14 +122,15 @@ class LeaveMessageDAL {
         $res = $base->getFetchRow($sql);
         $sql = "select * from " . $base->table_name("leave_message_help") . " where lm_id=" . $lm_id . "  limit 1 ;";
         $res['help'] = $base->getFetchRow($sql);
-        $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid=" . $res['help']['openid'] . "  limit 1 ;";
+        $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid='" . $res['help']['openid'] . "'  limit 1 ;";
+        
         $res['help']['list'][0] = $base->getFetchRow($sql);
-        $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid=" . $res['help']['help_openid1'] . "  limit 1 ;";
+        $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid='" . $res['help']['help_openid1'] . "'  limit 1 ;";
         $row = $base->getFetchRow($sql);
         if (!empty($row)) {
             $res['help']['list'][] = $row;
         }
-        $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid=" . $res['help']['help_openid2'] . "  limit 1 ;";
+        $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid='" . $res['help']['help_openid2'] . "'  limit 1 ;";
         $row = $base->getFetchRow($sql);
         if (!empty($row)) {
             $res['help']['list'][] = $row;
