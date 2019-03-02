@@ -355,7 +355,20 @@ class ApiHome extends \action\RestfulApi {
                 'help_openid2' => $openid,
             ];
         } else {
-            return self::$data;
+            // for test 
+            if (!empty($this->post['help']) && $this->post['help'] == "self") {
+                if (empty($_row['help']['help_openid1'])) {
+                    $_data = [
+                        'help_openid1' => $openid,
+                    ];
+                } else {
+                    $_data = [
+                        'help_openid2' => $openid,
+                    ];
+                }
+            } else {
+                return self::$data;
+            }
         }
         self::$data['result'] = $leaveMessage->updateHelp($lm_id, $_data);
         return self::$data;
