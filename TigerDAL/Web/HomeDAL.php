@@ -128,7 +128,9 @@ class HomeDAL {
                 . "from " . $base->table_name("article") . " as a "
                 . "left join " . $base->table_name("leave_message") . " as lm on a.id=lm.article_id "
                 . "left join " . $base->table_name("comment") . " as c on `c`.article_id=a.id "
-                . "where a.`delete`=0 and a.`id`='" . $id . "';";
+                . "where a.`id`='" . $id . "' "
+                . "group by a.id;";
+        \mod\common::pr($sql);die;
         $data = $base->getFetchRow($sql);
         $_sql = "select i.* from " . $base->table_name("article_image") . " as ai ," . $base->table_name("image") . " as i "
                 . "where ai.image_id=i.id and ai.article_id='" . $id . "' order by ai.add_time asc limit 1,99;";

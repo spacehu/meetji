@@ -147,11 +147,19 @@ $article_school = \action\works::$data['article_school'];
                             <?php } ?>
                         </div>
                         <div class="leftAlist" >
-                            <span>PRAISE 好评</span>
+                            <span>PRAISE 好评数量</span>
                         </div>
                         <div class="leftAlist" >
                             <div class="r_row">
-                                <input class="text" name="praise" type="text" value="<?php echo isset($data['praise']) ? $data['praise'] : ''; ?>" />
+                                <input class="text" name="praise" type="text" value="<?php echo isset($data['praise']) ? $data['praise'] : '0'; ?>" />
+                            </div>
+                        </div>
+                        <div class="leftAlist" >
+                            <span>BOOKED 已定数量</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <input class="text" name="booked" type="text" value="<?php echo isset($data['booked']) ? $data['booked'] : '0'; ?>" />
                             </div>
                         </div>
                         <div class="leftAlist" >
