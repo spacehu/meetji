@@ -88,6 +88,7 @@ class HomeDAL {
                 . "left join " . $base->table_name("leave_message") . " as lm on a.id=lm.article_id "
                 . "left join " . $base->table_name("article_school") . " as `as` on `as`.article_id=a.id "
                 . "left join " . $base->table_name("school") . " as s on `as`.school_id=s.id "
+                . "left join " . $base->table_name("comment") . " as c on `c`.article_id=a.id "
                 . "where a.`delete`=0 and i.`delete`=0 " . $where;
         return $sql;
     }
@@ -99,7 +100,7 @@ class HomeDAL {
         $limit_start = ($currentPage - 1) * $pagesize;
         $limit_end = $pagesize;
 
-        $sql = "select a.*,i.original_src as src,if(lm.status=1,count(1),0) as booked_count,if(count(`as`.article_id)>1,'全国',if(s.region_name<>'请选择',s.region_name,'全国')) AS school ";
+        $sql = "select a.*,i.original_src as src,if(lm.status=1,count(1),0) as booked_count,if(c.star=5,count(1),0) as good_count,if(count(`as`.article_id)>1,'全国',if(s.region_name<>'请选择',s.region_name,'全国')) AS school ";
         $sql .= $this->GetArticleSql($keywords, $region, $cat, $brand, $age, $subject_category);
         $sql .= "group by a.id "
                 . "order by ai.add_time desc,a.add_time desc "
@@ -123,7 +124,11 @@ class HomeDAL {
     public function GetArticleOne($id) {
 
         $base = new BaseDAL();
-        $sql = "select * from " . $base->table_name("article") . "  where`delete`=0 and `id`='" . $id . "';";
+        $sql = "select a.*,if(lm.status=1,count(1),0) as booked_count,if(c.star=5,count(1),0) as good_count "
+                . "from " . $base->table_name("article") . " as a "
+                . "left join " . $base->table_name("leave_message") . " as lm on a.id=lm.article_id "
+                . "left join " . $base->table_name("comment") . " as c on `c`.article_id=a.id "
+                . "where a.`delete`=0 and a.`id`='" . $id . "';";
         $data = $base->getFetchRow($sql);
         $_sql = "select i.* from " . $base->table_name("article_image") . " as ai ," . $base->table_name("image") . " as i "
                 . "where ai.image_id=i.id and ai.article_id='" . $id . "' order by ai.add_time asc limit 1,99;";
