@@ -89,7 +89,7 @@ class HomeDAL {
                 . "left join " . $base->table_name("article_school") . " as `as` on `as`.article_id=a.id "
                 . "left join " . $base->table_name("school") . " as s on `as`.school_id=s.id "
                 . "left join " . $base->table_name("comment") . " as c on `c`.article_id=a.id "
-                . "where a.`delete`=0 and i.`delete`=0 " . $where;
+                . "where a.`delete`=0 and i.`delete`=0 and a.need_hide=0 " . $where;
         return $sql;
     }
 

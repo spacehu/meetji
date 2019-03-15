@@ -204,6 +204,17 @@ $article_school = \action\works::$data['article_school'];
                                 <input class="text" name="source_count" type="text" value="<?php echo isset($data['source_count']) ? $data['source_count'] : ''; ?>" />
                             </div>
                         </div>
+                        <div class="leftAlist" >
+                            <span>NEED HIDE 是否隐藏</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <select name="need_hide">
+                                    <option value="0" <?php if($data['need_hide']==0){echo 'selected';}?> >显示</option>
+                                    <option value="1" <?php if($data['need_hide']==1){echo 'selected';}?> >隐藏</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="pathB">

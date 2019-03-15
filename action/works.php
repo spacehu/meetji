@@ -108,6 +108,7 @@ class works {
                     'current_price' => isset($_POST['current_price']) ? $_POST['current_price'] : '',
                     'source_count' => isset($_POST['source_count']) ? $_POST['source_count'] : 0,
                     'booked' => isset($_POST['booked']) ? $_POST['booked'] : 0,
+                    'need_hide' => isset($_POST['need_hide']) ? $_POST['need_hide'] : 0,
                 ];
 
                 self::$data = ArticleDAL::update($id, $data);
@@ -139,6 +140,7 @@ class works {
                     'current_price' => isset($_POST['current_price']) ? $_POST['current_price'] : '',
                     'source_count' => isset($_POST['source_count']) ? $_POST['source_count'] : 0,
                     'booked' => isset($_POST['booked']) ? $_POST['booked'] : 0,
+                    'need_hide' => isset($_POST['need_hide']) ? $_POST['need_hide'] : 0,
                 ];
                 self::$data = ArticleDAL::insert($data);
                 $id = self::$data;
