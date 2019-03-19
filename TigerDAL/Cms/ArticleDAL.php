@@ -53,7 +53,11 @@ class ArticleDAL {
             $base = new BaseDAL();
             if (is_array($data)) {
                 foreach ($data as $v) {
-                    $_data[] = " '" . $v . "' ";
+                    if (is_numeric($v)) {
+                        $_data[] = " " . $v . " ";
+                    } else {
+                        $_data[] = " '" . $v . "' ";
+                    }
                 }
                 $set = implode(',', $_data);
                 $sql = "insert into " . $base->table_name('article') . " values (null," . $set . ");";

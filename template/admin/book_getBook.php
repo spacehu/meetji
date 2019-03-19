@@ -117,6 +117,38 @@ $school = \action\book::$data['school'];
                                 ?>>作废</option>
                             </select>
                         </div>
+                        <div class="leftAlist" >
+                            <span>OPENID 微信关联id</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <?php echo isset($data['openid']) ? $data['openid'] : ''; ?>
+                            </div>
+                        </div>
+                        <div class="leftAlist" >
+                            <span>EMAIL 电子邮箱</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <?php echo isset($data['email']) ? $data['email'] : ''; ?>
+                            </div>
+                        </div>
+                        <div class="leftAlist" >
+                            <span>CHANNEL 渠道来源</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <?php echo isset($data['channel_type']) ? $data['channel_type'] : ''; ?>
+                            </div>
+                        </div>
+                        <div class="leftAlist" >
+                            <span>CITY 城市</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <?php echo isset($data['city']) ? $data['city'] : ''; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="pathB">

@@ -230,6 +230,7 @@ class ApiHome extends \action\RestfulApi {
             'email' => !empty($this->post['email']) ? $this->post['email'] : '',
             'channel_code' => !empty($this->post['channel_code']) ? $this->post['channel_code'] : '',
             'article_type' => !empty($this->post['article_type']) ? $this->post['article_type'] : '',
+            'city' => !empty($this->post['city']) ? $this->post['city'] : '',
         ];
         self::$data['result']['id'] = $leaveMessage::insert($_data);
         /* 助力活动 */
