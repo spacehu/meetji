@@ -14,6 +14,7 @@ use TigerDAL\Api\WeChatDAL;
 use TigerDAL\Cms\UserInfoDAL;
 use TigerDAL\Api\LogDAL;
 use TigerDAL\Cms\SystemDAL;
+use TigerDAL\Web\PointDAL;
 use config\code;
 
 class ApiWeChat extends \action\RestfulApi {
@@ -133,6 +134,7 @@ class ApiWeChat extends \action\RestfulApi {
         /** 初始化本地数据 */
         $wechat = new WeChatDAL();
         $UserInfoDAL = new UserInfoDAL();
+        $PointDAL = new PointDAL();
         if (empty($this->header['openid'])) {                             //如果$_SESSION中没有openid，说明用户刚刚登陆，就执行getCode、getOpenId、getUserInfo获取他的信息  
             $this->code = $this->getCode();
             LogDAL::saveLog("DEBUG", "INFO", json_encode($this->code));
@@ -192,6 +194,8 @@ class ApiWeChat extends \action\RestfulApi {
             $result['brithday'] = '';
             $result['email'] = '';
         }
+        // 积分
+        $result['point'] = $PointDAL->getUserPoint($result['id']);
         self::$data['success'] = true;
         self::$data['data'] = $result;
         LogDAL::save(json_encode($openid));

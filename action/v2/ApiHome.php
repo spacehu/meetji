@@ -16,6 +16,7 @@ use TigerDAL\Cms\SystemDAL;
 use TigerDAL\Cms\CommentDAL;
 use TigerDAL\Cms\UserWechatDAL;
 use TigerDAL\Cms\UserInfoDAL;
+use TigerDAL\Web\PointDAL;
 use config\code;
 
 class ApiHome extends \action\RestfulApi {
@@ -188,6 +189,23 @@ class ApiHome extends \action\RestfulApi {
         return self::$data;
     }
 
+    /** 获取积分列表 */
+    function getPoints() {
+        $PointDAL = new PointDAL();
+        $UserWechatDAL = new UserWechatDAL();
+        if (empty($this->header['openid'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+        $currentPage = isset($this->get['currentPage']) ? $this->get['currentPage'] : 1;
+        $pagesize = isset($this->get['pagesize']) ? $this->get['pagesize'] : 10;
+
+        $_user = $UserWechatDAL->getByOpenid($this->header['openid']);
+        self::$data['data']['list'] = $PointDAL->getAll($currentPage, $pagesize, $_user['id']);
+        self::$data['data']['total'] = $PointDAL->getTotal($_user['id']);
+        return self::$data;
+    }
+
     /** 获取助力信息 */
     function getHelp() {
         $leaveMessage = new LeaveMessageDAL();
@@ -201,6 +219,13 @@ class ApiHome extends \action\RestfulApi {
     function saveSingle() {
         $_error = 0;
         $leaveMessage = new LeaveMessageDAL();
+        $PointDAL = new PointDAL();
+        $UserWechatDAL = new UserWechatDAL();
+        $HomeDAL = new HomeDAL();
+        if (empty($this->header['openid'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
         if (empty($this->post['phone'])) {
             self::$data['success'] = false;
             return self::$data;
@@ -215,6 +240,26 @@ class ApiHome extends \action\RestfulApi {
             self::$data['success'] = false;
             return self::$data;
         }
+        // 获取积分总数
+        $_user = $UserWechatDAL->getByOpenid($this->header['openid']);
+        $_point = $PointDAL->getUserPoint($_user['id']);
+        // 获取活动价格
+        $_article = $HomeDAL->GetArticleOne($this->post['article_id']);
+        // 判断是否买得起
+        if ($_point < $_article['data']['current_price']) {
+            self::$data['success'] = false;
+            self::$data['result'] = "积分不足";
+            return self::$data;
+        }
+        // 消费积分
+        $_dataP = [
+            'user_id' => $_user['id'],
+            'point' => -ceil($_article['data']['current_price']),
+            'type' => 'shopping',
+            'add_time' => date('Y-m-d H:i:s', time()),
+        ];
+        $_pointId = $PointDAL->insertZero($_dataP);
+
         $_data = [
             'name' => !empty($this->post['name']) ? $this->post['name'] : '',
             'phone' => $this->post['phone'],
@@ -231,8 +276,10 @@ class ApiHome extends \action\RestfulApi {
             'channel_code' => !empty($this->post['channel_code']) ? $this->post['channel_code'] : '',
             'article_type' => !empty($this->post['article_type']) ? $this->post['article_type'] : '',
             'city' => !empty($this->post['city']) ? $this->post['city'] : '',
+            'point_id' => !empty($_pointId) ? $_pointId : 0,
         ];
         self::$data['result']['id'] = $leaveMessage::insert($_data);
+
         /* 助力活动 */
         if (!empty($this->post['article_type']) && $this->post['article_type'] == "help") {
             $_dataS = [
@@ -304,6 +351,18 @@ class ApiHome extends \action\RestfulApi {
             }
             if (!empty($this->post['phone'])) {
                 $_data['phone'] = $this->post['phone'];
+                // 后续设置 之前没写过电话的 补给ta积分
+                if (empty($_user['phone'])) {
+                    //奖励积分
+                    $_dataP = [
+                        'user_id' => $_userWCdata['id'],
+                        'point' => \mod\init::$config['pointInfo']['firstPhone'],
+                        'type' => 'savePhone',
+                        'add_time' => date('Y-m-d H:i:s', time()),
+                    ];
+                    $PointDAL = new PointDAL();
+                    $PointDAL->insertTotal($_dataP);
+                }
             }
             if (!empty($this->post['brithday'])) {
                 $_data['brithday'] = $this->post['brithday'];
@@ -332,6 +391,18 @@ class ApiHome extends \action\RestfulApi {
                 'user_id' => $_userWCdata['id'],
             ];
             $res = $UserInfoDAL->insert($_data);
+            // 初次设置
+            if (!empty($this->post['phone'])) {
+                //奖励积分
+                $_dataP = [
+                    'user_id' => $_userWCdata['id'],
+                    'point' => \mod\init::$config['pointInfo']['firstPhone'],
+                    'type' => 'savePhone',
+                    'add_time' => date('Y-m-d H:i:s', time()),
+                ];
+                $PointDAL = new PointDAL();
+                $PointDAL->insertTotal($_dataP);
+            }
         }
         self::$data['result'] = $res;
         return self::$data;
@@ -372,6 +443,26 @@ class ApiHome extends \action\RestfulApi {
             }
         }
         self::$data['result'] = $leaveMessage->updateHelp($lm_id, $_data);
+        return self::$data;
+    }
+
+    /** 分享得积分 */
+    function savePoint() {
+        $UserWechatDAL = new UserWechatDAL();
+        if (empty($this->header['openid'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+        $_userWCdata = $UserWechatDAL->getByOpenid($this->header['openid']);
+        //奖励积分
+        $_dataP = [
+            'user_id' => $_userWCdata['id'],
+            'point' => \mod\init::$config['pointInfo']['share'],
+            'type' => 'share',
+            'add_time' => date('Y-m-d H:i:s', time()),
+        ];
+        $PointDAL = new PointDAL();
+        self::$data['result'] = $PointDAL->insertDaily($_dataP);
         return self::$data;
     }
 

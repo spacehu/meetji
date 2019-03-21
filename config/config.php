@@ -60,7 +60,9 @@ return $config = [
             'POST /v2/ApiHome-saveHelp.htm' => 'v2-ApiHome-saveHelp',
             /* user api */
             'GET /v2/ApiHome-getBookedList.htm' => 'v2-ApiHome-getBookedList',
+            'GET /v2/ApiHome-getPoints.htm' => 'v2-ApiHome-getPoints',
             'POST /v2/ApiHome-saveUserInfo.htm' => 'v2-ApiHome-saveUserInfo',
+            'POST /v2/ApiHome-savePoint.htm' => 'v2-ApiHome-savePoint',
             'POST /v1/ApiAccount-regist.htm' => 'v1-ApiAccount-regist',
             'POST /v1/ApiAccount-login.htm' => 'v1-ApiAccount-login',
             /* need token api */
@@ -99,6 +101,11 @@ return $config = [
         'video_detail' => '视频播放页',
         'photo' => '照片列表',
         'single' => '单页',
+    ],
+    'pointInfo' => [
+        'firstPhone' => 100,
+        'share' => 50,
+        'personalMax' => 1000,
     ],
 ];
 
