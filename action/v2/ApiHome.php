@@ -466,7 +466,7 @@ class ApiHome extends \action\RestfulApi {
         ];
         $PointDAL = new PointDAL();
         $PointDAL->insertDaily($_dataP);
-        self::$data['result'] = $PointDAL->getUserPoint($_userWCdata['id']);
+        self::$data['result']['point'] = $PointDAL->getUserPoint($_userWCdata['id']);
         return self::$data;
     }
 
