@@ -195,7 +195,8 @@ class ApiWeChat extends \action\RestfulApi {
             $result['email'] = '';
         }
         // 积分
-        $result['point'] = $PointDAL->getUserPoint($result['id']);
+        $_point = $PointDAL->getUserPoint($result['id'])['sum'];
+        $result['point'] = !empty($_point) ? $_point : 0;
         self::$data['success'] = true;
         self::$data['data'] = $result;
         LogDAL::save(json_encode($openid));
