@@ -28,9 +28,9 @@ class LeaveMessageDAL {
     }
 
     /** 获取用户信息列表 */
-    public static function getOneByPhone($phone) {
+    public static function getOneByPhone($phone, $article_id) {
         $base = new BaseDAL();
-        $sql = "select * from " . $base->table_name("leave_message") . " where phone=" . $phone . " and add_time>'" . date("Y-m-d") . " 00:00:00'  limit 1 ;";
+        $sql = "select * from " . $base->table_name("leave_message") . " where phone=" . $phone . " and article_id=" . $article_id . " and add_time>'" . date("Y-m-d") . " 00:00:00'  limit 1 ;";
         return $base->getFetchRow($sql);
     }
 
@@ -123,7 +123,7 @@ class LeaveMessageDAL {
         $sql = "select * from " . $base->table_name("leave_message_help") . " where lm_id=" . $lm_id . "  limit 1 ;";
         $res['help'] = $base->getFetchRow($sql);
         $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid='" . $res['help']['openid'] . "'  limit 1 ;";
-        
+
         $res['help']['list'][0] = $base->getFetchRow($sql);
         $sql = "select * from " . $base->table_name("user_info_wechat") . " where openid='" . $res['help']['help_openid1'] . "'  limit 1 ;";
         $row = $base->getFetchRow($sql);

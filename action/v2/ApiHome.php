@@ -230,14 +230,14 @@ class ApiHome extends \action\RestfulApi {
             self::$data['success'] = false;
             return self::$data;
         }
-        $_has = $leaveMessage->getOneByPhone($this->post['phone']);
+        if (empty($this->post['article_id'])) {
+            self::$data['success'] = false;
+            return self::$data;
+        }
+        $_has = $leaveMessage->getOneByPhone($this->post['phone'], $this->post['article_id']);
         if (!empty($_has)) {
             self::$data['success'] = false;
             self::$data['result'] = "一天不能两次";
-            return self::$data;
-        }
-        if (empty($this->post['article_id'])) {
-            self::$data['success'] = false;
             return self::$data;
         }
         // 获取积分总数
@@ -292,6 +292,8 @@ class ApiHome extends \action\RestfulApi {
             self::$data['result']['help'] = $leaveMessage::insertHelp($_dataS);
         }
         self::$data['post'] = $_data;
+
+        self::$data['result']['point'] = $PointDAL->getUserPoint($_user['id']);
         return self::$data;
     }
 
@@ -338,6 +340,7 @@ class ApiHome extends \action\RestfulApi {
     function saveUserInfo() {
         $UserInfoDAL = new UserInfoDAL();
         $UserWechatDAL = new UserWechatDAL();
+        $PointDAL = new PointDAL();
         if (empty($this->header['openid'])) {
             self::$data['success'] = false;
             return self::$data;
@@ -360,7 +363,6 @@ class ApiHome extends \action\RestfulApi {
                         'type' => 'savePhone',
                         'add_time' => date('Y-m-d H:i:s', time()),
                     ];
-                    $PointDAL = new PointDAL();
                     $PointDAL->insertTotal($_dataP);
                 }
             }
@@ -404,7 +406,8 @@ class ApiHome extends \action\RestfulApi {
                 $PointDAL->insertTotal($_dataP);
             }
         }
-        self::$data['result'] = $res;
+        self::$data['result']['data'] = $res;
+        self::$data['result']['point'] = $PointDAL->getUserPoint($_userWCdata['id']);
         return self::$data;
     }
 

@@ -22,7 +22,7 @@ class PointDAL {
     public function getUserPoint($userid) {
         $base = new BaseDAL();
         $sql = "select sum(`point`) as sum from " . $base->table_name("user_point") . " where `user_id`=" . $userid . " limit 1; ";
-        return $base->getFetchRow($sql);
+        return $base->getFetchRow($sql)['sum'];
     }
 
     /** 新增积分 */
