@@ -103,9 +103,9 @@ return $config = [
         'single' => '单页',
     ],
     'pointInfo' => [
-        'firstPhone' => 100,
-        'share' => 50,
-        'personalMax' => 1000,
+        'firstPhone' => 30,
+        'share' => 20,
+        'personalMax' => 500,
     ],
 ];
 
