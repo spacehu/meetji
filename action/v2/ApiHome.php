@@ -462,7 +462,8 @@ class ApiHome extends \action\RestfulApi {
             'add_time' => date('Y-m-d H:i:s', time()),
         ];
         $PointDAL = new PointDAL();
-        self::$data['result'] = $PointDAL->insertDaily($_dataP);
+        $PointDAL->insertDaily($_dataP);
+        self::$data['result'] = $PointDAL->getUserPoint($_userWCdata['id']);
         return self::$data;
     }
 
