@@ -250,7 +250,7 @@ class ApiHome extends \action\RestfulApi {
         // 判断是否买得起
         if ($_point < $_article['data']['current_price']) {
             self::$data['success'] = false;
-            self::$data['result']['msg'] = "积分不足";
+            self::$data['result']['msg'] = "积分不足，分享获得更多积分！";
             //return self::$data;
             $_status = 4; //积分没扣
         } else {
