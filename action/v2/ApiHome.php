@@ -218,6 +218,8 @@ class ApiHome extends \action\RestfulApi {
     /** 记录预定信息和抽奖内容的方法 */
     function saveSingle() {
         $_error = 0;
+        $_status = 0;
+        $_pointId = 0;
         $leaveMessage = new LeaveMessageDAL();
         $PointDAL = new PointDAL();
         $UserWechatDAL = new UserWechatDAL();
@@ -248,18 +250,19 @@ class ApiHome extends \action\RestfulApi {
         // 判断是否买得起
         if ($_point < $_article['data']['current_price']) {
             self::$data['success'] = false;
-            self::$data['result'] = "积分不足";
-            return self::$data;
+            self::$data['result']['msg'] = "积分不足";
+            //return self::$data;
+            $_status = 4; //积分没扣
+        } else {
+            // 消费积分
+            $_dataP = [
+                'user_id' => $_user['id'],
+                'point' => -ceil($_article['data']['current_price']),
+                'type' => 'shopping',
+                'add_time' => date('Y-m-d H:i:s', time()),
+            ];
+            $_pointId = $PointDAL->insertZero($_dataP);
         }
-        // 消费积分
-        $_dataP = [
-            'user_id' => $_user['id'],
-            'point' => -ceil($_article['data']['current_price']),
-            'type' => 'shopping',
-            'add_time' => date('Y-m-d H:i:s', time()),
-        ];
-        $_pointId = $PointDAL->insertZero($_dataP);
-
         $_data = [
             'name' => !empty($this->post['name']) ? $this->post['name'] : '',
             'phone' => $this->post['phone'],
@@ -269,7 +272,7 @@ class ApiHome extends \action\RestfulApi {
             'arrive_time' => !empty($this->post['arrive_time']) ? $this->post['arrive_time'] : '',
             'add_time' => date('Y-m-d H:i:s'),
             'article_id' => $this->post['article_id'],
-            'status' => 0,
+            'status' => $_status,
             'openid' => !empty($this->header['openid']) ? $this->header['openid'] : '',
             'age_range' => !empty($this->post['age_range']) ? $this->post['age_range'] : '',
             'email' => !empty($this->post['email']) ? $this->post['email'] : '',
