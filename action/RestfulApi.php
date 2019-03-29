@@ -75,7 +75,7 @@ class RestfulApi {
             'page' => $_GET['m'],
             'page_url' => $method['HTTP_HOST'] . $method['REQUEST_URI'],
             'add_time' => date("Y-m-d H:i:s"),
-            'channel_type' => !empty($this->header['code']) ? $this->header['code'] : '',
+            'channel_type' => !empty($this->header['channel_code']) ? $this->header['channel_code'] : '',
         ];
         $statistics->insert($data);
     }
