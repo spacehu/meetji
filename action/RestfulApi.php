@@ -23,6 +23,7 @@ class RestfulApi {
         'success' => true,
         'data' => '',
     ];
+    public $header;
 
     /**
      * 整理路由的方法
@@ -31,6 +32,7 @@ class RestfulApi {
     function __construct() {
         $this->_method = $this->getMethod();
         $this->_path = $this->getPath();
+        $this->header = Common::exchangeHeader();
         $this->insertStatistics($_SERVER);
         if (\mod\init::$config['restful_api']['isopen']) {
             try {
@@ -73,6 +75,7 @@ class RestfulApi {
             'page' => $_GET['m'],
             'page_url' => $method['HTTP_HOST'] . $method['REQUEST_URI'],
             'add_time' => date("Y-m-d H:i:s"),
+            'channel_type' => !empty($this->header['code']) ? $this->header['code'] : '',
         ];
         $statistics->insert($data);
     }

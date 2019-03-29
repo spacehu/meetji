@@ -2,7 +2,7 @@
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods:GET,HEAD,POST,PUT,DELETE');
-header('Access-Control-Allow-Headers: X-Requested-With,content-type,token,applation,openid');
+header('Access-Control-Allow-Headers: X-Requested-With,content-type,token,applation,openid,code');
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }

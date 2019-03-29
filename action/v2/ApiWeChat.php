@@ -26,7 +26,6 @@ class ApiWeChat extends \action\RestfulApi {
     public $code;
     public $openid;
     private $get;
-    public $header;
 
     /**
      * 主方法引入父类的基类
