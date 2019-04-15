@@ -14,6 +14,7 @@ use TigerDAL\Cms\SystemDAL;
 use TigerDAL\Cms\CategoryDAL;
 use TigerDAL\Cms\BrandDAL;
 use TigerDAL\Cms\BookDAL;
+use TigerDAL\Cms\ChannelDAL;
 use config\code;
 
 class book {
@@ -60,6 +61,7 @@ class book {
             }
             self::$data['article'] = ArticleDAL::getAll(1, 99, '');
             self::$data['school'] = SchoolDAL::getAll(1, 999, "");
+            self::$data['channel'] = ChannelDAL::getAll(1, 999, '');
             self::$data['class'] = $this->class;
             //print_r(self::$data['article_image']);die;
         } catch (Exception $ex) {

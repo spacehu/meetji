@@ -149,6 +149,14 @@ $school = \action\book::$data['school'];
                                 <?php echo isset($data['city']) ? $data['city'] : ''; ?>
                             </div>
                         </div>
+                        <div class="leftAlist" >
+                            <span>CHANNEL 渠道</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <?php echo isset($data['channel_code']) ? $data['channel_code'] : ''; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="pathB">

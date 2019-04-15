@@ -20,7 +20,7 @@ class account {
 
     function __construct() {
         $this->class = str_replace('action\\', '', __CLASS__);
-        self::$data['keywords'] = "胡彦斌";
+        self::$data['keywords'] = "leo&space";
         self::$data['class'] = $this->class;
         $this->insertStatistics($_SERVER);
         //Common::pr($_SERVER);

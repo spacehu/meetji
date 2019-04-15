@@ -223,10 +223,7 @@ class ApiHome extends \action\RestfulApi {
         $PointDAL = new PointDAL();
         $UserWechatDAL = new UserWechatDAL();
         $HomeDAL = new HomeDAL();
-        if (empty($this->header['openid'])) {
-            self::$data['success'] = false;
-            return self::$data;
-        }
+
         if (empty($this->post['phone'])) {
             self::$data['success'] = false;
             return self::$data;
@@ -241,27 +238,7 @@ class ApiHome extends \action\RestfulApi {
             self::$data['result'] = "一天不能两次";
             return self::$data;
         }
-        // 获取积分总数
-        $_user = $UserWechatDAL->getByOpenid($this->header['openid']);
-        $_point = $PointDAL->getUserPoint($_user['id']);
-        // 获取活动价格
-        $_article = $HomeDAL->GetArticleOne($this->post['article_id']);
-        // 判断是否买得起
-        if ($_point < $_article['data']['current_price']) {
-            self::$data['success'] = false;
-            self::$data['result']['msg'] = "积分不足，分享获得更多积分！";
-            //return self::$data;
-            $_status = 4; //积分没扣
-        } else {
-            // 消费积分
-            $_dataP = [
-                'user_id' => $_user['id'],
-                'point' => -ceil($_article['data']['current_price']),
-                'type' => 'shopping',
-                'add_time' => date('Y-m-d H:i:s', time()),
-            ];
-            $_pointId = $PointDAL->insertZero($_dataP);
-        }
+
         $_data = [
             'name' => !empty($this->post['name']) ? $this->post['name'] : '',
             'phone' => $this->post['phone'],
@@ -294,8 +271,30 @@ class ApiHome extends \action\RestfulApi {
             self::$data['result']['help'] = $leaveMessage::insertHelp($_dataS);
         }
         self::$data['post'] = $_data;
-
-        self::$data['result']['point'] = $PointDAL->getUserPoint($_user['id']);
+        if (!empty($this->header['openid'])) {
+            // 获取积分总数
+            $_user = $UserWechatDAL->getByOpenid($this->header['openid']);
+            $_point = $PointDAL->getUserPoint($_user['id']);
+            // 获取活动价格
+            $_article = $HomeDAL->GetArticleOne($this->post['article_id']);
+            // 判断是否买得起
+            if ($_point < $_article['data']['current_price']) {
+                self::$data['success'] = false;
+                self::$data['result']['msg'] = "积分不足，分享获得更多积分！";
+                //return self::$data;
+                $_status = 4; //积分没扣
+            } else {
+                // 消费积分
+                $_dataP = [
+                    'user_id' => $_user['id'],
+                    'point' => -ceil($_article['data']['current_price']),
+                    'type' => 'shopping',
+                    'add_time' => date('Y-m-d H:i:s', time()),
+                ];
+                $_pointId = $PointDAL->insertZero($_dataP);
+            }
+            self::$data['result']['point'] = $PointDAL->getUserPoint($_user['id']);
+        }
         return self::$data;
     }
 
