@@ -3,22 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file://192.168.30.225/share/alein/template/admin/book_getBook.php</file>
-            <file>file://192.168.30.225/share/alein/action/works.php</file>
-            <file>file://192.168.30.225/share/alein/config/config.php</file>
-            <file>file://192.168.30.225/share/alein/TigerDAL/Web/HomeDAL.php</file>
-            <file>file://192.168.30.225/share/alein/action/v1/ApiHome.php</file>
+            <file>file://192.168.30.225/share/alein/TigerDAL/Api/TokenDAL.php</file>
+            <file>file://192.168.30.225/share/alein/.htaccess</file>
+            <file>file://192.168.30.225/share/alein/action/v2/ApiAccount.php</file>
             <file>file://192.168.30.225/share/alein/action/v2/ApiHome.php</file>
-            <file>file://192.168.30.225/share/alein/TigerDAL/Cms/ArticleDAL.php</file>
-            <file>file://192.168.30.225/share/alein/action/RestfulApi.php</file>
-            <file>file://192.168.30.225/share/alein/TigerDAL/Cms/UserWechatDAL.php</file>
-            <file>file://192.168.30.225/share/alein/action/v2/ApiWeChat.php</file>
-            <file>file://192.168.30.225/share/alein/TigerDAL/Web/PointDAL.php</file>
-            <file>file://192.168.30.225/share/alein/TigerDAL/Api/WeChatDAL.php</file>
-            <file>file://192.168.30.225/share/alein/action/book.php</file>
-            <file>file://192.168.30.225/share/alein/TigerDAL/Api/LeaveMessageDAL.php</file>
-            <file>file://192.168.30.225/share/alein/action/v1/ApiAccount.php</file>
-            <file>file://192.168.30.225/share/alein/template/admin/works_getWork.php</file>
+            <file>file://192.168.30.225/share/alein/action/account.php</file>
         </group>
     </open-files>
 </project-private>

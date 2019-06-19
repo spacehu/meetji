@@ -86,7 +86,8 @@ class BookDAL {
                         lm.add_time,
                         lm.arrive_time,
                         s.`region_name` AS schoolRegion,
-                        lm.`email` "
+                        lm.`email` ,
+                        lm.city "
                 . "from " . $base->table_name("leave_message") . " as lm "
                 . "left join " . $base->table_name("article") . " as a on lm.article_id=a.id "
                 . "left join " . $base->table_name("school") . " as s on lm.school=s.id "
