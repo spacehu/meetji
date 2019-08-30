@@ -36,7 +36,7 @@ $class = \action\book::$data['class'];
         <div class="menu">
             <input type="text" name="keywords" class="keywords" value="<?php echo isset($keywords) ? $keywords : ""; ?>" />
             <a class="button_find " href="javascript:void(0);">查找</a>
-            <a href="javascript:void(0);" class="updateButton"  onclick="javascript:parent.mainFrame.location.href = 'index.php?a=<?php echo $class; ?>&m=getBook'">后台客户预定课程</a>
+<!--            <a href="javascript:void(0);" class="updateButton"  onclick="javascript:parent.mainFrame.location.href = 'index.php?a=<?php echo $class; ?>&m=getBook'">后台客户预定课程</a>-->
         </div>
         <div class="menu">
             <input type="text" class="select_0" id="select_0" readonly value="<?php echo date("Y-m-d", strtotime("-1 day")); ?>" />
