@@ -16,7 +16,7 @@ $school = \action\book::$data['school'];
         <div class="status r_top">
         </div>
         <div class="content">
-            <form name="theForm" id="demo" action="./index.php?a=<?php echo $class; ?>&m=updateBook&id=<?php echo $data['id']; ?>" method="post" enctype='multipart/form-data'>
+            <form name="theForm" id="demo" action="./index.php?a=<?php echo $class; ?>&m=updateBook&id=<?php echo isset($data['id']) ? $data['id'] : ''; ?>" method="post" enctype='multipart/form-data'>
                 <div class="pathA ">
                     <div class="leftA">
                         <div class="leftAlist" >
@@ -48,7 +48,7 @@ $school = \action\book::$data['school'];
                         </div>
                         <div class="leftAlist" >
                             <div class="r_row">
-                                <?php echo isset($data['age_range']) ? $data['age_range'] : ''; ?>
+                                <input class="text" name="age_range" type="text" value="<?php echo isset($data['age_range']) ? $data['age_range'] : ''; ?>" />
                             </div>
                         </div>
                         <div class="leftAlist" >
@@ -76,7 +76,7 @@ $school = \action\book::$data['school'];
                                 <option value="0">请选择</option>
                                 <?php if (is_array($article)) { ?>
                                     <?php foreach ($article as $k => $v) { ?>
-                                        <option value="<?php echo $v['id']; ?>"  <?php echo $data['article_id'] == $v['id'] ? 'selected' : ''; ?>><?php echo $v['name']; ?></option>
+                                        <option value="<?php echo $v['id']; ?>"  <?php echo ($data && $data['article_id'] == $v['id']) ? 'selected' : ''; ?>><?php echo $v['name']; ?></option>
                                     <?php } ?>
                                 <?php } ?>
                             </select>
@@ -90,7 +90,7 @@ $school = \action\book::$data['school'];
                                 <option value="0">请选择</option>
                                 <?php if (is_array($school)) { ?>
                                     <?php foreach ($school as $k => $v) { ?>
-                                        <option value="<?php echo $v['id']; ?>"  <?php echo $data['school'] == $v['id'] ? 'selected' : ''; ?>><?php echo $v['name']; ?></option>
+                                        <option value="<?php echo $v['id']; ?>"  <?php echo ($data && $data['school'] == $v['id']) ? 'selected' : ''; ?>><?php echo $v['name']; ?></option>
                                     <?php } ?>
                                 <?php } ?>
                             </select>
@@ -101,17 +101,17 @@ $school = \action\book::$data['school'];
                         <div class="leftAlist" >
                             <select name="status">
                                 <option value="0" <?php
-                                if ($data['status'] == 0) {
+                                if ($data && $data['status'] == 0) {
                                     echo 'selected';
                                 }
                                 ?>>未确认</option>
                                 <option value="1" <?php
-                                if ($data['status'] == 1) {
+                                if ($data && $data['status'] == 1) {
                                     echo 'selected';
                                 }
                                 ?>>确认</option>
                                 <option value="2" <?php
-                                if ($data['status'] == 2) {
+                                if ($data && $data['status'] == 2) {
                                     echo 'selected';
                                 }
                                 ?>>作废</option>
@@ -130,15 +130,7 @@ $school = \action\book::$data['school'];
                         </div>
                         <div class="leftAlist" >
                             <div class="r_row">
-                                <?php echo isset($data['email']) ? $data['email'] : ''; ?>
-                            </div>
-                        </div>
-                        <div class="leftAlist" >
-                            <span>CHANNEL 渠道来源</span>
-                        </div>
-                        <div class="leftAlist" >
-                            <div class="r_row">
-                                <?php echo isset($data['channel_type']) ? $data['channel_type'] : ''; ?>
+                                <input class="text" name="email" type="text" value="<?php echo isset($data['email']) ? $data['email'] : ''; ?>" />
                             </div>
                         </div>
                         <div class="leftAlist" >
@@ -146,7 +138,7 @@ $school = \action\book::$data['school'];
                         </div>
                         <div class="leftAlist" >
                             <div class="r_row">
-                                <?php echo isset($data['city']) ? $data['city'] : ''; ?>
+                                <input class="text" name="city" type="text" value="<?php echo isset($data['city']) ? $data['city'] : ''; ?>" />
                             </div>
                         </div>
                         <div class="leftAlist" >
@@ -154,7 +146,7 @@ $school = \action\book::$data['school'];
                         </div>
                         <div class="leftAlist" >
                             <div class="r_row">
-                                <?php echo isset($data['channel_code']) ? $data['channel_code'] : ''; ?>
+                                <input class="text" name="channel_code" type="text" value="<?php echo isset($data['channel_code']) ? $data['channel_code'] : ''; ?>" />
                             </div>
                         </div>
                     </div>

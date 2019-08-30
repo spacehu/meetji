@@ -58,6 +58,8 @@ class book {
         try {
             if ($id != null) {
                 self::$data['data'] = BookDAL::getOne($id);
+            } else {
+                self::$data['data'] = "";
             }
             self::$data['article'] = ArticleDAL::getAll(1, 99, '');
             self::$data['school'] = SchoolDAL::getAll(1, 999, "");
@@ -85,12 +87,36 @@ class book {
                     'arrive_time' => $_POST['arrive_time'],
                     'article_id' => $_POST['article_id'],
                     'status' => $_POST['status'],
+                    'age_range' => $_POST['age_range'],
                 ];
 
                 self::$data = BookDAL::update($id, $data);
+            } else {
+                $data = [
+                    'name' => $_POST['name'],
+                    'phone' => $_POST['phone'],
+                    'age' => $_POST['age'],
+                    'sex' => $_POST['sex'],
+                    'school' => $_POST['school'],
+                    'arrive_time' => $_POST['arrive_time'],
+                    'add_time' => date("Y-m-d H:i:s"),
+                    'article_id' => $_POST['article_id'],
+                    'status' => $_POST['status'],
+                    'openid' => "",
+                    'age_range' => $_POST['age_range'],
+                    'email' => $_POST['email'],
+                    'channel_code' => $_POST['channel_code'],
+                    'article_type' => "",
+                    'city' => $_POST['city'],
+                    'point_id' => 0,
+                ];
+                self::$data = BookDAL::insert($data);
             }
             if (self::$data) {
                 Common::js_redir(Common::getSession($this->class));
+                if ($_POST['status'] == 1) {
+                    sendsms();
+                }
             } else {
                 Common::js_alert('修改失败，请联系系统管理员');
             }
@@ -110,7 +136,7 @@ class book {
             $_data = BookDAL::getAllByDate($_startdate, $_enddate);
             //Common::pr($_data);
             //$header_data = ["姓名", "电话", "预约课程", "所属区域", "性别", "年龄", "创建时间", "可预约时间"];
-            $header_data = ["姓名", "邮箱", "手机号码", "性别", "年龄段", "预约课程", "预约时间", "城市", "校区","city"];
+            $header_data = ["姓名", "邮箱", "手机号码", "性别", "年龄段", "预约课程", "预约时间", "城市", "校区", "city"];
             $this->export_csv_1($_data, $header_data, "export_" . date("YmdHis") . ".csv");
         } catch (Exception $ex) {
             TigerDAL\CatchDAL::markError(code::$code[code::WORKS_INDEX], code::WORKS_INDEX, json_encode($ex));
