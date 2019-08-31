@@ -80,6 +80,8 @@ return $config = [
             /* applets api */
             'GET /v1/ApiApplets-photo.htm' => 'v1-ApiApplets-photo',
             'POST /v1/ApiApplets-saveWeChatInfo.htm' => 'v1-ApiApplets-saveWeChatInfo',
+            
+            'POST /v4/ApiSms-sendSms.htm' => 'v4-ApiSms-sendSms', //发验证码
         ]
     ],
     'debug' => false, //调试器

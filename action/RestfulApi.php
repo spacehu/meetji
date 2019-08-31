@@ -24,6 +24,8 @@ class RestfulApi {
         'data' => '',
     ];
     public $header;
+    public $post;
+    public $get;
 
     /**
      * 整理路由的方法
@@ -33,6 +35,8 @@ class RestfulApi {
         $this->_method = $this->getMethod();
         $this->_path = $this->getPath();
         $this->header = Common::exchangeHeader();
+        $this->post = Common::exchangePost();
+        $this->get = Common::exchangeGet();
         $this->insertStatistics($_SERVER);
         if (\mod\init::$config['restful_api']['isopen']) {
             try {
