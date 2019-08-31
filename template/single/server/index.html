@@ -6,52 +6,65 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>EF</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="text/javascript" async="" src="./jquery.js"></script>
+        <style>
+            input{height:26px;width:180px;}
+            img{width:180px;}
+        </style>
     </head>
     <body>
-        <div>TODO write content</div>
+    <center>
+        <img src="http://img4.cache.netease.com/edu/2013/12/24/2013122417045461552.png" />
+        <br />
 
         <input type="text" id="name" value="" placeholder="姓名：祁连山" />
         <br />
+        <br />
         <input type="text" id="phone" value="" placeholder="电话：13564138000" />
+        <br />
         <br />
         <input type="text" id="time" value="" placeholder="预约时间：2019-08-31" />
         <br />
+        <br />
         <input type="text" id="city" value="" placeholder="城市：上海" />
+        <br />
         <br />
         <input type="button" value="提交注册" onclick="javascript:submit();" />
         <br />
+        <br />
         <p id="request"></p>
-        <script>
-            var submit = function () {
-                $("#request").html("短信发送中，请等待");
-                var name = window.document.getElementById("name").value;
-                var phone = window.document.getElementById("phone").value;
-                var time = window.document.getElementById("time").value;
-                var city = window.document.getElementById("city").value;
-                $.ajax({
-                    type: "POST",
-                    url: "http://api_test.meetji.com/v4/ApiSms-sendSms.htm",
-                    dataType: "JSON",
-                    data: {
-                        name: name,
-                        phone: phone,
-                        time: time,
-                        city: city
-                    },
-                    success: function (obj) {
-                        if (obj.success) {
-                            $("#request").html("短信发送成功");
-                        } else {
-                            $("#request").html("短信发送失败，原因：" + obj.msg);
-                        }
-                    },
-                });
-            }
 
-        </script>
-    </body>
+    </center>
+    <script>
+        var submit = function () {
+            $("#request").html("短信发送中，请等待");
+            var name = window.document.getElementById("name").value;
+            var phone = window.document.getElementById("phone").value;
+            var time = window.document.getElementById("time").value;
+            var city = window.document.getElementById("city").value;
+            $.ajax({
+                type: "POST",
+                url: "http://api_test.meetji.com/v4/ApiSms-sendSms.htm",
+                dataType: "JSON",
+                data: {
+                    name: name,
+                    phone: phone,
+                    time: time,
+                    city: city
+                },
+                success: function (obj) {
+                    if (obj.success) {
+                        $("#request").html("短信发送成功");
+                    } else {
+                        $("#request").html("短信发送失败，原因：" + obj.msg);
+                    }
+                },
+            });
+        }
+
+    </script>
+</body>
 </html>
