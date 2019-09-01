@@ -32,7 +32,7 @@ and open the template in the editor.
         <input type="text" id="city" value="" placeholder="城市：上海" />
         <br />
         <br />
-        <input type="button" value="提交注册" onclick="javascript:submit();" />
+        <input type="button" id="button" value="提交注册" onclick="javascript:submit();" />
         <br />
         <br />
         <p id="request"></p>
@@ -41,6 +41,8 @@ and open the template in the editor.
     <script>
         var submit = function () {
             $("#request").html("短信发送中，请等待");
+            $("#button").attr("disabled", "disabled");
+            //return;
             var name = window.document.getElementById("name").value;
             var phone = window.document.getElementById("phone").value;
             var time = window.document.getElementById("time").value;
@@ -61,6 +63,7 @@ and open the template in the editor.
                     } else {
                         $("#request").html("短信发送失败，原因：" + obj.msg);
                     }
+                    $("#button").attr("disabled", null);
                 },
             });
         }
