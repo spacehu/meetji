@@ -9,7 +9,7 @@ $env = [
             'sms' => [
                 'appid' => '1400204641',
                 'appkey' => 'cfb606e1efc0daf569b01fb0383f2ac5',
-                'templateId' => '405345',
+                'templateId' => '232957',
                 'smsSign' => '梧桫教育科技有限公司',
             ],
         ],
