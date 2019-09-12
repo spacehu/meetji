@@ -34,7 +34,8 @@ class ApiWeChat extends \action\RestfulApi {
     function __construct() {
         $path = parent::__construct();
         $this->class = str_replace('action\\', '', __CLASS__);
-
+        LogDAL::save(date("Y-m-d H:i:s") . "-------------------------------------" . $this->class . "", "DEBUG");
+        LogDAL::save(date("Y-m-d H:i:s") . "-------------------------------------" . $path . "", "DEBUG");
         $this->appid = \mod\init::$config['wechat']['appid'];                   //微信APPID，公众平台获取  
         $this->appsecret = \mod\init::$config['wechat']['secret'];              //微信APPSECREC，公众平台获取  
         $this->get = Common::exchangeGet();

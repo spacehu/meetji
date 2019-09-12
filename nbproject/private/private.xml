@@ -3,17 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file://192.168.30.225/share/alein/.htaccess</file>
-            <file>file://192.168.30.225/share/alein/action/user.php</file>
-            <file>file://192.168.30.225/share/alein/action/v2/ApiHome.php</file>
-            <file>file://192.168.30.225/share/alein/TigerDAL/Api/TokenDAL.php</file>
+            <file>file://192.168.30.225/share/alein/config/parem.env.local.php</file>
+            <file>file://192.168.30.225/share/alein/config/config.php</file>
             <file>file://192.168.30.225/share/alein/action/book.php</file>
-            <file>file://192.168.30.225/share/alein/action/v2/ApiAccount.php</file>
+            <file>file://192.168.30.225/share/alein/template/single/server/index.html</file>
+            <file>file://192.168.30.225/share/alein/env.php</file>
             <file>file://192.168.30.225/share/alein/TigerDAL/Cms/BookDAL.php</file>
-            <file>file://192.168.30.225/share/alein/action/userWechat.php</file>
-            <file>file://192.168.30.225/share/alein/action/fans.php</file>
-            <file>file://192.168.30.225/share/alein/action/comment.php</file>
-            <file>file://192.168.30.225/share/alein/action/account.php</file>
+            <file>file://192.168.30.225/share/alein/action/v4/ApiSms.php</file>
+            <file>file://192.168.30.225/share/alein/config/code.php</file>
+            <file>file://192.168.30.225/share/alein/action/RestfulApi.php</file>
+            <file>file://192.168.30.225/share/alein/TigerDAL/Api/TencentSmsDAL.php</file>
+            <file>file://192.168.30.225/share/alein/mod/common.php</file>
         </group>
     </open-files>
 </project-private>

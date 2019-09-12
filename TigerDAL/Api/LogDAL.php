@@ -45,7 +45,7 @@ class LogDAL {
             mkdir($logPath, 0777);
         }
 
-        $file = $logPath . $filename . '.txt';
+        $file = $logPath . $filename . '_'.date("Y-m-d").'.txt';
         if (!is_file($file)) {
             touch($file);
         }
