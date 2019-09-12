@@ -1,2 +1,9 @@
 data/
 env.php
+config/parem.env.local.php
+config/parem.env.dev.php
+config/parem.env.prod.php
+config/parem.mysql.local.php
+config/parem.mysql.dev.php
+config/parem.mysql.prod.php
+
