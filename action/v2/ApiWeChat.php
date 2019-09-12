@@ -25,7 +25,6 @@ class ApiWeChat extends \action\RestfulApi {
     public $index_url;               //微信回调地址，要跟公众平台的配置域名相同  
     public $code;
     public $openid;
-    private $get;
 
     /**
      * 主方法引入父类的基类
@@ -143,6 +142,11 @@ class ApiWeChat extends \action\RestfulApi {
             }
             $this->access_token = $this->getOpenId();
             LogDAL::saveLog("DEBUG", "INFO", json_encode($this->access_token));
+            if ($this->access_token['errcode'] == 40029) {
+                self::$data['success'] = false;
+                self::$data['data'] = $this->access_token;
+                return false;
+            }
             $userInfo = $this->getUserInfo();
             LogDAL::saveLog("DEBUG", "INFO", json_encode($userInfo));
             if (!empty($userInfo) && !empty($userInfo['openid'])) {
