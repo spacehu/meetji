@@ -228,10 +228,10 @@ class ApiHome extends \action\RestfulApi {
             self::$data['success'] = false;
             return self::$data;
         }
-        if (empty($this->post['article_id'])) {
-            self::$data['success'] = false;
-            return self::$data;
-        }
+//        if (empty($this->post['article_id'])) {
+//            self::$data['success'] = false;
+//            return self::$data;
+//        }
         $_has = $leaveMessage->getOneByPhone($this->post['phone'], $this->post['article_id']);
         if (!empty($_has)) {
             self::$data['success'] = false;
