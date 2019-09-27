@@ -2,6 +2,8 @@
 
 namespace TigerDAL;
 
+use TigerDAL\Api\LogDAL;
+
 /*
  * 基本数据类包
  * 类
@@ -15,12 +17,23 @@ class BaseDAL {
     public $tab_name;
     //创建连接
     public $conn;
+    private $sql;
+    private $log;
 
     //默认方法
-    function __construct() {
+    function __construct($_LOG = "DEBUG") {
         $this->tab_name = \mod\init::$config['mysql']['table_pre'];
         $this->conn = \mod\init::$config['mysql']['conn'];
         //var_dump($this->conn);
+        $this->log = $_LOG;
+    }
+
+    function __destruct() {
+        if ($this->log == 'cli') {
+            cLogDAL::save(date("Y-m-d H:i:s") . "-sql---" . json_encode($this->sql) . "", $this->log);
+        } else {
+            LogDAL::save(date("Y-m-d H:i:s") . "-sql---" . json_encode($this->sql) . "", $this->log);
+        }
     }
 
     /** 获取列表 */
@@ -55,6 +68,7 @@ class BaseDAL {
 
     /** 执行sql */
     public function query($sql) {
+        $this->sql .= $sql;
         $result = mysqli_query($this->conn, $sql);
         return $result;
     }

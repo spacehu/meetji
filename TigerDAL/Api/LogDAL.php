@@ -2,7 +2,6 @@
 
 namespace TigerDAL\Api;
 
-use TigerDAL\BaseDAL;
 
 /*
  * 用来返回生成首页需要的数据
