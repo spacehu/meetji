@@ -245,7 +245,7 @@ class ApiHome extends \action\RestfulApi {
             'school' => !empty($this->post['school']) ? $this->post['school'] : '',
             'arrive_time' => !empty($this->post['arrive_time']) ? $this->post['arrive_time'] : '',
             'add_time' => date('Y-m-d H:i:s'),
-            'article_id' => $this->post['article_id'],
+            'article_id' => !empty($this->post['article_id']) ? $this->post['article_id'] : 0,
             'status' => $_status,
             'openid' => !empty($this->header['openid']) ? $this->header['openid'] : '',
             'age_range' => !empty($this->post['age_range']) ? $this->post['age_range'] : '',
