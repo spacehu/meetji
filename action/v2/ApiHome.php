@@ -10,6 +10,7 @@ namespace action\v2;
 use mod\common as Common;
 use TigerDAL\Web\HomeDAL;
 use TigerDAL\Api\LeaveMessageDAL;
+use TigerDAL\Api\LogDAL;
 use TigerDAL\Cms\CategoryDAL;
 use TigerDAL\Cms\BrandDAL;
 use TigerDAL\Cms\SystemDAL;
@@ -228,17 +229,14 @@ class ApiHome extends \action\RestfulApi {
             self::$data['success'] = false;
             return self::$data;
         }
-//        if (empty($this->post['article_id'])) {
-//            self::$data['success'] = false;
-//            return self::$data;
-//        }
-        $_has = $leaveMessage->getOneByPhone($this->post['phone'], $this->post['article_id']);
-        if (!empty($_has)) {
-            self::$data['success'] = false;
-            self::$data['result'] = "一天不能两次";
-            return self::$data;
+        if (!empty($this->post['article_id'])) {
+            $_has = $leaveMessage->getOneByPhone($this->post['phone'], $this->post['article_id']);
+            if (!empty($_has)) {
+                self::$data['success'] = false;
+                self::$data['result'] = "一天不能两次";
+                return self::$data;
+            }
         }
-
         $_data = [
             'name' => !empty($this->post['name']) ? $this->post['name'] : '',
             'phone' => $this->post['phone'],
@@ -257,6 +255,9 @@ class ApiHome extends \action\RestfulApi {
             'city' => !empty($this->post['city']) ? $this->post['city'] : '',
             'point_id' => !empty($_pointId) ? $_pointId : 0,
         ];
+        LogDAL::save(date("Y-m-d H:i:s") . "-header---" . json_encode($this->header) . "", "DEBUG");
+        LogDAL::save(date("Y-m-d H:i:s") . "-get---" . json_encode($this->get) . "", "DEBUG");
+        LogDAL::save(date("Y-m-d H:i:s") . "-post---" . json_encode($this->post) . "", "DEBUG");
         self::$data['result']['id'] = $leaveMessage::insert($_data);
 
         /* 助力活动 */
