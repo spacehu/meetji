@@ -250,7 +250,7 @@ class ApiHome extends \action\RestfulApi {
             'openid' => !empty($this->header['openid']) ? $this->header['openid'] : '',
             'age_range' => !empty($this->post['age_range']) ? $this->post['age_range'] : '',
             'email' => !empty($this->post['email']) ? $this->post['email'] : '',
-            'channel_code' => !empty($this->header['channel_code']) ? $this->header['channel_code'] : '',
+            'channel_code' => !empty($this->header['channel']) ? $this->header['channel'] : '',
             'article_type' => !empty($this->post['article_type']) ? $this->post['article_type'] : '',
             'city' => !empty($this->post['city']) ? $this->post['city'] : '',
             'point_id' => !empty($_pointId) ? $_pointId : 0,
