@@ -13,9 +13,9 @@ class ArticleDAL {
         $limit_end = $pagesize;
         $where = "";
         if (!empty($keywords)) {
-            $where .= " and name like '%" . $keywords . "%' ";
+            $where .= " and a.`name` like '%" . $keywords . "%' ";
         }
-        $sql = "select * from " . $base->table_name("article") . " where `delete`=0 " . $where . " order by edit_time desc limit " . $limit_start . "," . $limit_end . " ;";
+        $sql = "select a.*,b.`name` as bName from " . $base->table_name("article") . " as a left join ".$base->table_name("brand")." as b on a.brand_id=b.id and b.`delete`=0 where a.`delete`=0 " . $where . " order by a.edit_time desc limit " . $limit_start . "," . $limit_end . " ;";
         return $base->getFetchAll($sql);
     }
 
