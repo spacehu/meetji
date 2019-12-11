@@ -32,6 +32,7 @@ $class = \action\works::$data['class'];
             <table class="mytable" cellspacing="0" >
                 <tr bgcolor="#656565" style=" font-weight:bold; color:#FFFFFF;">
                     <td class="td1" >课程名</td>
+                    <td class="td1" >品牌名</td>
                     <td class="td1" width="10%">属于</td>
                     <td class="td1" width="20%">操作</td>
                 </tr>
@@ -42,6 +43,7 @@ $class = \action\works::$data['class'];
                         ?>
                         <tr<?php if ($sum_i % 2 != 1) { ?>  class="tr2"<?php } ?>>
                             <td class="td1"><?php echo $v['name']; ?></td>
+                            <td class="td1"><?php echo $v['bName']; ?></td>
                             <td class="td1"><?php echo $v['add_by']; ?></td>
 
                             <td class="td1">
