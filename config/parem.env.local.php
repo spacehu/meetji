@@ -13,6 +13,11 @@ $env = [
                 'smsSign' => '梧桫教育',
             ],
         ],
+        'alipay'=>[
+            'min'=>[
+                'aeskey'=>'Q1hXtHBi2BW9p2F0U8XGLQ==',
+            ]
+        ]
     ],
 ];
 return $env;
