@@ -8,7 +8,7 @@
 	<body>
 	我的第一段PHP！
 	<?php
-phpinfo();
+//phpinfo();
 ?>
 	</body>
 </html>
