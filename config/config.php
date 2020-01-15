@@ -82,6 +82,7 @@ return $config = [
             'POST /v1/ApiApplets-saveWeChatInfo.htm' => 'v1-ApiApplets-saveWeChatInfo',
             
             'POST /v4/ApiSms-sendSms.htm' => 'v4-ApiSms-sendSms', //发验证码
+            'POST /v4/ApiAlipay-oriPhone.htm' => 'v4-ApiAlipay-oriPhone', //校验密文获取手机号
         ]
     ],
     'debug' => false, //调试器
