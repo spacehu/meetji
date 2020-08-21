@@ -50,6 +50,9 @@
             <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=works&m=index'" href="javascript:void(0);" >COURSE 课程</a>
         </div>
         <div class="title">
+            <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=item&m=index&type=imagegroup'" href="javascript:void(0);" >IMAGE GROUP 图组</a>
+        </div>
+        <div class="title">
             <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=statistics&m=staticPage'" href="javascript:void(0);" >STATISTICS 统计</a>
             <div class="sub_title">
                 <div class="title">
