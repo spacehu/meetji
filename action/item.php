@@ -8,8 +8,8 @@ use TigerDAL;
 use TigerDAL\Cms\ImageDAL;
 use TigerDAL\Cms\ItemImageDAL;
 use TigerDAL\Cms\ItemDAL;
-use TigerDAL\Cms\SystemDAL;
 use config\code;
+include_once "./lib/phpqrcode/qrlib.php";
 
 class item {
 
@@ -134,5 +134,17 @@ class item {
         } catch (Exception $ex) {
             TigerDAL\CatchDAL::markError(code::$code[code::SHOW_DELETE], code::SHOW_DELETE, json_encode($ex));
         }
+    }
+
+    function getQrcode(){
+        $PNG_TEMP_DIR = dirname(__DIR__).DIRECTORY_SEPARATOR.'data/image_doc/qrcode'.DIRECTORY_SEPARATOR;
+        $PNG_WEB_DIR = 'data/image_doc/qrcode/';
+        $data="expo.bdmartech.com?id=".$_REQUEST['data'];
+        $errorCorrectionLevel= 'M';
+        $matrixPointSize=6;
+        $filename = $PNG_TEMP_DIR.'test'.md5($_REQUEST['data'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+
+        \QRcode::png($data, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+        exit(json_encode('<img src="'.$PNG_WEB_DIR.basename($filename).'" />'));  
     }
 }

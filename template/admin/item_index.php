@@ -19,6 +19,17 @@ $class = \action\item::$data['class'];
                 $('.button_find').click(function () {
                     window.location.href = 'index.php?a=<?php echo $class; ?>&m=index&type=<?php echo $type;?>&keywords=' + $('.keywords').val() + '';
                 });
+                $('.getqrcode').click(function(){
+                    $.ajax({
+                        url: "index.php?a=<?php echo $class; ?>&m=getQrcode&data="+$(this).attr('data'),
+                        type: "Get",
+                        data: [],
+                        dataType: "json",
+                        success: function (data) {
+                            $('.showqrcode').html(data);
+                        }
+                    });
+                });
             });
         </script>
     </head>
@@ -46,7 +57,7 @@ $class = \action\item::$data['class'];
                         <tr<?php if ($sum_i % 2 != 1) { ?>  class="tr2"<?php } ?>>
                             <td class="td1"><?php echo $v['name']; ?></td>
                             <td class="td1">expo.bdmartech.com?id=<?php echo $v['id']; ?></td>
-                            <td class="td1"><?php echo $v['id']; ?></td>
+                            <td class="td1"><a href="javascript:void(0);" data="<?php echo $v['id']; ?>" class="getqrcode">getqrcode 获取二维码</a></td>
                             <td class="td1"><?php echo $v['edit_time']; ?></td>
 
                             <td class="td1">
@@ -68,6 +79,9 @@ $class = \action\item::$data['class'];
             $Totalpage = ceil($Total / mod\init::$config['page_width']);
             include_once 'page.php';
             ?>
+        </div>
+        <div class="showqrcode">
+
         </div>
     </body>
 </html>
