@@ -84,4 +84,30 @@ class BaseDAL {
         return mysqli_insert_id($this->conn);
     }
 
+    public function insert($data,$db) {
+        if (is_array($data)) {
+            foreach ($data as $v) {
+                $_data[] = " '" . $v . "' ";
+            }
+            $set = implode(',', $_data);
+            $sql = "insert into " . $this->table_name($db) . " values (null," . $set . ");";
+            $this->query($sql);
+            return $this->last_insert_id();
+        } else {
+            return false;
+        }
+    }
+
+    public function update($id, $data,$db) {
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $_data[] = " `" . $k . "`='" . $v . "' ";
+            }
+            $set = implode(',', $_data);
+            $sql = "update " . $this->table_name($db) . " set " . $set . "  where id=" . $id . " ;";
+            return $this->query($sql);
+        } else {
+            return false;
+        }
+    }
 }

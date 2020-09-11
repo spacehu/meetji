@@ -21,7 +21,7 @@ class RestfulApi {
     public $_path = '';
     public static $data = [
         'success' => true,
-        'data' => '',
+        'data' => [],
     ];
     public $header;
     public $post;
