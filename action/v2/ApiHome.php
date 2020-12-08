@@ -7,7 +7,11 @@
 
 namespace action\v2;
 
+use action\RestfulApi;
+use http\Exception;
 use mod\common as Common;
+use mod\init;
+use TigerDAL\CatchDAL;
 use TigerDAL\Web\HomeDAL;
 use TigerDAL\Api\LeaveMessageDAL;
 use TigerDAL\Api\LogDAL;
@@ -20,7 +24,7 @@ use TigerDAL\Cms\UserInfoDAL;
 use TigerDAL\Web\PointDAL;
 use config\code;
 
-class ApiHome extends \action\RestfulApi {
+class ApiHome extends RestfulApi {
 
     public $post;
     public $get;
@@ -36,8 +40,8 @@ class ApiHome extends \action\RestfulApi {
         $this->header = Common::exchangeHeader();
         if (!empty($path)) {
             $_path = explode("-", $path);
-            $actEval = "\$res = \$this ->" . $_path['2'] . "();";
-            eval($actEval);
+            $mod=$_path['2'];
+            $res = $this->$mod();
             exit(json_encode($res));
         }
     }
@@ -52,7 +56,7 @@ class ApiHome extends \action\RestfulApi {
             self::$data['data']['total'] = $res['total'];
             self::$data['data']['list'] = $res['data'];
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+            CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
         }
         return self::$data;
     }
@@ -67,7 +71,7 @@ class ApiHome extends \action\RestfulApi {
             self::$data['data']['total'] = $CategoryDAL->getTotal();
             self::$data['data']['list'] = $res;
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+            CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
         }
         return self::$data;
     }
@@ -82,7 +86,7 @@ class ApiHome extends \action\RestfulApi {
             self::$data['data']['total'] = $BrandDAL->getTotal();
             self::$data['data']['list'] = $res;
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+            CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
         }
         return self::$data;
     }
@@ -95,7 +99,7 @@ class ApiHome extends \action\RestfulApi {
             //print_r($res);die;
             self::$data['data']['list'] = explode(';', $res['value']);
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+            CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
         }
         return self::$data;
     }
@@ -107,7 +111,7 @@ class ApiHome extends \action\RestfulApi {
             $_subjectCategory = SystemDAL::getConfig("subject_category");
             self::$data['data']['list'] = array_values((array) json_decode($_subjectCategory['value']));
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+            CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
         }
         return self::$data;
     }
@@ -152,7 +156,7 @@ class ApiHome extends \action\RestfulApi {
             self::$data['data']['list'] = $res['data'];
             //Common::pr($res);die;
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+            CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
         }
         return self::$data;
     }
@@ -169,7 +173,7 @@ class ApiHome extends \action\RestfulApi {
             self::$data['data']['info']['comment'] = $comment;
             //Common::pr($res);die;
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
+            CatchDAL::markError(code::$code[code::HOME_INDEX], code::HOME_INDEX, json_encode($ex));
         }
         return self::$data;
     }
@@ -254,6 +258,7 @@ class ApiHome extends \action\RestfulApi {
             'article_type' => !empty($this->post['article_type']) ? $this->post['article_type'] : '',
             'city' => !empty($this->post['city']) ? $this->post['city'] : '',
             'point_id' => !empty($_pointId) ? $_pointId : 0,
+            'note'=>!empty($this->post['note'])?$this->post['note']:'',
         ];
         LogDAL::save(date("Y-m-d H:i:s") . "-header---" . json_encode($this->header) . "", "DEBUG");
         LogDAL::save(date("Y-m-d H:i:s") . "-get---" . json_encode($this->get) . "", "DEBUG");
@@ -361,7 +366,7 @@ class ApiHome extends \action\RestfulApi {
                     //奖励积分
                     $_dataP = [
                         'user_id' => $_userWCdata['id'],
-                        'point' => \mod\init::$config['pointInfo']['firstPhone'],
+                        'point' => init::$config['pointInfo']['firstPhone'],
                         'type' => 'savePhone',
                         'add_time' => date('Y-m-d H:i:s', time()),
                     ];
@@ -400,7 +405,7 @@ class ApiHome extends \action\RestfulApi {
                 //奖励积分
                 $_dataP = [
                     'user_id' => $_userWCdata['id'],
-                    'point' => \mod\init::$config['pointInfo']['firstPhone'],
+                    'point' => init::$config['pointInfo']['firstPhone'],
                     'type' => 'savePhone',
                     'add_time' => date('Y-m-d H:i:s', time()),
                 ];
@@ -462,7 +467,7 @@ class ApiHome extends \action\RestfulApi {
         //奖励积分
         $_dataP = [
             'user_id' => $_userWCdata['id'],
-            'point' => \mod\init::$config['pointInfo']['share'],
+            'point' => init::$config['pointInfo']['share'],
             'type' => 'share',
             'add_time' => date('Y-m-d H:i:s', time()),
         ];
