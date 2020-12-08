@@ -149,6 +149,14 @@ $school = \action\book::$data['school'];
                                 <input class="text" name="channel_code" type="text" value="<?php echo isset($data['channel_code']) ? $data['channel_code'] : ''; ?>" />
                             </div>
                         </div>
+                        <div class="leftAlist" >
+                            <span>NOTE 备注信息</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <div class="r_row">
+                                <input class="text" name="note" type="text" value="<?php echo isset($data['note']) ? $data['note'] : ''; ?>" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="pathB">
