@@ -2,6 +2,7 @@
 
 namespace TigerDAL\Api;
 
+use mod\init;
 use TigerDAL\BaseDAL;
 
 require_once dirname(__DIR__) . '/../lib/qcloudsms_php/src/index.php';
@@ -42,17 +43,21 @@ class TencentSmsDAL {
      * @return stdClass
      */
 
-    public static function sendSms($phone, $code, $orderid) {        
+    public static function sendSms($phone, $code, $orderid,$template=null) {
         //print_r(\mod\init::$config['env']);die;
-        self::$appid = \mod\init::$config['env']['lib']['tencent']['sms']['appid'];
-        self::$appkey = \mod\init::$config['env']['lib']['tencent']['sms']['appkey'];
-        self::$templateId = \mod\init::$config['env']['lib']['tencent']['sms']['templateId'];
-        self::$smsSign = \mod\init::$config['env']['lib']['tencent']['sms']['smsSign'];
+        self::$appid = init::$config['env']['lib']['tencent']['sms']['appid'];
+        self::$appkey = init::$config['env']['lib']['tencent']['sms']['appkey'];
+        if($template==null){
+            self::$templateId = init::$config['env']['lib']['tencent']['sms']['templateId'][0];
+        }else{
+            self::$templateId = init::$config['env']['lib']['tencent']['sms']['templateId'][$template];
+        }
+        self::$smsSign = init::$config['env']['lib']['tencent']['sms']['smsSign'];
 
         // 指定模板ID单发短信
         try {
             $ssender = new SmsSingleSender(self::$appid, self::$appkey);
-            $params = [];
+            $params = [$code,10];
             $result = $ssender->sendWithParam("86", $phone, self::$templateId, $params, self::$smsSign, "", $orderid);  // 签名参数未提供或者为空时，会使用默认签名发送短信
         } catch (\Exception $e) {
             echo var_dump($e);

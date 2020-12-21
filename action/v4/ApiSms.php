@@ -2,36 +2,38 @@
 
 namespace action\v4;
 
+use action\RestfulApi;
 use http\Exception;
-use mod\common as Common;
-use TigerDAL;
 use TigerDAL\Api\TencentSmsDAL;
 use TigerDAL\Api\AuthDAL;
 use TigerDAL\AccessDAL;
 use TigerDAL\CatchDAL;
 use TigerDAL\Cms\BookDAL;
 use config\code;
-use TigerDAL\Web\StatisticsDAL;
 
-class ApiSms extends \action\RestfulApi {
+class ApiSms extends RestfulApi
+{
 
     /**
      * 主方法引入父类的基类
      * 责任是分担路由的工作
      */
-    function __construct() {
+    function __construct()
+    {
         $path = parent::__construct();
         if (!empty($path)) {
             $_path = explode("-", $path);
-            $mod=$_path['2'];
-            $res=$this->$mod();
+            $mod = $_path['2'];
+            $res = $this->$mod();
             exit(json_encode($res));
         }
     }
 
     /** 异步 */
-    function sendSms() {
+    function sendSms()
+    {
         $phone = !empty($this->post['phone']) ? $this->post['phone'] : 0;
+        $template = !empty($this->post['template']) ? $this->post['template'] : null;
         try {
             if (empty($phone)) {
                 CatchDAL::markError(code::$code[code::API_ENUM], code::API_ENUM, json_encode('phone empty'));
@@ -65,12 +67,12 @@ class ApiSms extends \action\RestfulApi {
             }
             $orderid = TencentSmsDAL::insert($data);
             //发送信息
-            $response = (array) json_decode(TencentSmsDAL::sendSms($phone, $code, $orderid));
+            $response = (array)json_decode(TencentSmsDAL::sendSms($phone, $code, $orderid, $template));
             //记录成功
             //Common::pr($response);die;
             if ($response['result'] != 0) {
                 self::$data['success'] = false;
-                self::$data['data']['code'] = "sms api error. reson: ".$response['errmsg'];
+                self::$data['data']['code'] = "sms api error. reson: " . $response['errmsg'];
                 self::$data['msg'] = code::$code['smserror'];
                 return self::$data;
             }
@@ -79,7 +81,7 @@ class ApiSms extends \action\RestfulApi {
                 'success' => 1,
             ];
             self::$data['data'] = TencentSmsDAL::update($orderid, $_data);
-            self::$data['code']=$code;
+            self::$data['code'] = $code;
         } catch (Exception $ex) {
             CatchDAL::markError(code::$code[code::API_ENUM], code::API_ENUM, json_encode($ex));
             self::$data['success'] = false;
@@ -90,7 +92,8 @@ class ApiSms extends \action\RestfulApi {
     }
 
     /** 注册发信息需要校验是否已经注册 */
-    function sendRegistSms() {
+    function sendRegistSms()
+    {
         $phone = !empty($this->get['phone']) ? $this->get['phone'] : 0;
         try {
             $AuthDAL = new AuthDAL();
@@ -112,7 +115,8 @@ class ApiSms extends \action\RestfulApi {
     }
 
     /** 异步 */
-    function getSms() {
+    function getSms()
+    {
         try {
 //            $phone = $_GET['phone'];
 //            $date = $_GET['date'];
@@ -129,7 +133,8 @@ class ApiSms extends \action\RestfulApi {
         }
     }
 
-    function saveInfo() {
+    function saveInfo()
+    {
         $data = [
             'name' => $this->post['name'],
             'phone' => $this->post['phone'],
