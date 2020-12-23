@@ -2,7 +2,10 @@
 
 namespace action;
 
+use http\Exception;
+use mod\init;
 use TigerDAL;
+use TigerDAL\CatchDAL;
 use TigerDAL\Cms\StatisticsDAL;
 use config\code;
 use mod\common as Common;
@@ -19,7 +22,7 @@ class statistics {
     function staticPage() {
         Common::isset_cookie();
 
-        \mod\init::getTemplate('admin', $this->class . '_' . __FUNCTION__);
+        init::getTemplate('admin', $this->class . '_' . __FUNCTION__);
     }
 
     /**
@@ -45,26 +48,26 @@ class statistics {
             if ($type == 'visit') {
                 self::$data['data']['pv'] = StatisticsDAL::getPageView($_startTime, $_endTime);
                 self::$data['data']['iv'] = StatisticsDAL::getIPView($_startTime, $_endTime);
-                self::$data['data']['uv'] = StatisticsDAL::getUserView($_startTime, $_endTime);
+                self::$data['data']['uv'] = StatisticsDAL::getUniqueVisitor($_startTime, $_endTime);
             } else if ($type == 'action') {
                 $_action = isset($_GET['action']) ? $_GET['action'] : 'index';
                 self::$data['action'] = $_action;
-                self::$data['actionList'] = \mod\init::$config['actionList'];
+                self::$data['actionList'] = init::$config['actionList'];
                 self::$data['data']['pv'] = StatisticsDAL::getPageView($_startTime, $_endTime, $_action);
                 self::$data['data']['iv'] = StatisticsDAL::getIPView($_startTime, $_endTime, $_action);
-                self::$data['data']['uv'] = StatisticsDAL::getUserView($_startTime, $_endTime, $_action);
+                self::$data['data']['uv'] = StatisticsDAL::getUniqueVisitor($_startTime, $_endTime, $_action);
             } else if ($type == 'page') {
-                $_url = isset($_GET['page']) ? $_GET['page'] : 'https://www.tigerhuclub.com';
+                $_url = isset($_GET['page']) ? $_GET['page'] : '';
                 self::$data['page'] = $_url;
                 self::$data['data']['pv'] = StatisticsDAL::getPageView($_startTime, $_endTime, '', $_url);
                 self::$data['data']['iv'] = StatisticsDAL::getIPView($_startTime, $_endTime, '', $_url);
-                self::$data['data']['uv'] = StatisticsDAL::getUserView($_startTime, $_endTime, '', $_url);
+                self::$data['data']['uv'] = StatisticsDAL::getUniqueVisitor($_startTime, $_endTime, '', $_url);
             }
             //Common::pr(self::$data);
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::STATISTICS_INDEX], code::STATISTICS_INDEX, json_encode($ex));
+            CatchDAL::markError(code::$code[code::STATISTICS_INDEX], code::STATISTICS_INDEX, json_encode($ex));
         }
-        \mod\init::getTemplate('admin', $this->class . '_' . __FUNCTION__ . '_' . $type);
+        init::getTemplate('admin', $this->class . '_' . __FUNCTION__ . '_' . $type);
     }
 
     /**
@@ -87,7 +90,7 @@ class statistics {
             self::$data['endTime'] = $_endTime;
             
             $currentPage = isset($_GET['currentPage']) ? $_GET['currentPage'] : 1;
-            $pagesize = isset($_GET['pagesize']) ? $_GET['pagesize'] : \mod\init::$config['page_width'];
+            $pagesize = isset($_GET['pagesize']) ? $_GET['pagesize'] : init::$config['page_width'];
             self::$data['currentPage'] = $currentPage;
             self::$data['pagesize'] = $pagesize;
             
@@ -97,9 +100,9 @@ class statistics {
 
 //            Common::pr(self::$data);
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::STATISTICS_INDEX], code::STATISTICS_INDEX, json_encode($ex));
+            CatchDAL::markError(code::$code[code::STATISTICS_INDEX], code::STATISTICS_INDEX, json_encode($ex));
         }
-        \mod\init::getTemplate('admin', $this->class . '_' . __FUNCTION__);
+        init::getTemplate('admin', $this->class . '_' . __FUNCTION__);
     }
 
     /**
@@ -117,9 +120,9 @@ class statistics {
 
 //            Common::pr(self::$data);
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::STATISTICS_INDEX], code::STATISTICS_INDEX, json_encode($ex));
+            CatchDAL::markError(code::$code[code::STATISTICS_INDEX], code::STATISTICS_INDEX, json_encode($ex));
         }
-        \mod\init::getTemplate('admin', $this->class . '_' . __FUNCTION__);
+        init::getTemplate('admin', $this->class . '_' . __FUNCTION__);
     }
 
 }

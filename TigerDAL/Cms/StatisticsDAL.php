@@ -25,11 +25,17 @@ class StatisticsDAL {
         $_groupby = "group by user_id ";
         return self::query($_and, $_startTime, $_endTime, $_model, $_url, $_groupby);
     }
+    /** 获取uv列表  */
+    public static function getUniqueVisitor($_startTime, $_endTime, $_model = "", $_url = "") {
+        $_and = "";
+        $_groupby = "group by ip ";
+        return self::query($_and, $_startTime, $_endTime, $_model, $_url, $_groupby);
+    }
 
     private static function query($_and, $_startTime, $_endTime, $_model, $_url, $_groupby = "") {
         $base = new BaseDAL();
         $_and .= !empty($_model) ? "and `model`='" . $_model . "' " : "";
-        $_and .= !empty($_url) ? "and `page_url`='" . $_url . "' " : "";
+        $_and .= !empty($_url) ? "and `page_url` like '%" . $_url . "%' " : "";
         $sql = "select count(1) as num,A.time "
                 . "FROM ( "
                 . "SELECT LEFT (add_time, 10) AS time "
