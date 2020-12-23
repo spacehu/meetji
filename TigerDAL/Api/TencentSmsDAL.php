@@ -2,6 +2,7 @@
 
 namespace TigerDAL\Api;
 
+use Exception;
 use mod\init;
 use TigerDAL\BaseDAL;
 
@@ -59,7 +60,7 @@ class TencentSmsDAL {
             $ssender = new SmsSingleSender(self::$appid, self::$appkey);
             $params = [$code,10];
             $result = $ssender->sendWithParam("86", $phone, self::$templateId, $params, self::$smsSign, "", $orderid);  // 签名参数未提供或者为空时，会使用默认签名发送短信
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo var_dump($e);
         }
         return $result;

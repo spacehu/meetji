@@ -82,7 +82,7 @@ $iv=\action\statistics::$data['data']['iv'];
     <div id="pageURL" data-pageurl="<?php echo $page?>"></div>
     <div>
         <span>当前统计url:<?php echo $page ?></span>
-        <input id="pagetxt" type="text"  placeholder="输入页面url">
+        <input id="pagetxt" type="text"  placeholder="输入页面url" value="<?php echo $page;?>">
     <input type="text" placeholder="请选择时间..." value="<?php echo $startTime.' - '.$endTime?>"  id="test1">
     <input id="search" type="button" value="查找">
     </div>
