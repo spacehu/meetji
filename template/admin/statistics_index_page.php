@@ -108,7 +108,7 @@ $iv=\action\statistics::$data['data']['iv'];
         var test=$("input#test1").val();
         var text=test.replace(' - ', '&endTime=');
         if(pagetxt!=""){
-        parent.mainFrame.location.href = 'index.php?a=statistics&m=index&type=page&page=http://'+pagetxt+'&startTime='+text;}
+            parent.mainFrame.location.href = 'index.php?a=statistics&m=index&type=page&page='+pagetxt+'&startTime='+text;}
         else{
             parent.mainFrame.location.href = 'index.php?a=statistics&m=index&type=page&page='+pagedefault+'&startTime='+text;
         }
