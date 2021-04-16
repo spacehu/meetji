@@ -346,7 +346,7 @@ class ApiWeChat extends RestfulApi
         $data = [
             'touser' => $this->access_token['openid'],
             'template_id' => '4M8RWgwsGDYlZL_NuWg--FecFh3QKWMW1hVZIfm34IU',
-            'data' => json_encode($_data),
+            'data' => $_data,
         ];
         $res_json = $this->https_request($url, $data);
         $res_array = json_decode($res_json, TRUE);
