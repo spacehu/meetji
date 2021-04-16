@@ -7,11 +7,13 @@
 
 namespace action;
 
+use http\Exception;
 use mod\common as Common;
+use mod\init;
 use TigerDAL;
-use TigerDAL\Api\SmsDAL;
 use TigerDAL\AccessDAL;
 use config\code;
+use TigerDAL\CatchDAL;
 use TigerDAL\Web\StatisticsDAL;
 use TigerDAL\Api\LogDAL;
 
@@ -38,12 +40,12 @@ class RestfulApi {
         $this->post = Common::exchangePost();
         $this->get = Common::exchangeGet();
         $this->insertStatistics($_SERVER);
-        if (\mod\init::$config['restful_api']['isopen']) {
+        if (init::$config['restful_api']['isopen']) {
             try {
                 LogDAL::save(date("Y-m-d H:i:s") . "-------------------------------------" . $this->_path . "", "DEBUG");
                 LogDAL::save(date("Y-m-d H:i:s") . "-------------------------------------" . Common::getIP() . "", "DEBUG");
-                if (!empty(\mod\init::$config['restful_api']['path'][$this->_method . ' ' . $this->_path])) {
-                    return \mod\init::$config['restful_api']['path'][$this->_method . ' ' . $this->_path];
+                if (!empty(init::$config['restful_api']['path'][$this->_method . ' ' . $this->_path])) {
+                    return init::$config['restful_api']['path'][$this->_method . ' ' . $this->_path];
                 } else {
                     self::$data['success'] = false;
                     self::$data['data'] = "url is wrong.";
@@ -58,14 +60,16 @@ class RestfulApi {
             return false;
         }
         //Common::pr($this);
-        exit();
+        //exit();
     }
 
     function __destruct() {
         LogDAL::_saveLog();
     }
 
-    /** 记录日志 */
+    /** 记录日志
+     * @param $method
+     */
     private function insertStatistics($method) {
         $access = new AccessDAL();
         $statistics = new StatisticsDAL();
@@ -89,7 +93,7 @@ class RestfulApi {
         try {
             //Common::pr($_SERVER);
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::API_ENUM], code::API_ENUM, json_encode($ex));
+            CatchDAL::markError(code::$code[code::API_ENUM], code::API_ENUM, json_encode($ex));
             echo json_encode(['success' => false, 'message' => '999']);
         }
     }
@@ -99,7 +103,7 @@ class RestfulApi {
         try {
             return $_SERVER['REQUEST_METHOD'];
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::API_ENUM], code::API_ENUM, json_encode($ex));
+            CatchDAL::markError(code::$code[code::API_ENUM], code::API_ENUM, json_encode($ex));
             echo json_encode(['success' => false, 'message' => '999']);
         }
     }
@@ -119,7 +123,7 @@ class RestfulApi {
             }
             return $_path[0];
         } catch (Exception $ex) {
-            TigerDAL\CatchDAL::markError(code::$code[code::API_ENUM], code::API_ENUM, json_encode($ex));
+            CatchDAL::markError(code::$code[code::API_ENUM], code::API_ENUM, json_encode($ex));
             echo json_encode(['success' => false, 'message' => '999']);
         }
     }
