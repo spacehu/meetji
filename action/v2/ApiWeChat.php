@@ -52,7 +52,9 @@ class ApiWeChat extends RestfulApi
         if (empty($this->header['openid'])) {
             $this->openid = $this->header['openid'];
         } else {
-            $this->beforeWeb();
+            if (!$this->beforeWeb()) {
+                exit(json_encode(self::$data));
+            }
         }
         //$this->index_url = urlencode("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);           //微信回调地址，要跟公众平台的配置域名相同  
         if (!empty($path)) {
@@ -145,7 +147,7 @@ class ApiWeChat extends RestfulApi
 
     function sendWechatMessage()
     {
-        $res_array=self::sendMessage();
+        $res_array = self::sendMessage();
         self::$data['success'] = true;
         self::$data['data'] = $res_array;
         return self::$data;
@@ -158,21 +160,19 @@ class ApiWeChat extends RestfulApi
      */
     public function beforeWeb()
     {
-        if (empty($this->header['openid'])) {                             //如果$_SESSION中没有openid，说明用户刚刚登陆，就执行getCode、getOpenId、getUserInfo获取他的信息
-            $this->code = $this->getCode();
-            LogDAL::saveLog("DEBUG", "INFO", json_encode($this->code));
-            if (self::$data['success'] == false) {
-                return false;
-            }
-            $this->access_token = $this->getOpenId();
-            LogDAL::saveLog("DEBUG", "INFO", json_encode($this->access_token));
-            if ($this->access_token['errcode'] == 40029) {
-                self::$data['success'] = false;
-                self::$data['data'] = $this->access_token;
-                return false;
-            }
-            $this->openid = $this->access_token['openid'];
+        $this->code = $this->getCode();
+        LogDAL::saveLog("DEBUG", "INFO", json_encode($this->code));
+        if (self::$data['success'] == false) {
+            return false;
         }
+        $this->access_token = $this->getOpenId();
+        LogDAL::saveLog("DEBUG", "INFO", json_encode($this->access_token));
+        if ($this->access_token['errcode'] == 40029) {
+            self::$data['success'] = false;
+            self::$data['data'] = $this->access_token;
+            return false;
+        }
+        $this->openid = $this->access_token['openid'];
         return true;
     }
 
@@ -327,26 +327,27 @@ class ApiWeChat extends RestfulApi
     /**
      * 发送微信通知消息
      */
-    public function sendMessage(){
+    public function sendMessage()
+    {
         $url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/bizsend?access_token=" . $this->access_token['access_token'];
-        $_data=[
-            "first"=>[
-                "value"=>"您的注册信息已经提交！"
+        $_data = [
+            "first" => [
+                "value" => "您的注册信息已经提交！"
             ],
-            "keyword1"=>[
-                "value"=>"用户注册"
+            "keyword1" => [
+                "value" => "用户注册"
             ],
-            "keyword2"=>[
-                "value"=>"待审核"
+            "keyword2" => [
+                "value" => "待审核"
             ],
-            "remark"=>[
-                "value"=>"有任何疑问请联系我们的服务人员。"
+            "remark" => [
+                "value" => "有任何疑问请联系我们的服务人员。"
             ],
         ];
         $data = [
             'touser' => $this->access_token['openid'],
             'template_id' => '4M8RWgwsGDYlZL_NuWg--FecFh3QKWMW1hVZIfm34IU',
-            'data' => json_encode($_data),
+            'data' => $_data,
         ];
         $res_json = $this->https_request($url, $data);
         $res_array = json_decode($res_json, TRUE);
