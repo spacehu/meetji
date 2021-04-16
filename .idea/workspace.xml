@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a4c3bf49-08b6-4cb4-b124-b0c9da5cc351" name="Default" comment="" />
+    <list default="true" id="a4c3bf49-08b6-4cb4-b124-b0c9da5cc351" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/config/config.php" afterPath="$PROJECT_DIR$/config/config.php" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,11 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ApiWeChat.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ApiWeChat.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/action/v2/ApiWeChat.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="69" column="0" lean-forward="true" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+            <state relative-caret-position="720">
+              <caret line="236" column="31" lean-forward="false" selection-start-line="236" selection-start-column="31" selection-end-line="236" selection-end-column="31" />
               <folding>
                 <element signature="e#76#98#0#PHP" expanded="true" />
                 <element signature="e#752#2292#0#PHP" expanded="false" />
@@ -38,6 +41,7 @@
                 <element signature="e#6337#9400#0#PHP" expanded="false" />
                 <element signature="e#7050#8089#0#PHP" expanded="false" />
                 <element signature="e#9593#10258#0#PHP" expanded="false" />
+                <element signature="e#10320#10788#0#PHP" expanded="false" />
                 <element signature="e#11055#11485#0#PHP" expanded="false" />
                 <element signature="e#11557#12016#0#PHP" expanded="false" />
                 <element signature="e#12116#12448#0#PHP" expanded="false" />
@@ -50,17 +54,26 @@
       <file leaf-file-name="RestfulApi.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/action/RestfulApi.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="19" column="6" lean-forward="false" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+            <state relative-caret-position="218">
+              <caret line="46" column="40" lean-forward="false" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="40" />
               <folding>
                 <element signature="e#76#95#0#PHP" expanded="true" />
-                <element signature="e#543#1878#0#PHP" expanded="false" />
                 <element signature="e#1884#1941#0#PHP" expanded="false" />
                 <element signature="e#1990#2743#0#PHP" expanded="false" />
                 <element signature="e#2771#3055#0#PHP" expanded="false" />
                 <element signature="e#3078#3379#0#PHP" expanded="false" />
                 <element signature="e#3403#4059#0#PHP" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config/config.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="352">
+              <caret line="76" column="82" lean-forward="true" selection-start-line="76" selection-start-column="82" selection-end-line="76" selection-end-column="82" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -89,6 +102,7 @@
       <find>tiger</find>
       <find>test1</find>
       <find>TigerDALApiLogDAL</find>
+      <find>url is wrong</find>
       <find>TigerDAL</find>
     </findStrings>
   </component>
@@ -111,6 +125,7 @@
         <option value="$PROJECT_DIR$/action/login.php" />
         <option value="$PROJECT_DIR$/action/RestfulApi.php" />
         <option value="$PROJECT_DIR$/action/v2/ApiWeChat.php" />
+        <option value="$PROJECT_DIR$/config/config.php" />
       </list>
     </option>
   </component>
@@ -168,6 +183,11 @@
               <item name="action" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="v4" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
+            <path>
+              <item name="aqi_meetji" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aqi_meetji" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -217,7 +237,7 @@
       <workItem from="1608690691413" duration="5693000" />
       <workItem from="1618291188411" duration="1867000" />
       <workItem from="1618361061558" duration="653000" />
-      <workItem from="1618383274483" duration="12887000" />
+      <workItem from="1618383274483" duration="15011000" />
     </task>
     <task id="LOCAL-00001" summary="add new note fields">
       <created>1607407472645</created>
@@ -272,11 +292,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27681000" />
+    <option name="totallyTimeSpent" value="29805000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1066" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26599148" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -740,25 +759,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="21" column="17" lean-forward="false" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TigerDAL/BaseDAL.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="35" column="12" lean-forward="false" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
-          <folding>
-            <element signature="e#28#41#0#PHP" expanded="true" />
-            <marker date="1618386897985" expanded="true" signature="2099:2168" ph="insert into ${$this-&gt;table_name($db)}... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/parem.mysql.local.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
@@ -788,11 +788,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/action/RestfulApi.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="19" column="6" lean-forward="false" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+        <state relative-caret-position="218">
+          <caret line="46" column="40" lean-forward="false" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="40" />
           <folding>
             <element signature="e#76#95#0#PHP" expanded="true" />
-            <element signature="e#543#1878#0#PHP" expanded="false" />
             <element signature="e#1884#1941#0#PHP" expanded="false" />
             <element signature="e#1990#2743#0#PHP" expanded="false" />
             <element signature="e#2771#3055#0#PHP" expanded="false" />
@@ -802,10 +801,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/TigerDAL/BaseDAL.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="35" column="12" lean-forward="false" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
+          <folding>
+            <element signature="e#28#41#0#PHP" expanded="true" />
+            <marker date="1618386897985" expanded="true" signature="2099:2168" ph="insert into ${$this-&gt;table_name($db)}... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/action/v2/ApiWeChat.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="69" column="0" lean-forward="true" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+        <state relative-caret-position="720">
+          <caret line="236" column="31" lean-forward="false" selection-start-line="236" selection-start-column="31" selection-end-line="236" selection-end-column="31" />
           <folding>
             <element signature="e#76#98#0#PHP" expanded="true" />
             <element signature="e#752#2292#0#PHP" expanded="false" />
@@ -815,11 +825,20 @@
             <element signature="e#6337#9400#0#PHP" expanded="false" />
             <element signature="e#7050#8089#0#PHP" expanded="false" />
             <element signature="e#9593#10258#0#PHP" expanded="false" />
+            <element signature="e#10320#10788#0#PHP" expanded="false" />
             <element signature="e#11055#11485#0#PHP" expanded="false" />
             <element signature="e#11557#12016#0#PHP" expanded="false" />
             <element signature="e#12116#12448#0#PHP" expanded="false" />
             <element signature="e#12573#13113#0#PHP" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="76" column="82" lean-forward="true" selection-start-line="76" selection-start-column="82" selection-end-line="76" selection-end-column="82" />
+          <folding />
         </state>
       </provider>
     </entry>
