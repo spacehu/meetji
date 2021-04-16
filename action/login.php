@@ -2,7 +2,9 @@
 
 namespace action;
 
+use http\Exception;
 use mod\common as Common;
+use mod\init;
 use TigerDAL\BaseDAL;
 
 class login {
@@ -15,7 +17,7 @@ class login {
      * 用户登录界面显示
      */
     function login() {
-        \mod\init::getTemplate('./', 'login', false);
+        init::getTemplate('./', 'login', false);
     }
 
     /**
@@ -29,7 +31,7 @@ class login {
             try {
                 $db = new BaseDAL();
                 $sql = "select *,count(*) as num from " . $db->table_name('user') . " where name='" . $t_username . "' and password='" . $t_password . "' ";
-                //Common::pr($sql);
+                //Common::pr($sql);die;
                 $sod = $db->getFetchRow($sql);
                 //Common::pr($sod);die;
                 if ($sod['num'] == '1') {

@@ -2,6 +2,7 @@
 
 namespace TigerDAL;
 
+use mod\init;
 use TigerDAL\Api\LogDAL;
 
 /*
@@ -22,8 +23,8 @@ class BaseDAL {
 
     //默认方法
     function __construct($_LOG = "DEBUG") {
-        $this->tab_name = \mod\init::$config['mysql']['table_pre'];
-        $this->conn = \mod\init::$config['mysql']['conn'];
+        $this->tab_name = init::$config['mysql']['table_pre'];
+        $this->conn = init::$config['mysql']['conn'];
         //var_dump($this->conn);
         $this->log = $_LOG;
     }
