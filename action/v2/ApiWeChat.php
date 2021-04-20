@@ -373,24 +373,7 @@ class ApiWeChat extends RestfulApi
     public function sendMessage()
     {
         $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $this->access_token;
-        $data = [
-            'touser' => $this->openid,
-            'template_id' => '4M8RWgwsGDYlZL_NuWg--FecFh3QKWMW1hVZIfm34IU',
-            'data' => [
-                "first" => [
-                    "value" => "您的注册信息已经提交！"
-                ],
-                "keyword1" => [
-                    "value" => "用户注册"
-                ],
-                "keyword2" => [
-                    "value" => "待审核"
-                ],
-                "remark" => [
-                    "value" => "有任何疑问请联系我们的服务人员。"
-                ],
-            ],
-        ];
+        $data = $this->post['data'];
         $data=json_encode($data,JSON_UNESCAPED_UNICODE);
         $res_json = $this->https_request($url, $data,["Content-type: application/json","Accept: application/json"]);
         $res_array = json_decode($res_json, TRUE);
