@@ -37,7 +37,10 @@ class BaseDAL {
         }
     }
 
-    /** 获取列表 */
+    /** 获取列表
+     * @param $sql
+     * @return array|bool
+     */
     public function getFetchAll($sql) {
         $result = $this->query($sql);
         if (!empty($result)) {
@@ -52,7 +55,10 @@ class BaseDAL {
         }
     }
 
-    /** 获取单个 */
+    /** 获取单个
+     * @param $sql
+     * @return array|bool|null
+     */
     public function getFetchRow($sql) {
         $result = $this->query($sql);
         if (!empty($result)) {
@@ -67,14 +73,20 @@ class BaseDAL {
         }
     }
 
-    /** 执行sql */
+    /** 执行sql
+     * @param $sql
+     * @return bool|\mysqli_result
+     */
     public function query($sql) {
         $this->sql .= $sql;
         $result = mysqli_query($this->conn, $sql);
         return $result;
     }
 
-    /** 设置表名 */
+    /** 设置表名
+     * @param $name
+     * @return string
+     */
     public function table_name($name) {
         $ls = $this->tab_name . $name;
         return $ls;
@@ -85,30 +97,64 @@ class BaseDAL {
         return mysqli_insert_id($this->conn);
     }
 
-    public function insert($data,$db) {
+    /** 新增用户信息
+     * @param $data
+     * @param $_db
+     * @return bool|mysqli_result
+     */
+    public function insert($data, $_db)
+    {
+        $match = ["NOW()","NULL"];
         if (is_array($data)) {
+            $_data = [];
             foreach ($data as $v) {
-                $_data[] = " '" . $v . "' ";
+                if (is_numeric($v)) {
+                    $_data[] = " " . $v . " ";
+                } else if (!isset($v)) {
+                    $_data[] = " null ";
+                } else if (in_array($v, $match)) {
+                    $_data[] = " " . $v . " ";
+                } else {
+                    $_data[] = " '" . $v . "' ";
+                }
             }
             $set = implode(',', $_data);
-            $sql = "insert into " . $this->table_name($db) . " values (null," . $set . ");";
+            $sql = "insert into " . $this->table_name($_db) . " values (null," . $set . ");";
+            //Common::pr($sql);die;
             $this->query($sql);
             return $this->last_insert_id();
         } else {
-            return false;
+            return true;
         }
     }
 
-    public function update($id, $data,$db) {
+    /** 更新用户信息
+     * @param $id
+     * @param $data
+     * @param $_db
+     * @return bool|mysqli_result
+     */
+    public function update($id, $data, $_db)
+    {
+        $match = ["NOW()"];
         if (is_array($data)) {
+            $_data = [];
             foreach ($data as $k => $v) {
-                $_data[] = " `" . $k . "`='" . $v . "' ";
+                if (is_numeric($v)) {
+                    $_data[] = " `" . $k . "`=" . $v . " ";
+                } else if (!isset($v)) {
+                    $_data[] = " `" . $k . "`= null ";
+                } else if (in_array($v, $match)) {
+                    $_data[] = " `" . $k . "`=" . $v . " ";
+                } else {
+                    $_data[] = " `" . $k . "`='" . $v . "' ";
+                }
             }
             $set = implode(',', $_data);
-            $sql = "update " . $this->table_name($db) . " set " . $set . "  where id=" . $id . " ;";
+            $sql = "update " . $this->table_name($_db) . " set " . $set . "  where id=" . $id . " ;";
             return $this->query($sql);
         } else {
-            return false;
+            return true;
         }
     }
 }

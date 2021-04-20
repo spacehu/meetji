@@ -91,7 +91,7 @@ return $config = [
     'wechat' => [
         'appid' => 'wx11eb371cd85adfd4',
         'secret' => '01ef7de58bc18da629d4ec33a62744f9',
-        'index_url' => 'https://api.tigerhuclub.com',
+        'index_url' => 'https://api.space.com',
     ],
     'actionList' => [
         'index' => '首页',

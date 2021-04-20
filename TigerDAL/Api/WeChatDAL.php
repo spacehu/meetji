@@ -12,10 +12,10 @@ use TigerDAL\Api\LogDAL;
  * 继承数据库包
  */
 
-class WeChatDAL {
+class WeChatDAL extends BaseDAL{
 
     function __construct() {
-        
+        parent::__construct();
     }
 
     public static function getAccessToken() {
@@ -32,22 +32,11 @@ class WeChatDAL {
 
     public static function addWeChatUserInfo($data) {
         $base = new BaseDAL();
-        if (is_array($data)) {
-            foreach ($data as $k => $v) {
-                if (empty($v)) {
-                    $_data[] = " null ";
-                } else {
-                    $_data[] = " '" . $v . "' ";
-                }
-            }
-            $set = implode(',', $_data);
-            $sql = "insert into " . $base->table_name('user_info_wechat') . " values (null," . $set . ");";
-            LogDAL::saveLog("log", "INFO", $sql);
-            $base->query($sql);
-            return $base->last_insert_id();
-        } else {
-            return true;
-        }
+        return $base->insert($data,"user_info_wechat");
     }
 
+    public static function updateWeChatUserInfo($openid,$data) {
+        $base = new BaseDAL();
+        return $base->update($openid,$data,"user_info_wechat");
+    }
 }
