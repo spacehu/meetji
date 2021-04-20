@@ -410,8 +410,6 @@ class ApiWeChat extends RestfulApi
         if($type=='json'){//json $_POST=json_decode(file_get_contents('php://input'), TRUE);
             $headers = array("Content-type: application/json;dataType:json;charset=UTF-8","Accept: application/json","Cache-Control: no-cache", "Pragma: no-cache");
             $data=json_encode($data);
-            var_dump($url);
-            var_dump($data);die;
             curl_setopt( $curl, CURLOPT_HTTPHEADER, $headers );
         }
         curl_setopt($curl, CURLOPT_URL, $url);
