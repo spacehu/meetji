@@ -372,27 +372,27 @@ class ApiWeChat extends RestfulApi
      */
     public function sendMessage()
     {
-        $url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/bizsend?access_token=" . $this->access_token;
-        $_data = [
-            "first" => [
-                "value" => "您的注册信息已经提交！"
-            ],
-            "keyword1" => [
-                "value" => "用户注册"
-            ],
-            "keyword2" => [
-                "value" => "待审核"
-            ],
-            "remark" => [
-                "value" => "有任何疑问请联系我们的服务人员。"
-            ],
-        ];
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $this->access_token;
         $data = [
             'touser' => $this->openid,
             'template_id' => '4M8RWgwsGDYlZL_NuWg--FecFh3QKWMW1hVZIfm34IU',
-            'data' => $_data,
+            'data' => [
+                "first" => [
+                    "value" => "您的注册信息已经提交！"
+                ],
+                "keyword1" => [
+                    "value" => "用户注册"
+                ],
+                "keyword2" => [
+                    "value" => "待审核"
+                ],
+                "remark" => [
+                    "value" => "有任何疑问请联系我们的服务人员。"
+                ],
+            ],
         ];
-        $res_json = $this->https_request($url, $data,"json");
+        $data=json_encode($data,JSON_UNESCAPED_UNICODE);
+        $res_json = $this->https_request($url, $data,["Content-type: application/json","Accept: application/json"]);
         $res_array = json_decode($res_json, TRUE);
         return $res_array;
     }
@@ -402,16 +402,12 @@ class ApiWeChat extends RestfulApi
      * 发送http请求，并返回数据
      * @param $url
      * @param null $data
+     * @param null $headers
      * @return mixed
      */
-    public function https_request($url, $data = null,$type=null)
+    public function https_request($url, $data = null,$headers=null)
     {
         $curl = curl_init();
-        if($type=='json'){//json $_POST=json_decode(file_get_contents('php://input'), TRUE);
-            $headers = array("Content-type: application/json;dataType:json;charset=UTF-8","Accept: application/json","Cache-Control: no-cache", "Pragma: no-cache");
-            $data=json_encode($data);
-            curl_setopt( $curl, CURLOPT_HTTPHEADER, $headers );
-        }
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
@@ -420,6 +416,7 @@ class ApiWeChat extends RestfulApi
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         }
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt( $curl, CURLOPT_HTTPHEADER, $headers );
         $output = curl_exec($curl);
         curl_close($curl);
         return $output;
