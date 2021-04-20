@@ -256,7 +256,7 @@ class common {
      * 获取url 参数方法
      */
     public static function exchangeGet() {
-        $res = "";
+        $res = [];
         $url = $_SERVER['REQUEST_URI'];
         $get = explode("?", $url);
         if (!empty($get[1])) {
@@ -275,7 +275,7 @@ class common {
      * 获取post 参数方法
      */
     public static function exchangePost() {
-        $res = "";
+        $res = [];
         if (!empty($_POST)) {
             $res = $_POST;
         } else {
@@ -291,7 +291,7 @@ class common {
         // 忽略获取的header数据
         $ignore = array('host', 'accept', 'content-length', 'content-type');
 
-        $headers = array();
+        $headers = [];
 
         foreach ($_SERVER as $key => $value) {
             if (substr($key, 0, 5) === 'HTTP_') {
