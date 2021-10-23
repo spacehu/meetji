@@ -102,4 +102,26 @@ class ArticleDAL {
         return $base->query($sql);
     }
 
+    /** 导出 */
+    public static function getAllByDate($currentPage, $pagesize, $keywords) {
+        $base = new BaseDAL();
+        $limit_start = ($currentPage - 1) * $pagesize;
+        $limit_end = $pagesize;
+        $where = "";
+        if (!empty($keywords)) {
+            $where .= " and a.`name` like '%" . $keywords . "%' ";
+        }
+        
+        $sql = "select a.`name` as title,a.`overview`,a.`detail`,s.name as school,a.market_price,a.current_price,i.original_src "
+                . "from " . $base->table_name("article") . " as a "
+                . "left join " . $base->table_name("article_school") . " as `as` on a.id=`as`.article_id and `as`.`delete`=0 "
+                . "left join " . $base->table_name("school") . " as s on `as`.school_id=s.id and s.`delete`=0 "
+                . "left join " . $base->table_name("article_image") . " as `ai` on a.id=`ai`.article_id and ai.`delete`=0 "
+                . "left join " . $base->table_name("image") . " as i on `ai`.image_id=i.id and i.`delete`=0 "
+                . "where a.`delete`=0 " . $where . " "
+                . "group by a.id "
+                . "order by a.id asc "
+                . "limit " . $limit_start . "," . $limit_end . " ;";
+        return $base->getFetchAll($sql);
+    }
 }

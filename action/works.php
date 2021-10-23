@@ -50,7 +50,44 @@ class works {
             TigerDAL\CatchDAL::markError(code::$code[code::WORKS_INDEX], code::WORKS_INDEX, json_encode($ex));
         }
     }
+    function export() {
+        Common::isset_cookie();
+        Common::writeSession($_SERVER['REQUEST_URI'], $this->class);
+        try {
+            $keywords = isset($_GET['keywords']) ? $_GET['keywords'] : "";
 
+            $_data= ArticleDAL::getAllByDate(1, 999, $keywords);
+            $header_data = ["课程名", "简介", "详细", "校区", "原价", "现价", "图"];
+            $this->export_csv_1($_data, $header_data, "export_" . date("YmdHis") . ".csv");
+        } catch (Exception $ex) {
+            TigerDAL\CatchDAL::markError(code::$code[code::WORKS_INDEX], code::WORKS_INDEX, json_encode($ex));
+        }
+    }
+    /**
+     * 导出CSV文件
+     * @param array $data        数据
+     * @param array $header_data 首行数据
+     * @param string $file_name  文件名称
+     * @return string
+     */
+    public function export_csv_1($data = [], $header_data = [], $file_name = '') {
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . $file_name);
+        if (!empty($header_data)) {
+            echo iconv('utf-8', 'gbk//TRANSLIT', '"' . implode('","', $header_data) . '"' . "\n");
+        }
+        foreach ($data as $key => $value) {
+            $output = array();
+            $output[] = $value['title'];
+            $output[] = $value['overview'];
+            $output[] = $value['detail'];
+            $output[] = $value['school'];
+            $output[] = $value['market_price'];
+            $output[] = $value['current_price'];
+            $output[] = $_SERVER['HTTP_HOST'].$value['original_src'];
+            echo iconv('utf-8', 'gbk//TRANSLIT', '"' . implode('","', $output) . "\"\n");
+        }
+    }
     /*     * ************************************************************ */
 
     function getWork() {
