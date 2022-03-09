@@ -18,6 +18,9 @@ $class = \action\works::$data['class'];
                 $('.button_find').click(function () {
                     window.location.href = 'index.php?a=<?php echo $class; ?>&m=index&keywords=' + $('.keywords').val() + '';
                 });
+                $('.button_export').click(function () {
+                    window.location.href = 'index.php?a=<?php echo $class; ?>&m=export&keywords=' + $('.keywords').val() + '';
+                });
             });
         </script>
     </head>
@@ -27,6 +30,7 @@ $class = \action\works::$data['class'];
             <input type="text" name="keywords" class="keywords" value="<?php echo isset($keywords) ? $keywords : ""; ?>" />
             <a class="button_find " href="javascript:void(0);">查找</a>
             <a href="javascript:void(0);" class="updateButton"  onclick="javascript:parent.mainFrame.location.href = 'index.php?a=<?php echo $class; ?>&m=getWork'">添加新课程</a>
+            <a class="button_export " href="javascript:void(0);">导出</a>
         </div>
         <div class="content">
             <table class="mytable" cellspacing="0" >
