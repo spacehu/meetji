@@ -51,24 +51,28 @@ class ApiWeChat extends RestfulApi
         $this->header = Common::exchangeHeader();
         $this->post = Common::exchangePost();
 
-        if (empty($this->header['openid'])) {
-            // 初始化用户信息
-            if (!self::beforeWeb()) {
-                exit(json_encode(self::$data));
-            }
-        }
-        if (!empty($this->header['openid'])) {
-            $this->openid = $this->header['openid'];
-            // 初始化用户信息
-            if (!self::initUser()) {
-                exit(json_encode(self::$data));
-            }
-        }
 
-        //$this->index_url = urlencode("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);           //微信回调地址，要跟公众平台的配置域名相同  
+        //$this->index_url = urlencode("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);           //微信回调地址，要跟公众平台的配置域名相同
         if (!empty($path)) {
             $_path = explode("-", $path);
             $mod = $_path[2];
+
+            if ($this->checkauth($mod)) {
+                if (empty($this->header['openid'])) {
+                    // 初始化用户信息
+                    if (!self::beforeWeb()) {
+                        exit(json_encode(self::$data));
+                    }
+                }
+                if (!empty($this->header['openid'])) {
+                    $this->openid = $this->header['openid'];
+                    // 初始化用户信息
+                    if (!self::initUser()) {
+                        exit(json_encode(self::$data));
+                    }
+                }
+            }
+
             $res = $this->$mod();
             exit(json_encode($res));
         }
@@ -77,6 +81,25 @@ class ApiWeChat extends RestfulApi
     function __destruct()
     {
         parent::__destruct();
+    }
+
+    function api()
+    {
+        return [
+            "getTicket"
+        ];
+    }
+
+    /**
+     * @param $mod
+     * @return bool
+     */
+    function checkauth($mod)
+    {
+        if (in_array($mod, $this->api())) {
+            return false;
+        }
+        return true;
     }
 
     /** 获取access_token */
@@ -177,8 +200,8 @@ class ApiWeChat extends RestfulApi
 
     function sendWechatMessage()
     {
-        $_token=self::getToken();
-        $this->access_token=$_token['access_token'];
+        $_token = self::getToken();
+        $this->access_token = $_token['access_token'];
         $res_array = self::sendMessage();
         self::$data['success'] = true;
         self::$data['data'] = $res_array;
@@ -374,8 +397,8 @@ class ApiWeChat extends RestfulApi
     {
         $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . $this->access_token;
         $data = $this->post['data'];
-        $data=json_encode($data,JSON_UNESCAPED_UNICODE);
-        $res_json = $this->https_request($url, $data,["Content-type: application/json","Accept: application/json"]);
+        $data = json_encode($data, JSON_UNESCAPED_UNICODE);
+        $res_json = $this->https_request($url, $data, ["Content-type: application/json", "Accept: application/json"]);
         $res_array = json_decode($res_json, TRUE);
         return $res_array;
     }
@@ -388,7 +411,7 @@ class ApiWeChat extends RestfulApi
      * @param null $headers
      * @return mixed
      */
-    public function https_request($url, $data = null,$headers=null)
+    public function https_request($url, $data = null, $headers = null)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -399,7 +422,7 @@ class ApiWeChat extends RestfulApi
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         }
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt( $curl, CURLOPT_HTTPHEADER, $headers );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         $output = curl_exec($curl);
         curl_close($curl);
         return $output;
