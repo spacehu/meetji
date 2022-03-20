@@ -154,7 +154,7 @@ $school = \action\book::$data['school'];
                         </div>
                         <div class="leftAlist" >
                             <div class="r_row">
-                                <input class="text" name="note" type="text" value="<?php echo isset($data['note']) ? $data['note'] : ''; ?>" />
+                                <textarea name="note" ><?php echo isset($data['note']) ? $data['note'] : ''; ?></textarea>
                             </div>
                         </div>
                     </div>
