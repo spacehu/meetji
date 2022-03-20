@@ -11,7 +11,7 @@ class ChannelDAL {
         $base = new BaseDAL();
         $limit_start = ($currentPage - 1) * $pagesize;
         $limit_end = $pagesize;
-        $where = "";
+        $where = self::getUniqueData();
         if (!empty($keywords)) {
             $where .= " and name like '%" . $keywords . "%' ";
         }
@@ -22,7 +22,7 @@ class ChannelDAL {
     /** 获取数量 */
     public static function getTotal($keywords = '') {
         $base = new BaseDAL();
-        $where = "";
+        $where = self::getUniqueData();
         if (!empty($keywords)) {
             $where .= " and name like '%" . $keywords . "%' ";
         }
@@ -81,4 +81,17 @@ class ChannelDAL {
         return $base->query($sql);
     }
 
+    /**
+     * 判断是否需要获取自有数据
+     */
+    public static function getUniqueData(){
+        // 判断是否需要获取独立信息
+        $uid=$_SESSION[\mod\init::$config['shop_name']]['id'];
+        $user=UserDAL::getOne($uid);
+        if($user['role_id']>1){
+            $role_id=$user['role_id'];
+            return " and add_by = ".$role_id ." ";
+        }
+        return "";
+    }
 }
