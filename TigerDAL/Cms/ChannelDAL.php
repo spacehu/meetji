@@ -89,8 +89,7 @@ class ChannelDAL {
         $uid=$_SESSION[\mod\init::$config['shop_name']]['id'];
         $user=UserDAL::getOne($uid);
         if($user['role_id']>1){
-            $role_id=$user['role_id'];
-            return " and add_by = ".$role_id ." ";
+            return " and add_by = ".$uid ." ";
         }
         return "";
     }
