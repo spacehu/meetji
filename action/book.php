@@ -136,7 +136,7 @@ class book {
             $_data = BookDAL::getAllByDate($_startdate, $_enddate);
             //Common::pr($_data);
             //$header_data = ["姓名", "电话", "预约课程", "所属区域", "性别", "年龄", "创建时间", "可预约时间"];
-            $header_data = ["姓名", "邮箱", "手机号码", "性别", "年龄段", "预约课程", "预约时间", "城市", "校区", "city"];
+            $header_data = ["姓名", "邮箱", "手机号码", "性别", "年龄段", "预约课程", "预约时间", "城市", "校区", "city","note"];
             $this->export_csv_1($_data, $header_data, "export_" . date("YmdHis") . ".csv");
         } catch (Exception $ex) {
             TigerDAL\CatchDAL::markError(code::$code[code::WORKS_INDEX], code::WORKS_INDEX, json_encode($ex));
@@ -156,6 +156,9 @@ class book {
         if (!empty($header_data)) {
             echo iconv('utf-8', 'gbk//TRANSLIT', '"' . implode('","', $header_data) . '"' . "\n");
         }
+        if(empty($data)){
+            exit();
+        }
         foreach ($data as $key => $value) {
             $output = array();
             $output[] = $value['name'];
@@ -168,6 +171,7 @@ class book {
             $output[] = $value['schoolRegion'];
             $output[] = $value['schoolName'];
             $output[] = $value['city'];
+            $output[] = $value['note'];
             echo iconv('utf-8', 'gbk//TRANSLIT', '"' . implode('","', $output) . "\"\n");
         }
     }
