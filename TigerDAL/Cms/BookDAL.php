@@ -97,13 +97,12 @@ class BookDAL {
                         s.`region_name` AS schoolRegion,
                         lm.`email` ,
                         lm.city ,
-                        lm.note"
-                . "from " . $base->table_name("leave_message") . " as lm "
-                . "left join " . $base->table_name("article") . " as a on lm.article_id=a.id "
-                . "left join " . $base->table_name("school") . " as s on lm.school=s.id "
-                . "where lm.`status`!=2 " . $where . " "
-                . "order by lm.add_time desc;";
-        //\mod\common::pr($sql);die;
+                        lm.note "
+                . " from " . $base->table_name("leave_message") . " as lm "
+                . " left join " . $base->table_name("article") . " as a on lm.article_id=a.id "
+                . " left join " . $base->table_name("school") . " as s on lm.school=s.id "
+                . " where lm.`status`!=2 " . $where . " "
+                . " order by lm.add_time desc; ";
         return $base->getFetchAll($sql);
     }
 

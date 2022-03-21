@@ -156,7 +156,7 @@ class book {
         if (!empty($header_data)) {
             echo iconv('utf-8', 'gbk//TRANSLIT', '"' . implode('","', $header_data) . '"' . "\n");
         }
-        if(empty($data)){
+        if(empty($data)||!$data){
             exit();
         }
         foreach ($data as $key => $value) {
