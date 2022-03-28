@@ -73,7 +73,6 @@ class enterprise {
                     'secret' => $_POST['secret'],
                     'cli_status' => $_POST['cli_status'],
                     'cli_config' => $_POST['cli_config'],
-                    'access_token' => $_POST['access_token'],
                     'user_id' => $_POST['user_id'],
                 ];
                 self::$data = EnterpriseDAL::update($id, $data);
@@ -96,13 +95,12 @@ class enterprise {
                     'usercode' => isset($_POST['usercode']) ? $_POST['usercode'] : "",
                     'phone' => $_POST['phone'],
                     'address' => $_POST['address'],
-                    'user_id' => 0,
+                    'user_id' => $_POST['user_id'],
                     'appid' => $_POST['appid'],
                     'secret' => $_POST['secret'],
                     'cli_status' => $_POST['cli_status'],
                     'cli_config' => $_POST['cli_config'],
                     'qrcode_status' => isset($_POST['qrcode_status']) ? $_POST['qrcode_status']:0,
-                    'access_token' => isset($_POST['access_token']) ? $_POST['access_token']:"",
                 ];
                 self::$data = EnterpriseDAL::insert($data);
             }
