@@ -48,7 +48,11 @@ class YimeiDAL {
     
     // 刷新数据库中的token
     public static function reflashToken($enterprise_id,$username,$usercode,$appid,$secret){
-        $url=init::$config['env']['lib']['yimei']['url']."?grant_type=password&client_id=".$appid."&client_secret=".$secret."&username=".$username."&password=".$usercode;
+        $url=init::$config['env']['lib']['yimei']['url']
+        ."?grant_type=password&client_id=".urlencode($appid)
+        ."&client_secret=".urlencode($secret)
+        ."&username=".urlencode($username)
+        ."&password=".urlencode($usercode);
         $res=HttpRequestDAL::post($url);
         $_data=[
             "api_res_config"=>$res,
