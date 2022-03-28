@@ -99,6 +99,9 @@
             <div class="title">
                 <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=purv&m=index'" href="javascript:void(0);" >PURV  权限</a>
             </div>
+            <div class="title">
+                <a class="first" onclick="javascript:parent.mainFrame.location.href = 'index.php?a=enterprise&m=index'" href="javascript:void(0);" >ENTERPRISE  企业</a>
+            </div>
         <?php } ?>
     </body>
 

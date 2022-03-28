@@ -85,6 +85,7 @@ return $config = [
             'POST /v4/ApiSms-sendSms.htm' => 'v4-ApiSms-sendSms', //发验证码
             'POST /v4/ApiAlipay-oriPhone.htm' => 'v4-ApiAlipay-oriPhone', //校验密文获取手机号
             'GET /v4/ApiItem-item.htm' => 'v4-ApiItem-getItem',
+            'POST /v4/ApiHome-saveSingle.htm' => 'v4-ApiHome-saveSingle',
         ]
     ],
     'debug' => false, //调试器

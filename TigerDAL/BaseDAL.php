@@ -120,7 +120,7 @@ class BaseDAL {
             }
             $set = implode(',', $_data);
             $sql = "insert into " . $this->table_name($_db) . " values (null," . $set . ");";
-            //Common::pr($sql);die;
+            //var_dump($sql);die;
             $this->query($sql);
             return $this->last_insert_id();
         } else {

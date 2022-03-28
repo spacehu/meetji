@@ -39,17 +39,9 @@ class LeaveMessageDAL {
         $base = new BaseDAL();
         $sql = "select count(lm.id) as total "
                 . "from " . $base->table_name("leave_message") . " as lm "
-//                . ", " . $base->table_name("article") . " as a "
-//                . ", " . $base->table_name("article_image") . " as ai "
-//                . ", " . $base->table_name("image") . " as i "
                 . "where "
                 . "lm.`openid`='" . $id . "' "
-//                . "and lm.article_id=a.id "
-//                . "and a.id=ai.article_id "
-//                . "and ai.image_id=i.id "
-//                . "GROUP BY lm.id "
                 . "";
-        //\mod\common::pr($sql);
         return $base->getFetchRow($sql)['total'];
     }
 

@@ -23,6 +23,7 @@ $class = \action\channel::$data['class'];
                     <td class="td1" width="30%">分发url</td>
                     <td class="td1" width="30%">分发追加参数</td>
                     <td class="td1" width="10%">Code</td>
+                    <td class="td1" width="10%">所属用户</td>
                     <td class="td1" width="20%">操作</td>
                 </tr>
                 <?php
@@ -35,6 +36,7 @@ $class = \action\channel::$data['class'];
                             <td class="td1">http://main.meetji.com/</td>
                             <td class="td1">?code=<?php echo $v['code']; ?></td>
                             <td class="td1"><?php echo $v['code']; ?></td>
+                            <td class="td1"><?php echo $v['uname']; ?></td>
                             <td class="td1">
                                 <a href="index.php?a=<?php echo $class; ?>&m=getChannel&id=<?php echo $v['id']; ?>">编辑</a>
                                 | <a href="index.php?a=<?php echo $class; ?>&m=deleteChannel&id=<?php echo $v['id']; ?>" onclick="return confirm('确定将此分类删除?')">删除</a></td>
