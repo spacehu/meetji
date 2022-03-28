@@ -13,9 +13,11 @@ class ChannelDAL {
         $limit_end = $pagesize;
         $where = self::getUniqueData();
         if (!empty($keywords)) {
-            $where .= " and name like '%" . $keywords . "%' ";
+            $where .= " and c.`name` like '%" . $keywords . "%' ";
         }
-        $sql = "select * from " . $base->table_name("channel") . " where `delete`=0 " . $where . " order by edit_time desc limit " . $limit_start . "," . $limit_end . " ;";
+        $sql = "select c.*,u.`name` as uname from " . $base->table_name("channel") ." as c "
+        . " left join `".$base->table_name("user")."` as u on c.add_by = u.id "
+        . " where c.`delete`=0 " . $where . " order by c.edit_time desc limit " . $limit_start . "," . $limit_end . " ;";
         return $base->getFetchAll($sql);
     }
 
