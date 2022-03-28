@@ -35,7 +35,6 @@ $class = \action\enterprise::$data['class'];
                         ?>
                         <tr<?php if ($sum_i % 2 != 1) { ?>  class="tr2"<?php } ?>>
                             <td class="td1"><?php echo $v['name']; ?></td>
-                            <td class="td1"><?php echo $v['uname']; ?></td>
                             <td class="td1"><?php
                                 if ($v['delete'] == 0) {
                                     echo '使用中';
@@ -43,6 +42,7 @@ $class = \action\enterprise::$data['class'];
                                     echo '已删除';
                                 }
                                 ?></td>
+                                <td class="td1"><?php echo $v['uname']; ?></td>
                             <td class="td1">
                                 <a href="index.php?a=<?php echo $class; ?>&m=getEnterprise&id=<?php echo $v['id']; ?>">编辑</a>
                                 | <a href="index.php?a=<?php echo $class; ?>&m=deleteEnterprise&id=<?php echo $v['id']; ?>" onclick="return confirm('确定将此企业删除?')">删除</a></td>
