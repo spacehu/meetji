@@ -69,8 +69,8 @@ class YimeiDAL {
     public static function doPost($config,$data){
         $url=$config['instance_url']."/services/data/v47.0/composite/";
         $header=[
-            "Authorization"=>$config['token_type']." ".$config['access_token'],
-            "Content-Type"=>"application/json",
+            "Authorization:".$config['token_type']." ".$config['access_token'],
+            "Content-Type:application/json",
         ];
         return HttpRequestDAL::post($url,json_encode($data),$header);
     }
@@ -105,7 +105,7 @@ class YimeiDAL {
         if(!$access_info){
             return false;
         }
-        if(empty($access_info['api_res_confg'])){
+        if(empty($access_info['api_res_config'])){
             // 拉取token数据
             $res_info=self::reflashToken($access_info['id'],$access_info['username'],$access_info['usercode'],$access_info['appid'],$access_info['secret']);
             $api_res_confg=json_decode($res_info['api_res_config'],true);
