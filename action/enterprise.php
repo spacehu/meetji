@@ -74,6 +74,9 @@ class enterprise {
                     'cli_status' => $_POST['cli_status'],
                     'cli_config' => $_POST['cli_config'],
                     'user_id' => $_POST['user_id'],
+                    'wechat_appid' => isset($_POST['wechat_appid']) ? $_POST['wechat_appid'] : "",
+                    'wechat_secert' => isset($_POST['wechat_secert']) ? $_POST['wechat_secert'] : "",
+                    'wechat_access_token' => isset($_POST['wechat_access_token']) ? $_POST['wechat_access_token'] : "",
                 ];
                 self::$data = EnterpriseDAL::update($id, $data);
             } else {
@@ -101,6 +104,9 @@ class enterprise {
                     'cli_status' => $_POST['cli_status'],
                     'cli_config' => $_POST['cli_config'],
                     'qrcode_status' => isset($_POST['qrcode_status']) ? $_POST['qrcode_status']:0,
+                    'wechat_appid' => isset($_POST['wechat_appid']) ? $_POST['wechat_appid'] : "",
+                    'wechat_secert' => isset($_POST['wechat_secert']) ? $_POST['wechat_secert'] : "",
+                    'wechat_access_token' => isset($_POST['wechat_access_token']) ? $_POST['wechat_access_token'] : "",
                 ];
                 self::$data = EnterpriseDAL::insert($data);
             }
