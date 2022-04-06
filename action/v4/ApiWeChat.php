@@ -23,14 +23,14 @@ use TigerDAL\Api\YimeiDAL;
 class ApiWeChat extends RestfulApi
 {
 
-    private $class;
+    private static $class;
     public static $appid;                   //微信APPID，公众平台获取  
     public static $appsecret;               //微信APPSECREC，公众平台获取  
     public static $index_url;               //微信回调地址，要跟公众平台的配置域名相同  
     public static $code;
-    private $access_token;
-    private $enterprise_id;
-    private $JsApiTicket;
+    private static $access_token;
+    private static $enterprise_id;
+    private static $JsApiTicket;
 
     /**
      * 主方法引入父类的基类
@@ -39,33 +39,34 @@ class ApiWeChat extends RestfulApi
     function __construct()
     {
         $path = parent::__construct();
-        $this->class = str_replace('action\\', '', __CLASS__);
-        LogDAL::save(date("Y-m-d H:i:s") . "-------------------------------------" . $this->class . "", "DEBUG");
+        self::$class = str_replace('action\\', '', __CLASS__);
+        LogDAL::save(date("Y-m-d H:i:s") . "-------------------------------------" . self::$class . "", "DEBUG");
         LogDAL::save(date("Y-m-d H:i:s") . "-------------------------------------" . $path . "", "DEBUG");
 
         if(empty($this->header['channel'])){
             self::$data['success']=false;
             self::$data['data']="channel empty";
-            return self::$data;
+            exit(json_encode(self::$data));
         }
+        static::$code=$this->header['channel'];
         $enterprise=self::getEnterpriseInfo();
         if(empty($enterprise)){
             self::$data['success']=false;
             self::$data['data']="enterprise info empty";
-            return self::$data;
+            exit(json_encode(self::$data));
         }
-        $this->enterprise_id=$enterprise['id'];
+        self::$enterprise_id=$enterprise['id'];
         if(empty($enterprise['wechat_appid'])){
             self::$data['success']=false;
             self::$data['data']="wechat appid empty";
-            return self::$data;
+            exit(json_encode(self::$data));
         }
-        $this->appid=$enterprise['wechat_appid'];
-        $this->secret=$enterprise['wechat_secert'];
+        self::$appid=$enterprise['wechat_appid'];
+        self::$appsecret=$enterprise['wechat_secert'];
         if(empty($enterprise['wechat_access_token'])){
             self::reflashToken();
         }else{
-            $this->access_token=$enterprise['wechat_access_token'];
+            self::$access_token=$enterprise['wechat_access_token'];
         }
         //$this->index_url = urlencode("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);           //微信回调地址，要跟公众平台的配置域名相同
         if (!empty($path)) {
@@ -82,18 +83,18 @@ class ApiWeChat extends RestfulApi
     }
 
     /** 获取 access_token */
-    function getTicket() 
+    function getJsApiTicket() 
     {
         self::$data['title'] = "获取JsApiTicket";
         LogDAL::saveLog("DEBUG", "INFO", json_encode($this->get));
-        self::$data['action'] = $this->class . '_' . __FUNCTION__;
+        self::$data['action'] = self::$class . '_' . __FUNCTION__;
         try {
             $enterpriseInfo=self::getEnterpriseInfo();
             /* 判断是否有没过期的ticket 有的话 直接拿出来用 */
             if (empty($enterpriseInfo['wechat_ticket'])) {
                 self::reflashJsApiTicket();
             }else{
-                $this->JsApiTicket=$enterpriseInfo['wechat_ticket'];
+                self::$JsApiTicket=$enterpriseInfo['wechat_ticket'];
             }
             if($enterpriseInfo['wechat_ticket_expires_in']<time()){
                 self::reflashJsApiTicket();
@@ -102,10 +103,10 @@ class ApiWeChat extends RestfulApi
             $noncestr = "DSFHAJKHFJKA";
             $timestamp = time();
             $url = urldecode($this->get['url']);
-            $string = 'jsapi_ticket=' . $this->JsApiTicket . '&noncestr=' . $noncestr . '&timestamp=' . $timestamp . '&url=' . $url;
+            $string = 'jsapi_ticket=' . self::$JsApiTicket . '&noncestr=' . $noncestr . '&timestamp=' . $timestamp . '&url=' . $url;
             $signature = sha1($string);
             self::$data['data'] = [
-                'ticket' => $this->JsApiTicket,
+                'ticket' => self::$JsApiTicket,
                 'expires_in' => $enterprise['wechat_ticket_expires_in'],
                 'access_token' => $this->access_token,
                 'noncestr' => $noncestr,
@@ -124,11 +125,10 @@ class ApiWeChat extends RestfulApi
     /**
      * 前端用 获取access_token 用的 该数据因提供给微信运营平台用的普通access_token
      */
-    public function getToken()
+    public static function getToken()
     {
-        $userinfo_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $this->appid . "&secret=" . $this->appsecret . "";
-        $userinfo_json = $this->https_request($userinfo_url);
-        $userinfo_array = json_decode($userinfo_json, TRUE);
+        $userinfo_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . self::$appid . "&secret=" . self::$appsecret . "";
+        $userinfo_array = self::https_request($userinfo_url);
         return $userinfo_array;
     }
 
@@ -137,11 +137,10 @@ class ApiWeChat extends RestfulApi
      * @param type $access_token
      * @return type
      */
-    public function getJsApiTicket($access_token)
+    public static function getWechatJsApiTicket($access_token)
     {
         $userinfo_url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" . $access_token . "&type=jsapi";
-        $userinfo_json = $this->https_request($userinfo_url);
-        $userinfo_array = json_decode($userinfo_json, TRUE);
+        $userinfo_array = self::https_request($userinfo_url);
         return $userinfo_array;
     }
 
@@ -153,7 +152,7 @@ class ApiWeChat extends RestfulApi
      * @param null $headers
      * @return mixed
      */
-    public function https_request($url, $data = null, $headers = null)
+    public static function https_request($url, $data = [], $headers = [])
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -167,7 +166,12 @@ class ApiWeChat extends RestfulApi
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         $output = curl_exec($curl);
         curl_close($curl);
-        return $output;
+        $json=json_decode($output,true);
+        if(empty($json)||(!empty($json['errcode'])&&$json['errcode']>0)){
+            CatchDAL::markError(code::$code[code::API_ENUM], code::API_ENUM, $output);
+            exit(json_encode(['success' => false, 'message' => 'js api ticket error','errorRes'=>$json]));
+        }
+        return $json;
     }
 
     /**
@@ -175,7 +179,7 @@ class ApiWeChat extends RestfulApi
      * @return array 
      */
     public static function getEnterpriseInfo(){
-        return YimeiDAL::token($this->header['channel']);
+        return YimeiDAL::token(static::$code);
     }
 
     /**
@@ -183,15 +187,15 @@ class ApiWeChat extends RestfulApi
      */
     public static function reflashToken(){
         // get token
-        $access_token=$this->getToken();
+        $access_token=self::getToken();
         // set global
-        $this->access_token=$access_token['access_token'];
+        self::$access_token=$access_token['access_token'];
         // save to db
         $data=[
-            "wechat_access_token"=>$this->access_token,
+            "wechat_access_token"=>self::$access_token,
             "wechat_access_token_expires_in"=>(int)(time()+$ticket['expires_in']),
         ];
-        YimeiDAL::saveEnterprise($this->enterprise_id,$data);
+        YimeiDAL::saveEnterprise(self::$enterprise_id,$data);
     }
     
     /**
@@ -199,14 +203,14 @@ class ApiWeChat extends RestfulApi
      */
     public static function reflashJsApiTicket(){
         // get token
-        $ticket=$this->getJsApiTicket($this->access_token);
+        $ticket=self::getWechatJsApiTicket(self::$access_token);
         // set global
-        $this->JsApiTicket=$ticket['ticket'];
+        self::$JsApiTicket=$ticket['ticket'];
         // save to db
         $data=[
             "wechat_ticket"=>$ticket['ticket'],
             "wechat_ticket_expires_in"=>(int)(time()+$ticket['expires_in']),
         ];
-        YimeiDAL::saveEnterprise($this->enterprise_id,$data);
+        YimeiDAL::saveEnterprise(self::$enterprise_id,$data);
     }
 }
