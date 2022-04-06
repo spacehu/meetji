@@ -54,13 +54,13 @@ $list = \action\enterprise::$data['list'];
                             <input class="text" name="address" type="text" value="<?php echo isset($data['address']) ? $data['address'] : ""; ?>" /><span class="red"> * </span>
                         </div>
                         <div class="leftAlist" >
-                            <span>APPID 微信APPID</span>
+                            <span>APPID salesforce APPID</span>
                         </div>
                         <div class="leftAlist" >
                             <input class="text" name="appid" type="text" value="<?php echo isset($data['appid']) ? $data['appid'] : ""; ?>" /><span class="red"> * </span>
                         </div>
                         <div class="leftAlist" >
-                            <span>SECRET 微信SECRET</span>
+                            <span>SECRET salesforce SECRET</span>
                         </div>
                         <div class="leftAlist" >
                             <input class="text" name="secret" type="text" value="<?php echo isset($data['secret']) ? $data['secret'] : ""; ?>" /><span class="red"> * </span>
@@ -91,6 +91,18 @@ $list = \action\enterprise::$data['list'];
                                     <?php } ?>
                                 </select>
                             </div>
+                        </div>
+                        <div class="leftAlist" >
+                            <span>WECHAT APPID 微信应用序号</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <input class="text" name="wechat_appid" type="text" value="<?php echo isset($data['wechat_appid']) ? $data['wechat_appid'] : ""; ?>" /><span class="red"> * </span>
+                        </div>
+                        <div class="leftAlist" >
+                            <span>WECHAT SECRET 微信密钥</span>
+                        </div>
+                        <div class="leftAlist" >
+                            <input class="text" name="wechat_secert" type="text" value="<?php echo isset($data['wechat_secert']) ? $data['wechat_secert'] : ""; ?>" /><span class="red"> * </span>
                         </div>
                     </div>
                 </div>

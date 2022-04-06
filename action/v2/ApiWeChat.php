@@ -102,7 +102,7 @@ class ApiWeChat extends RestfulApi
         return true;
     }
 
-    /** 获取access_token */
+    /** web 获取access_token */
     function getAccessToken()
     {
         self::$data['title'] = "获取AccessToken";
@@ -128,7 +128,7 @@ class ApiWeChat extends RestfulApi
         return self::$data;
     }
 
-    /** 获取access_token */
+    /** 获取 access_token */
     function getTicket()
     {
         self::$data['title'] = "获取JsApiTicket";
