@@ -86,7 +86,7 @@ return $config = [
             'POST /v4/ApiAlipay-oriPhone.htm' => 'v4-ApiAlipay-oriPhone', //校验密文获取手机号
             'GET /v4/ApiItem-item.htm' => 'v4-ApiItem-getItem',
             'POST /v4/ApiHome-saveSingle.htm' => 'v4-ApiHome-saveSingle', // 溢美留资专用 可以汇总到第三方的数据平台
-            'GET /v4/ApiWeChat-getJsApiTicket.htm' => 'v4-ApiWeChat-getTicket', // 管理视角的微信jsapiticket获取
+            'GET /v4/ApiWeChat-getJsApiTicket.htm' => 'v4-ApiWeChat-getJsApiTicket', // 管理视角的微信jsapiticket获取
         ]
     ],
     'debug' => false, //调试器

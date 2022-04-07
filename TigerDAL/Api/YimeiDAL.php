@@ -44,7 +44,7 @@ class YimeiDAL {
             'secret'=>$enterprise['secret'],
             'api_res_config'=>$enterprise['api_res_config'],
             'wechat_appid'=>$enterprise['wechat_appid'],
-            'wechat_secret'=>$enterprise['wechat_secret'],
+            'wechat_secert'=>$enterprise['wechat_secert'],
             'wechat_access_token'=>$enterprise['wechat_access_token'],
             'wechat_access_token_expires_in'=>$enterprise['wechat_access_token_expires_in'],
             'wechat_ticket'=>$enterprise['wechat_ticket'],
