@@ -126,7 +126,7 @@ class YimeiDAL {
         $res=self::doPost($api_res_confg,$data);
         // 刷新token
         $resData=json_decode($res,true);
-        if(!empty($resData['errorCode'])&&$resData['errorCode']=="INVALID_SESSION_ID"){
+        if(!empty($resData[0]['errorCode'])&&$resData[0]['errorCode']=="INVALID_SESSION_ID"){
             $res_info=self::reflashToken($access_info['id'],$access_info['username'],$access_info['usercode'],$access_info['appid'],$access_info['secret']);
             $api_res_confg=json_decode($res_info['api_res_config'],true);
             // 第二次提交
