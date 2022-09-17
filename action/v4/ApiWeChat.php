@@ -63,7 +63,7 @@ class ApiWeChat extends RestfulApi
         }
         self::$appid=$enterprise['wechat_appid'];
         self::$appsecret=$enterprise['wechat_secert'];
-        if(empty($enterprise['wechat_access_token'])){
+        if(empty($enterprise['wechat_access_token'])||$enterprise['wechat_access_token_expires_in']<time()){
             self::reflashToken();
         }else{
             self::$access_token=$enterprise['wechat_access_token'];
@@ -91,15 +91,11 @@ class ApiWeChat extends RestfulApi
         try {
             $enterpriseInfo=self::getEnterpriseInfo();
             /* 判断是否有没过期的ticket 有的话 直接拿出来用 */
-            if (empty($enterpriseInfo['wechat_ticket'])) {
-                self::reflashJsApiTicket();
-            }else{
-                self::$JsApiTicket=$enterpriseInfo['wechat_ticket'];
-            }
-            if($enterpriseInfo['wechat_ticket_expires_in']<time()){
+            if (empty($enterpriseInfo['wechat_ticket'])||$enterpriseInfo['wechat_ticket_expires_in']<time()){
                 self::reflashJsApiTicket();
             }
             $enterpriseInfo=self::getEnterpriseInfo();
+            self::$JsApiTicket=$enterpriseInfo['wechat_ticket'];
             $noncestr = "DSFHAJKHFJKA";
             $timestamp = time();
             $url = urldecode($this->get['url']);

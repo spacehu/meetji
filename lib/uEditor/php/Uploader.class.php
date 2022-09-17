@@ -120,7 +120,7 @@ class Uploader {
         if (!(move_uploaded_file($file["tmp_name"], $this->filePath) && file_exists($this->filePath))) { //移动失败
             $this->stateInfo = $this->getStateInfo("ERROR_FILE_MOVE");
         } else { //移动成功
-            $url = 'http://tiger.lc/index.php?a=material&m=saveImage&path=' . $this->filePath . '&md5='. md5(file_get_contents($this->filePath)).'&name=' . $this->fileName;
+            $url = 'http://api_test.meetji.com/index.php?a=material&m=saveImage&path=' . $this->filePath . '&md5='. md5(file_get_contents($this->filePath)).'&name=' . $this->fileName;
             $re = file_get_contents($url);
             if (!$re['success']) {
                 $this->stateInfo = [$this->getStateInfo("ERROR_SQL"),json_decode($re),json_encode($url)];
@@ -355,7 +355,7 @@ class Uploader {
     public function getFileInfo() {
         return array(
             "state" => $this->stateInfo,
-            "url" => "//www.tiger.lc/".$this->fullName,
+            "url" => "//api_test.meetji.com/".$this->fullName,
             "title" => $this->fileName,
             "original" => $this->oriName,
             "type" => $this->fileType,
